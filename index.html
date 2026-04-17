@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Korea Dynamic Test Questionnaire</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="stage" aria-live="polite">
+      <section class="phone" aria-label="Korea Dynamic Test Questionnaire">
+        <header class="status-bar" aria-hidden="true">
+          <span class="time">9:41</span>
+          <span class="status-icons">
+            <span class="signal"><i></i><i></i><i></i></span>
+            <span class="wifi"></span>
+            <span class="battery"></span>
+          </span>
+        </header>
+
+        <button class="profile-button" id="settingsButton" type="button" aria-label="Settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="3.2"></circle>
+            <path d="M5.6 20c.7-3.4 3.1-5.5 6.4-5.5s5.7 2.1 6.4 5.5"></path>
+            <path d="M8 22h8"></path>
+          </svg>
+        </button>
+
+        <section class="masthead">
+          <p class="kicker" id="kicker">Lets Start..</p>
+          <h1 id="screenTitle"></h1>
+          <div class="progress-track" aria-label="Survey progress">
+            <span id="progressBar"></span>
+          </div>
+        </section>
+
+        <section class="content" id="content"></section>
+
+        <footer class="bottom-nav">
+          <div class="next-preview" id="nextPreview"></div>
+          <div class="nav-actions">
+            <button class="fab secondary" id="backButton" type="button" aria-label="Previous">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 15l6-6 6 6"></path>
+              </svg>
+            </button>
+            <button class="fab" id="nextButton" type="button" aria-label="Next">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 15l6-6 6 6"></path>
+              </svg>
+            </button>
+          </div>
+        </footer>
+      </section>
+    </main>
+
+    <dialog class="settings" id="settingsDialog">
+      <form method="dialog" class="settings-form">
+        <h2>Power Automate</h2>
+        <label for="flowUrl">HTTP trigger URL</label>
+        <input id="flowUrl" type="url" autocomplete="off" spellcheck="false">
+        <p id="settingsHint">Leave empty while testing the front end only.</p>
+        <menu>
+          <button value="cancel" type="submit">Close</button>
+          <button id="saveSettings" value="default" type="button">Save</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
