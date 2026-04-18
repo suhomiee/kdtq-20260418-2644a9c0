@@ -49,7 +49,7 @@ textarea {
   min-height: 680px;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: 52px auto minmax(0, 1fr) 112px;
+  grid-template-rows: auto minmax(0, 1fr) 112px;
   overflow: hidden;
   background: var(--paper);
   border-radius: 28px;
@@ -57,77 +57,9 @@ textarea {
   padding: 0 34px;
 }
 
-.status-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #282828;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.status-icons {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.signal {
-  display: inline-flex;
-  align-items: flex-end;
-  gap: 2px;
-  height: 11px;
-}
-
-.signal i {
-  width: 3px;
-  border-radius: 2px;
-  background: #1d1d1d;
-}
-
-.signal i:nth-child(1) {
-  height: 5px;
-}
-
-.signal i:nth-child(2) {
-  height: 8px;
-}
-
-.signal i:nth-child(3) {
-  height: 11px;
-}
-
-.wifi {
-  width: 12px;
-  height: 9px;
-  border: 2px solid #1d1d1d;
-  border-bottom: 0;
-  border-radius: 12px 12px 0 0;
-  transform: scaleX(0.9);
-}
-
-.battery {
-  position: relative;
-  width: 20px;
-  height: 9px;
-  border: 2px solid #1d1d1d;
-  border-radius: 3px;
-}
-
-.battery::after {
-  content: "";
-  position: absolute;
-  right: -4px;
-  top: 2px;
-  width: 2px;
-  height: 3px;
-  border-radius: 0 2px 2px 0;
-  background: #1d1d1d;
-}
-
 .profile-button {
   position: absolute;
-  top: 58px;
+  top: 22px;
   right: 30px;
   width: 28px;
   height: 28px;
@@ -152,7 +84,7 @@ textarea {
 
 .masthead {
   min-width: 0;
-  padding-top: 24px;
+  padding-top: 70px;
 }
 
 .kicker {
@@ -534,12 +466,12 @@ textarea.text-answer {
 
 @media (max-height: 720px) {
   .phone {
-    grid-template-rows: 44px auto minmax(0, 1fr) 86px;
+    grid-template-rows: auto minmax(0, 1fr) 86px;
     min-height: 0;
   }
 
   .masthead {
-    padding-top: 12px;
+    padding-top: 62px;
   }
 
   .kicker {
