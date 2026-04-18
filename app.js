@@ -2,6 +2,7 @@ const SOURCE_FORM_URL = "https://forms.office.com/r/MpCyjJVcd7";
 const POWER_AUTOMATE_URL = "";
 const ENDPOINT_STORAGE_KEY = "korea-dynamic-test-flow-url";
 const ANSWER_STORAGE_KEY = "korea-dynamic-test-answers";
+const SHAREPOINT_LIST_TITLE = "KDTQ Survey Inbox";
 
 const SURVEY = {
   title: "[May 10th] Korea Dynamic Test Questionnaire",
@@ -245,7 +246,9 @@ function makeChoiceButton(label, selected) {
 function renderSubmit() {
   const copy = document.createElement("p");
   copy.className = "submit-copy";
-  copy.textContent = "Your response will be sent to the connected Excel Online tables through Power Automate.";
+  copy.textContent = canUseSharePointBackend()
+    ? "Your response will be saved to the secure Microsoft 365 list and then synced to Excel Online."
+    : "Your response will be sent to the connected Excel Online tables through Power Automate.";
 
   const button = document.createElement("button");
   button.type = "button";
@@ -281,13 +284,12 @@ function renderText(text, className) {
 }
 
 async function submitSurvey() {
-  const endpoint = getEndpoint();
   const status = document.getElementById("submitStatus");
 
-  if (!endpoint) {
+  if (!canUseSharePointBackend() && !getEndpoint()) {
     if (status) {
       status.classList.add("error");
-      status.textContent = "Power Automate URL is not configured yet.";
+      status.textContent = "Open this page from SharePoint, or configure a test endpoint.";
     }
     return;
   }
@@ -300,18 +302,17 @@ async function submitSurvey() {
   const statusAfterRender = document.getElementById("submitStatus");
 
   try {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+    if (canUseSharePointBackend()) {
+      await submitToSharePoint(payload);
+      markSubmitted("Submitted. The Excel sync flow will pick up this response.");
+    } else {
+      await submitToPowerAutomate(body);
+      markSubmitted("Submitted. Please confirm the new row in Excel Online.");
     }
-    markSubmitted("Submitted. Please confirm the new row in Excel Online.");
     localStorage.removeItem(ANSWER_STORAGE_KEY);
   } catch (error) {
-    const sent = navigator.sendBeacon
+    const endpoint = getEndpoint();
+    const sent = endpoint && navigator.sendBeacon
       ? navigator.sendBeacon(endpoint, new Blob([body], { type: "text/plain;charset=UTF-8" }))
       : false;
     if (sent) {
@@ -325,6 +326,71 @@ async function submitSurvey() {
     state.submitting = false;
     els.next.disabled = false;
   }
+}
+
+async function submitToPowerAutomate(body) {
+  const response = await fetch(getEndpoint(), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+}
+
+async function submitToSharePoint(payload) {
+  const siteUrl = getSharePointSiteUrl();
+  const digest = await getSharePointDigest(siteUrl);
+  const response = await fetch(`${siteUrl}/_api/web/lists/getbytitle('${escapeODataString(SHAREPOINT_LIST_TITLE)}')/items`, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      Accept: "application/json;odata=nometadata",
+      "Content-Type": "application/json;odata=nometadata",
+      "X-RequestDigest": digest
+    },
+    body: JSON.stringify({
+      Title: payload.responseId,
+      ResponseId: payload.responseId,
+      SubmittedAtText: payload.submittedAt,
+      FormTitle: payload.formTitle,
+      SourceFormUrl: payload.sourceFormUrl,
+      TesterName: payload.tester.name,
+      NormalTrailShoe: payload.tester.normalTrailShoe,
+      TypicalDistance: payload.tester.typicalDistance,
+      PayloadJson: JSON.stringify(payload)
+    })
+  });
+  if (!response.ok) {
+    throw new Error(`SharePoint ${response.status}`);
+  }
+}
+
+async function getSharePointDigest(siteUrl) {
+  const response = await fetch(`${siteUrl}/_api/contextinfo`, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: { Accept: "application/json;odata=nometadata" }
+  });
+  if (!response.ok) {
+    throw new Error(`SharePoint digest ${response.status}`);
+  }
+  const data = await response.json();
+  return data.FormDigestValue || data.d?.GetContextWebInformation?.FormDigestValue;
+}
+
+function canUseSharePointBackend() {
+  return location.hostname.toLowerCase().includes(".sharepoint.com");
+}
+
+function getSharePointSiteUrl() {
+  const sitePath = location.pathname.match(/^\/(?:sites|teams)\/[^/]+/i);
+  return sitePath ? `${location.origin}${sitePath[0]}` : location.origin;
+}
+
+function escapeODataString(value) {
+  return value.replace(/'/g, "''");
 }
 
 function markSubmitted(message) {

@@ -375,8 +375,8 @@ textarea.text-answer {
 }
 
 .next-preview {
-  max-width: calc(100% - 80px);
-  width: calc(100% - 80px);
+  max-width: calc(100% - 132px);
+  width: calc(100% - 132px);
   color: #c1c1c1;
   font-size: 17px;
   font-weight: 850;
