@@ -1,6 +1,7 @@
 const SOURCE_FORM_URL = "https://forms.office.com/r/MpCyjJVcd7";
 const POWER_AUTOMATE_URL = "";
 const ENDPOINT_STORAGE_KEY = "korea-dynamic-test-flow-url";
+const ENDPOINT_LOCKED_STORAGE_KEY = "korea-dynamic-test-flow-url-locked";
 const ANSWER_STORAGE_KEY = "korea-dynamic-test-answers";
 const SHAREPOINT_LIST_TITLE = "KDTQ Survey Inbox";
 
@@ -105,6 +106,8 @@ const els = {
   saveSettings: document.getElementById("saveSettings")
 };
 
+bootstrapEndpointFromHash();
+syncSettingsVisibility();
 render();
 
 els.back.addEventListener("click", () => {
@@ -137,9 +140,12 @@ els.saveSettings.addEventListener("click", () => {
   const value = els.flowUrl.value.trim();
   if (value) {
     localStorage.setItem(ENDPOINT_STORAGE_KEY, value);
+    localStorage.removeItem(ENDPOINT_LOCKED_STORAGE_KEY);
   } else {
     localStorage.removeItem(ENDPOINT_STORAGE_KEY);
+    localStorage.removeItem(ENDPOINT_LOCKED_STORAGE_KEY);
   }
+  syncSettingsVisibility();
   els.settingsDialog.close();
 });
 
@@ -469,6 +475,41 @@ function buildPayload() {
 
 function getEndpoint() {
   return localStorage.getItem(ENDPOINT_STORAGE_KEY) || POWER_AUTOMATE_URL;
+}
+
+function bootstrapEndpointFromHash() {
+  if (!location.hash) {
+    return;
+  }
+
+  const params = new URLSearchParams(location.hash.slice(1));
+  const encodedEndpoint = params.get("flow");
+  if (!encodedEndpoint) {
+    return;
+  }
+
+  try {
+    const endpoint = decodeBase64Url(encodedEndpoint);
+    if (!/^https:\/\/.+powerautomate.+sig=/.test(endpoint)) {
+      throw new Error("Invalid endpoint");
+    }
+    localStorage.setItem(ENDPOINT_STORAGE_KEY, endpoint);
+    localStorage.setItem(ENDPOINT_LOCKED_STORAGE_KEY, "1");
+    history.replaceState(null, "", `${location.pathname}${location.search}`);
+  } catch {
+    localStorage.removeItem(ENDPOINT_STORAGE_KEY);
+    localStorage.removeItem(ENDPOINT_LOCKED_STORAGE_KEY);
+  }
+}
+
+function decodeBase64Url(value) {
+  const padded = `${value}${"=".repeat((4 - value.length % 4) % 4)}`;
+  return atob(padded.replace(/-/g, "+").replace(/_/g, "/"));
+}
+
+function syncSettingsVisibility() {
+  const endpointLocked = localStorage.getItem(ENDPOINT_LOCKED_STORAGE_KEY) === "1";
+  els.settingsButton.hidden = endpointLocked;
 }
 
 function loadAnswers() {
