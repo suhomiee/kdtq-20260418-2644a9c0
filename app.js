@@ -159,7 +159,7 @@ function currentScreen() {
 function render() {
   const screen = currentScreen();
   const progress = state.index / (SURVEY.screens.length - 1);
-  els.kicker.textContent = progress < 0.42 ? "Lets Start.." : progress < 0.86 ? "One More..." : "And we are done...";
+  els.kicker.textContent = "Korea Dynamic Test Questionnaire";
   els.title.textContent = screen.title;
   els.progress.style.width = `${Math.max(4, Math.round(progress * 100))}%`;
   els.content.replaceChildren();
@@ -544,8 +544,8 @@ function decodeBase64Url(value) {
 }
 
 function syncSettingsVisibility() {
-  const endpointLocked = localStorage.getItem(ENDPOINT_LOCKED_STORAGE_KEY) === "1";
-  els.settingsButton.hidden = endpointLocked;
+  els.settingsButton.hidden = true;
+  els.settingsDialog.hidden = true;
 }
 
 function loadAnswers() {

@@ -9,7 +9,7 @@
   <body>
     <main class="stage" aria-live="polite">
       <section class="phone" aria-label="Korea Dynamic Test Questionnaire">
-        <button class="profile-button" id="settingsButton" type="button" aria-label="Settings">
+        <button class="profile-button" id="settingsButton" type="button" aria-label="Settings" hidden>
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="8" r="3.2"></circle>
             <path d="M5.6 20c.7-3.4 3.1-5.5 6.4-5.5s5.7 2.1 6.4 5.5"></path>
@@ -18,7 +18,7 @@
         </button>
 
         <section class="masthead">
-          <p class="kicker" id="kicker">Lets Start..</p>
+          <p class="kicker" id="kicker">Korea Dynamic Test Questionnaire</p>
           <h1 id="screenTitle"></h1>
           <div class="progress-track" aria-label="Survey progress">
             <span id="progressBar"></span>
@@ -45,7 +45,7 @@
       </section>
     </main>
 
-    <dialog class="settings" id="settingsDialog">
+    <dialog class="settings" id="settingsDialog" hidden>
       <form method="dialog" class="settings-form">
         <h2>Submission</h2>
         <label for="flowUrl">Test endpoint URL</label>
@@ -58,6 +58,6 @@
       </form>
     </dialog>
 
-    <script src="./app.js?v=20260418-question-table-nav"></script>
+    <script src="./app.js?v=20260419-production-title"></script>
   </body>
 </html>
