@@ -417,10 +417,17 @@ function buildPayload() {
   const responseId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
   const flatRows = [];
   const answersByQuestion = {};
+  const surveyDbRow = {
+    ResponseId: responseId,
+    SubmittedAt: submittedAt
+  };
+  let answerColumnIndex = 0;
 
   SURVEY.screens.forEach((screen) => {
     if (screen.type === "Question.TextField") {
       const answer = state.answers[screen.id] || "";
+      answerColumnIndex += 1;
+      surveyDbRow[columnHeader(answerColumnIndex, screen.title)] = answer;
       answersByQuestion[screen.id] = {
         questionId: screen.id,
         questionTitle: screen.title,
@@ -445,6 +452,8 @@ function buildPayload() {
       };
       screen.rows.forEach((row) => {
         const answer = state.answers[row.id] || "";
+        answerColumnIndex += 1;
+        surveyDbRow[columnHeader(answerColumnIndex, screen.title, row.title)] = answer;
         answersByQuestion[screen.id].rows[row.id] = {
           rowId: row.id,
           rowTitle: row.title,
@@ -477,8 +486,27 @@ function buildPayload() {
       typicalDistance: state.answers.r59ead437294c42b49564b9eedb65d6d7 || ""
     },
     answers: answersByQuestion,
-    flatRows
+    flatRows,
+    surveyDbRow
   };
+}
+
+function cleanHeader(value) {
+  return String(value || "")
+    .replace(/\u00a0/g, " ")
+    .replace(/\s+/g, " ")
+    .replace(/\[/g, "(")
+    .replace(/\]/g, ")")
+    .trim();
+}
+
+function columnHeader(index, questionTitle, rowTitle = "") {
+  const number = String(index).padStart(2, "0");
+  const title = cleanHeader(questionTitle);
+  const header = rowTitle
+    ? `Q${number} ${rowTitle} - ${title}`
+    : `Q${number} ${title}`;
+  return header.slice(0, 240);
 }
 
 function getEndpoint() {
