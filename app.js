@@ -4,6 +4,7 @@ const ENDPOINT_STORAGE_KEY = "korea-dynamic-test-flow-url";
 const ENDPOINT_LOCKED_STORAGE_KEY = "korea-dynamic-test-flow-url-locked";
 const ANSWER_STORAGE_KEY = "korea-dynamic-test-answers";
 const SHAREPOINT_LIST_TITLE = "KDTQ Survey Inbox";
+const STRAVA_EMBED_SCRIPT_ID = "strava-embed-script";
 
 const SURVEY = {
   title: "[May 10th] Korea Dynamic Test Questionnaire",
@@ -20,7 +21,13 @@ const SURVEY = {
       type: "Question.ColumnGroup",
       title: "Route & Elevation",
       subtitle: "Bongdaesan Mountain (Dongbaek Station, 522 Haeun-daero, Haeundae-gu, Busan)\n\nhttps://www.strava.com/routes/3479194418174308720\n",
-      image: "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/91341be4-8ceb-47cb-9824-fb080ebf4b5e",
+      image: null,
+      embed: {
+        type: "StravaRoute",
+        id: "3479194418174308720",
+        mapHash: "14.55/35.16442/129.14981",
+        token: "Pgiz2sILlD00G6xlxKNaiBuoMi0qxRIDvj64GD4lwl0"
+      },
       choices: []
     },
     {
@@ -173,6 +180,10 @@ function render() {
     els.content.append(image);
   }
 
+  if (screen.embed?.type === "StravaRoute") {
+    renderStravaRoute(screen.embed);
+  }
+
   if (screen.type === "Intro" || screen.type === "Question.ColumnGroup") {
     els.content.append(renderText(screen.subtitle || "", "question-copy intro"));
   } else if (screen.type === "Question.TextField") {
@@ -188,6 +199,43 @@ function render() {
   els.back.disabled = state.index === 0 || state.submitting;
   els.next.disabled = state.submitting || (screen.type === "Submit" && state.submitted);
   els.next.setAttribute("aria-label", screen.type === "Submit" ? "Submit" : "Next");
+}
+
+function renderStravaRoute(embed) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "strava-route-card";
+
+  const placeholder = document.createElement("div");
+  placeholder.className = "strava-embed-placeholder";
+  placeholder.dataset.embedType = "route";
+  placeholder.dataset.embedId = embed.id;
+  placeholder.dataset.fullWidth = "true";
+  placeholder.dataset.style = "standard";
+  placeholder.dataset.mapHash = embed.mapHash;
+  placeholder.dataset.fromEmbed = "false";
+  placeholder.dataset.token = embed.token;
+
+  wrapper.append(placeholder);
+  els.content.append(wrapper);
+  loadStravaEmbed();
+}
+
+function loadStravaEmbed() {
+  if (window.__STRAVA_EMBED_BOOTSTRAP__) {
+    requestAnimationFrame(() => window.__STRAVA_EMBED_BOOTSTRAP__());
+    return;
+  }
+
+  if (document.getElementById(STRAVA_EMBED_SCRIPT_ID)) {
+    return;
+  }
+
+  const script = document.createElement("script");
+  script.id = STRAVA_EMBED_SCRIPT_ID;
+  script.src = "https://strava-embeds.com/embed.js";
+  script.async = true;
+  script.onload = () => window.__STRAVA_EMBED_BOOTSTRAP__?.();
+  document.body.append(script);
 }
 
 function renderTextField(screen) {

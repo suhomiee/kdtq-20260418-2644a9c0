@@ -171,6 +171,23 @@ textarea {
   background: #f3f3f3;
 }
 
+.strava-route-card {
+  width: 100%;
+  min-height: 390px;
+  margin: 0 0 22px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f3f3f3;
+}
+
+.strava-route-card iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  border: 0;
+  border-radius: 8px;
+}
+
 .choice-list {
   display: grid;
   gap: 14px;
