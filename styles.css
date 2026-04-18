@@ -49,7 +49,7 @@ textarea {
   min-height: 680px;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: 52px auto minmax(0, 1fr) 112px;
+  grid-template-rows: 76px auto minmax(0, 1fr) 112px;
   overflow: hidden;
   background: var(--paper);
   border-radius: 28px;
@@ -57,78 +57,39 @@ textarea {
   padding: 0 34px;
 }
 
-.status-bar {
+.brand-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #282828;
-  font-size: 12px;
-  font-weight: 700;
+  min-width: 0;
+  padding-top: 20px;
 }
 
-.status-icons {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.brand-logo {
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+  gap: 8px;
+  color: var(--accent);
+  text-decoration: none;
 }
 
-.signal {
-  display: inline-flex;
-  align-items: flex-end;
-  gap: 2px;
-  height: 11px;
+.brand-main {
+  font-size: 30px;
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
-.signal i {
-  width: 3px;
-  border-radius: 2px;
-  background: #1d1d1d;
+.brand-sub {
+  color: #5f5f5f;
+  font-size: 10px;
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
-.signal i:nth-child(1) {
-  height: 5px;
-}
-
-.signal i:nth-child(2) {
-  height: 8px;
-}
-
-.signal i:nth-child(3) {
-  height: 11px;
-}
-
-.wifi {
-  width: 12px;
-  height: 9px;
-  border: 2px solid #1d1d1d;
-  border-bottom: 0;
-  border-radius: 12px 12px 0 0;
-  transform: scaleX(0.9);
-}
-
-.battery {
-  position: relative;
-  width: 20px;
-  height: 9px;
-  border: 2px solid #1d1d1d;
-  border-radius: 3px;
-}
-
-.battery::after {
-  content: "";
-  position: absolute;
-  right: -4px;
-  top: 2px;
-  width: 2px;
-  height: 3px;
-  border-radius: 0 2px 2px 0;
-  background: #1d1d1d;
-}
-
-.profile-button {
-  position: absolute;
-  top: 58px;
-  right: 30px;
+.settings-button {
   width: 28px;
   height: 28px;
   display: grid;
@@ -140,19 +101,19 @@ textarea {
   cursor: pointer;
 }
 
-.profile-button svg {
-  width: 22px;
-  height: 22px;
+.settings-button svg {
+  width: 20px;
+  height: 20px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.9;
+  stroke-width: 1.65;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .masthead {
   min-width: 0;
-  padding-top: 24px;
+  padding-top: 8px;
 }
 
 .kicker {
@@ -519,10 +480,6 @@ textarea.text-answer {
     padding-left: max(26px, env(safe-area-inset-left));
   }
 
-  .profile-button {
-    right: max(22px, env(safe-area-inset-right));
-  }
-
   .matrix-options {
     grid-template-columns: 1fr;
   }
@@ -534,12 +491,16 @@ textarea.text-answer {
 
 @media (max-height: 720px) {
   .phone {
-    grid-template-rows: 44px auto minmax(0, 1fr) 86px;
+    grid-template-rows: 64px auto minmax(0, 1fr) 86px;
     min-height: 0;
   }
 
+  .brand-bar {
+    padding-top: 14px;
+  }
+
   .masthead {
-    padding-top: 12px;
+    padding-top: 4px;
   }
 
   .kicker {
