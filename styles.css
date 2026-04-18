@@ -72,6 +72,11 @@ textarea {
   cursor: pointer;
 }
 
+.profile-button[hidden],
+.settings[hidden] {
+  display: none !important;
+}
+
 .profile-button svg {
   width: 22px;
   height: 22px;
