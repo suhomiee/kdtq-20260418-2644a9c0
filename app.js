@@ -89,7 +89,10 @@ function matrix(id, title, subtitle, image, choices, rows) {
 const state = {
   index: 0,
   answers: loadAnswers(),
-  submitting: false
+  submitting: false,
+  submitted: false,
+  submitMessage: "",
+  submitError: false
 };
 
 const els = {
@@ -183,7 +186,7 @@ function render() {
   const next = SURVEY.screens[state.index + 1];
   els.nextPreview.textContent = next ? next.title : "";
   els.back.disabled = state.index === 0 || state.submitting;
-  els.next.disabled = state.submitting;
+  els.next.disabled = state.submitting || (screen.type === "Submit" && state.submitted);
   els.next.setAttribute("aria-label", screen.type === "Submit" ? "Submit" : "Next");
 }
 
@@ -259,13 +262,14 @@ function renderSubmit() {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "submit-button";
-  button.textContent = state.submitting ? "Submitting..." : "Submit";
-  button.disabled = state.submitting;
+  button.textContent = state.submitting ? "Submitting..." : state.submitted ? "Submitted" : "Submit";
+  button.disabled = state.submitting || state.submitted;
   button.addEventListener("click", submitSurvey);
 
   const status = document.createElement("div");
-  status.className = "submit-status";
+  status.className = `submit-status${state.submitError ? " error" : ""}`;
   status.id = "submitStatus";
+  status.textContent = state.submitMessage;
 
   els.content.append(copy, button, status);
 }
@@ -290,30 +294,32 @@ function renderText(text, className) {
 }
 
 async function submitSurvey() {
-  const status = document.getElementById("submitStatus");
+  if (state.submitting || state.submitted) {
+    return;
+  }
 
   if (!canUseSharePointBackend() && !getEndpoint()) {
-    if (status) {
-      status.classList.add("error");
-      status.textContent = "Open this page from SharePoint, or configure a test endpoint.";
-    }
+    updateSubmitStatus("Open this page from SharePoint, or configure a test endpoint.", true);
     return;
   }
 
   state.submitting = true;
+  state.submitMessage = "";
+  state.submitError = false;
   render();
 
   const payload = buildPayload();
   const body = JSON.stringify(payload);
-  const statusAfterRender = document.getElementById("submitStatus");
 
   try {
     if (canUseSharePointBackend()) {
       await submitToSharePoint(payload);
-      markSubmitted("Submitted. The Excel sync flow will pick up this response.");
+      state.submitted = true;
+      state.submitMessage = "Submitted. The Excel sync flow will pick up this response.";
     } else {
       await submitToPowerAutomate(body);
-      markSubmitted("Submitted. Please confirm the new row in Excel Online.");
+      state.submitted = true;
+      state.submitMessage = "Submitted. Excel Online is saving this response; all answer rows may take a few minutes to appear.";
     }
     localStorage.removeItem(ANSWER_STORAGE_KEY);
   } catch (error) {
@@ -322,15 +328,16 @@ async function submitSurvey() {
       ? navigator.sendBeacon(endpoint, new Blob([body], { type: "text/plain;charset=UTF-8" }))
       : false;
     if (sent) {
-      markSubmitted("Submitted in compatibility mode. Please confirm the new row in Excel Online.");
+      state.submitted = true;
+      state.submitMessage = "Submitted in compatibility mode. Excel Online is saving this response; all answer rows may take a few minutes to appear.";
       localStorage.removeItem(ANSWER_STORAGE_KEY);
-    } else if (statusAfterRender) {
-      statusAfterRender.classList.add("error");
-      statusAfterRender.textContent = `Submit failed: ${error.message}`;
+    } else {
+      state.submitError = true;
+      state.submitMessage = `Submit failed: ${error.message}`;
     }
   } finally {
     state.submitting = false;
-    els.next.disabled = false;
+    render();
   }
 }
 
@@ -399,12 +406,10 @@ function escapeODataString(value) {
   return value.replace(/'/g, "''");
 }
 
-function markSubmitted(message) {
-  const status = document.getElementById("submitStatus");
-  if (status) {
-    status.classList.remove("error");
-    status.textContent = message;
-  }
+function updateSubmitStatus(message, isError) {
+  state.submitMessage = message;
+  state.submitError = Boolean(isError);
+  render();
 }
 
 function buildPayload() {
@@ -459,10 +464,13 @@ function buildPayload() {
   });
 
   return {
+    schemaVersion: "2026-04-18.1",
     responseId,
     submittedAt,
     formTitle: SURVEY.title,
     sourceFormUrl: SOURCE_FORM_URL,
+    answerRowCount: flatRows.length,
+    answeredRowCount: flatRows.filter((row) => String(row.answer || "").trim()).length,
     tester: {
       name: state.answers.ref10a028774947e4b02ebad4c50c8406 || "",
       normalTrailShoe: state.answers.r8cd399d5613b4743866237999b83cbc8 || "",
