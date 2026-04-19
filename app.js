@@ -1,5 +1,5 @@
 const SOURCE_FORM_URL = "https://forms.office.com/r/MpCyjJVcd7";
-const POWER_AUTOMATE_URL = "";
+const POWER_AUTOMATE_URL = "https://default1445a1df842f4a6595a29237bdf735.c9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/34e219f4726f4c679b11cffb903c4420/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=NLraKrvx7AAEDwRrM5nTTlVNKDabbFnSvPBMVJzZT6o";
 const ENDPOINT_STORAGE_KEY = "korea-dynamic-test-flow-url";
 const ENDPOINT_LOCKED_STORAGE_KEY = "korea-dynamic-test-flow-url-locked";
 const ANSWER_STORAGE_KEY = "korea-dynamic-test-answers";
@@ -380,9 +380,7 @@ function makeChoiceButton(label, selected, rating = false) {
 function renderSubmit() {
   const copy = document.createElement("p");
   copy.className = "submit-copy";
-  copy.textContent = canUseSharePointBackend()
-    ? "Your response will be saved to the secure Microsoft 365 list and then synced to Excel Online."
-    : "Your response will be sent to the connected Excel Online tables through Power Automate.";
+  copy.textContent = "Your response will be saved automatically to the Excel Online response table.";
 
   const button = document.createElement("button");
   button.type = "button";
@@ -424,7 +422,7 @@ async function submitSurvey() {
   }
 
   if (!canUseSharePointBackend() && !getEndpoint()) {
-    updateSubmitStatus("Open this page from SharePoint, or configure a test endpoint.", true);
+    updateSubmitStatus("Submission is not connected yet. Please contact the survey administrator.", true);
     return;
   }
 
@@ -440,11 +438,11 @@ async function submitSurvey() {
     if (canUseSharePointBackend()) {
       await submitToSharePoint(payload);
       state.submitted = true;
-      state.submitMessage = "Submitted. The Excel sync flow will pick up this response.";
+      state.submitMessage = "Submitted. Thank you.";
     } else {
       await submitToPowerAutomate(body);
       state.submitted = true;
-      state.submitMessage = "Submitted. Excel Online is saving this response; all answer rows may take a few minutes to appear.";
+      state.submitMessage = "Submitted. Thank you.";
     }
     localStorage.removeItem(ANSWER_STORAGE_KEY);
   } catch (error) {
@@ -454,7 +452,7 @@ async function submitSurvey() {
       : false;
     if (sent) {
       state.submitted = true;
-      state.submitMessage = "Submitted in compatibility mode. Excel Online is saving this response; all answer rows may take a few minutes to appear.";
+      state.submitMessage = "Submitted. Thank you.";
       localStorage.removeItem(ANSWER_STORAGE_KEY);
     } else {
       state.submitError = true;
