@@ -181,11 +181,7 @@ function render() {
   els.content.scrollTop = 0;
 
   if (screen.image && !ratingScale) {
-    const image = document.createElement("img");
-    image.className = "survey-image";
-    image.src = screen.image;
-    image.alt = screen.title;
-    els.content.append(image);
+    renderSurveyImage(screen);
   }
 
   if (screen.embed?.type === "StravaRoute") {
@@ -203,6 +199,39 @@ function render() {
   }
 
   updateNavigation(screen);
+}
+
+function renderSurveyImage(screen) {
+  const frame = document.createElement("figure");
+  frame.className = "survey-image-frame is-loading";
+
+  const skeleton = document.createElement("div");
+  skeleton.className = "image-skeleton";
+  skeleton.setAttribute("aria-hidden", "true");
+
+  const image = document.createElement("img");
+  image.className = "survey-image";
+  image.alt = screen.title;
+  image.decoding = "async";
+  image.loading = "eager";
+  image.addEventListener("load", () => {
+    frame.classList.remove("is-loading");
+    frame.classList.add("is-loaded");
+  }, { once: true });
+  image.addEventListener("error", () => {
+    frame.classList.remove("is-loading");
+    frame.classList.add("is-error");
+    skeleton.textContent = "Image unavailable";
+  }, { once: true });
+  image.src = screen.image;
+
+  if (image.complete && image.naturalWidth > 0) {
+    frame.classList.remove("is-loading");
+    frame.classList.add("is-loaded");
+  }
+
+  frame.append(skeleton, image);
+  els.content.append(frame);
 }
 
 function usesBackgroundArt(screen) {

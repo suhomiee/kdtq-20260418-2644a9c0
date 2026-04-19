@@ -189,6 +189,68 @@ textarea {
   overflow-wrap: anywhere;
 }
 
+.survey-image-frame {
+  position: relative;
+  width: 100%;
+  min-height: clamp(150px, 31svh, 260px);
+  margin: 0 auto 18px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f4f4f4;
+}
+
+.survey-image-frame.is-loaded {
+  min-height: 0;
+  background: transparent;
+}
+
+.survey-image-frame.is-error {
+  display: grid;
+  min-height: 154px;
+  place-items: center;
+  border: 1px solid #e2e2e2;
+  color: #858585;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.image-skeleton {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background:
+    linear-gradient(100deg, #eeeeee 0%, #f8f8f8 42%, #e9e9e9 72%),
+    #f1f1f1;
+}
+
+.image-skeleton::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.74), transparent);
+  animation: image-skeleton-sweep 1.25s ease-in-out infinite;
+}
+
+.survey-image-frame.is-loaded .image-skeleton {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.survey-image-frame.is-error .image-skeleton {
+  position: static;
+  display: grid;
+  place-items: center;
+  background: transparent;
+}
+
+.survey-image-frame.is-error .image-skeleton::before,
+.survey-image-frame.is-error .survey-image {
+  display: none;
+}
+
 .survey-image {
   display: block;
   width: 100%;
@@ -196,8 +258,21 @@ textarea {
   height: auto;
   object-fit: contain;
   border-radius: 8px;
-  margin: 0 auto 18px;
   background: transparent;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.survey-image-frame.is-loaded .survey-image {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes image-skeleton-sweep {
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .strava-route-card {
