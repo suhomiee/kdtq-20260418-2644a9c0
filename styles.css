@@ -44,6 +44,7 @@ textarea {
 
 .phone {
   position: relative;
+  isolation: isolate;
   width: min(390px, calc(100vw - 32px));
   height: min(844px, calc(100svh - 48px));
   min-height: 680px;
@@ -57,8 +58,27 @@ textarea {
   padding: 0 34px;
 }
 
+.phone::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("./assets/background.avif");
+  background-position: center;
+  background-size: cover;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.02);
+  transition: opacity 220ms ease;
+}
+
+.phone.has-page-background::before {
+  opacity: 0.055;
+}
+
 .profile-button {
   position: absolute;
+  z-index: 1;
   top: 22px;
   right: 30px;
   width: 28px;
@@ -88,6 +108,8 @@ textarea {
 }
 
 .masthead {
+  position: relative;
+  z-index: 1;
   min-width: 0;
   padding-top: 70px;
 }
@@ -129,6 +151,8 @@ textarea {
 }
 
 .content {
+  position: relative;
+  z-index: 1;
   min-width: 0;
   width: 100%;
   min-height: 0;
@@ -505,6 +529,7 @@ textarea.text-answer {
 
 .bottom-nav {
   position: relative;
+  z-index: 1;
   min-width: 0;
   display: flex;
   align-items: center;

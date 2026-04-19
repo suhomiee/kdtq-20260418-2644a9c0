@@ -104,6 +104,7 @@ const state = {
 };
 
 const els = {
+  phone: document.querySelector(".phone"),
   kicker: document.getElementById("kicker"),
   title: document.getElementById("screenTitle"),
   progress: document.getElementById("progressBar"),
@@ -171,6 +172,7 @@ function render() {
   const currentStep = state.index + 1;
   const totalSteps = SURVEY.screens.length;
   const progress = currentStep / totalSteps;
+  els.phone.classList.toggle("has-page-background", usesBackgroundArt(screen));
   els.kicker.textContent = "Korea Dynamic Test Questionnaire";
   els.title.textContent = screen.title;
   els.progress.style.width = `${Math.max(4, Math.round(progress * 100))}%`;
@@ -201,6 +203,12 @@ function render() {
   }
 
   updateNavigation(screen);
+}
+
+function usesBackgroundArt(screen) {
+  return screen.type === "Intro"
+    || screen.type === "Question.ColumnGroup"
+    || screen.type === "Submit";
 }
 
 function renderStravaRoute(embed) {
