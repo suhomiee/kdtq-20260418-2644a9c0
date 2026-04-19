@@ -115,7 +115,7 @@ textarea {
 }
 
 .kicker {
-  margin: 0 0 18px;
+  margin: 0 0 26px;
   font-size: 22px;
   font-weight: 850;
   line-height: 1.1;
@@ -716,7 +716,7 @@ textarea.text-answer {
   }
 
   .kicker {
-    margin-bottom: 12px;
+    margin-bottom: 18px;
     font-size: 20px;
   }
 
