@@ -294,28 +294,6 @@ textarea {
   --rating-mouth: #243618;
 }
 
-.liking-scale-guide {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
-  align-items: end;
-  margin: 2px -2px 30px;
-}
-
-.liking-level {
-  min-width: 0;
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-}
-
-.liking-level-number {
-  color: #2f2f2f;
-  font-size: 24px;
-  font-weight: 850;
-  line-height: 1;
-}
-
 .rating-face {
   position: relative;
   display: inline-block;
@@ -349,10 +327,6 @@ textarea {
 
 .rating-face::after {
   left: 60%;
-}
-
-.rating-face-large {
-  width: 58px;
 }
 
 .rating-face-mini {

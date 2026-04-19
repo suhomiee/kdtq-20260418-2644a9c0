@@ -186,10 +186,6 @@ function render() {
     els.content.append(image);
   }
 
-  if (ratingScale) {
-    els.content.append(renderLikingScaleGuide());
-  }
-
   if (screen.embed?.type === "StravaRoute") {
     renderStravaRoute(screen.embed);
   }
@@ -349,27 +345,6 @@ function isRatingScaleScreen(screen) {
   return screen.type === "Question.MatrixChoiceGroup"
     && screen.image
     && RATING_SCALE_VALUES.every((choice, index) => screen.choices[index] === choice);
-}
-
-function renderLikingScaleGuide() {
-  const guide = document.createElement("div");
-  guide.className = "liking-scale-guide";
-  guide.setAttribute("aria-label", "Liking scale from 1 to 5");
-
-  RATING_SCALE_VALUES.forEach((value) => {
-    const item = document.createElement("div");
-    item.className = `liking-level value-${value}`;
-    item.setAttribute("aria-label", `Liking ${value}`);
-
-    const number = document.createElement("span");
-    number.className = "liking-level-number";
-    number.textContent = value;
-
-    item.append(createRatingFace(value, "large"), number);
-    guide.append(item);
-  });
-
-  return guide;
 }
 
 function createRatingFace(value, size) {
