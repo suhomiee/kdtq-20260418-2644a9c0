@@ -255,8 +255,8 @@ textarea {
 }
 
 .matrix-options.rating .choice {
-  min-height: 66px;
-  padding: 5px 2px 4px;
+  min-height: 76px;
+  padding: 4px 0;
 }
 
 .value-1 {
@@ -356,7 +356,7 @@ textarea {
 }
 
 .rating-face-mini {
-  width: 32px;
+  width: 42px;
 }
 
 .rating-mouth {
@@ -411,25 +411,25 @@ textarea {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  border-color: var(--rating-border);
-  background: var(--rating-soft);
-  color: #4f4f4f;
-  border-radius: 24px;
-  padding-inline: 2px;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  color: #333333;
+  padding-inline: 0;
 }
 
 .rating-choice:hover,
 .rating-choice:focus-visible {
-  border-color: var(--rating-color);
   color: #303030;
-  box-shadow: 0 0 0 4px var(--rating-soft);
+  box-shadow: inset 0 0 0 2px var(--rating-border);
 }
 
 .rating-choice.is-selected {
-  border-color: var(--rating-color);
-  background: var(--rating-color);
-  color: #ffffff;
-  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.11);
+  background: var(--rating-soft);
+  color: #242424;
+  box-shadow:
+    inset 0 0 0 2px var(--rating-color),
+    0 12px 22px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
 }
 
@@ -441,7 +441,7 @@ textarea {
 }
 
 .rating-choice-number {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 850;
   line-height: 1;
 }
