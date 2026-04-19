@@ -110,6 +110,7 @@ const els = {
   nextPreview: document.getElementById("nextPreview"),
   back: document.getElementById("backButton"),
   next: document.getElementById("nextButton"),
+  navActions: document.querySelector(".nav-actions"),
   settingsButton: document.getElementById("settingsButton"),
   settingsDialog: document.getElementById("settingsDialog"),
   flowUrl: document.getElementById("flowUrl"),
@@ -194,11 +195,7 @@ function render() {
     renderSubmit();
   }
 
-  const next = SURVEY.screens[state.index + 1];
-  els.nextPreview.textContent = next ? next.title : "";
-  els.back.disabled = state.index === 0 || state.submitting;
-  els.next.disabled = state.submitting || (screen.type === "Submit" && state.submitted);
-  els.next.setAttribute("aria-label", screen.type === "Submit" ? "Submit" : "Next");
+  updateNavigation(screen);
 }
 
 function renderStravaRoute(embed) {
@@ -263,9 +260,12 @@ function renderMatrix(screen) {
   wrapper.className = "matrix";
   const rating = screen.choices.length === 5 && screen.choices.every((choice) => /^\d+$/.test(choice));
 
-  screen.rows.forEach((row) => {
+  const rowEls = [];
+
+  screen.rows.forEach((row, rowIndex) => {
     const rowEl = document.createElement("section");
     rowEl.className = "matrix-row";
+    rowEl.dataset.rowId = row.id;
 
     const rowTitle = document.createElement("div");
     rowTitle.className = "row-title";
@@ -279,16 +279,62 @@ function renderMatrix(screen) {
       button.addEventListener("click", () => {
         state.answers[row.id] = choice;
         saveAnswers();
-        render();
+        updateChoiceGroup(options, choice);
+        updateNavigation(screen);
+        if (rowIndex < rowEls.length - 1) {
+          scrollContentToElement(rowEls[rowIndex + 1]);
+        } else {
+          scrollContentToBottom();
+        }
       });
       options.append(button);
     });
 
     rowEl.append(rowTitle, options);
     wrapper.append(rowEl);
+    rowEls.push(rowEl);
   });
 
   els.content.append(wrapper);
+}
+
+function updateChoiceGroup(options, selectedChoice) {
+  options.querySelectorAll(".choice").forEach((button) => {
+    const selected = button.textContent === selectedChoice;
+    button.classList.toggle("is-selected", selected);
+    button.setAttribute("aria-pressed", selected ? "true" : "false");
+  });
+}
+
+function scrollContentToElement(element) {
+  requestAnimationFrame(() => {
+    const containerRect = els.content.getBoundingClientRect();
+    const elementRect = element.getBoundingClientRect();
+    const targetTop = els.content.scrollTop + elementRect.top - containerRect.top - 16;
+    els.content.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
+  });
+}
+
+function scrollContentToBottom() {
+  requestAnimationFrame(() => {
+    els.content.scrollTo({ top: els.content.scrollHeight, behavior: "smooth" });
+  });
+}
+
+function updateNavigation(screen = currentScreen()) {
+  const matrixIncomplete = screen.type === "Question.MatrixChoiceGroup" && !isScreenComplete(screen);
+  els.nextPreview.textContent = "";
+  els.navActions.hidden = matrixIncomplete;
+  els.back.disabled = state.index === 0 || state.submitting;
+  els.next.disabled = matrixIncomplete || state.submitting || (screen.type === "Submit" && state.submitted);
+  els.next.setAttribute("aria-label", screen.type === "Submit" ? "Submit" : "Next");
+}
+
+function isScreenComplete(screen) {
+  if (screen.type !== "Question.MatrixChoiceGroup") {
+    return true;
+  }
+  return screen.rows.every((row) => Boolean(state.answers[row.id]));
 }
 
 function makeChoiceButton(label, selected) {
