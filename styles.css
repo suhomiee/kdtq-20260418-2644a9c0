@@ -237,6 +237,27 @@ textarea {
   gap: 12px;
 }
 
+.matrix-row + .matrix-row {
+  margin-top: 2px;
+  padding-top: 24px;
+  position: relative;
+}
+
+.matrix-row + .matrix-row::before {
+  background: linear-gradient(90deg, var(--accent), rgba(0, 112, 112, 0.32) 48%, rgba(0, 0, 0, 0.08));
+  border-radius: 999px;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.matrix-row + .matrix-row .row-title {
+  color: var(--accent);
+}
+
 .row-title {
   color: #444444;
   font-size: 14px;
