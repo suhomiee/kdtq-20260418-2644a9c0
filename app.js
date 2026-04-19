@@ -178,7 +178,7 @@ function render() {
 
   if (screen.image) {
     const image = document.createElement("img");
-    image.className = "survey-image";
+    image.className = `survey-image${isRatingScaleScreen(screen) ? " rating-scale-image" : ""}`;
     image.src = screen.image;
     image.alt = screen.title;
     els.content.append(image);
@@ -337,6 +337,13 @@ function isScreenComplete(screen) {
     return true;
   }
   return screen.rows.every((row) => Boolean(state.answers[row.id]));
+}
+
+function isRatingScaleScreen(screen) {
+  return screen.type === "Question.MatrixChoiceGroup"
+    && screen.image
+    && screen.choices.length === 5
+    && screen.choices.every((choice, index) => choice === String(index + 1));
 }
 
 function makeChoiceButton(label, selected) {

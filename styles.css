@@ -169,12 +169,18 @@ textarea {
   display: block;
   width: 100%;
   max-width: 100%;
-  height: min(280px, 34svh);
-  min-height: 172px;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   border-radius: 8px;
   margin: 0 auto 22px;
   background: transparent;
+}
+
+.survey-image.rating-scale-image {
+  width: 142%;
+  max-width: none;
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 
 .strava-route-card {
@@ -520,11 +526,6 @@ textarea.text-answer {
 
   .content {
     padding-top: 18px;
-  }
-
-  .survey-image {
-    height: 190px;
-    min-height: 150px;
   }
 
   .bottom-nav {
