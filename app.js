@@ -326,7 +326,7 @@ function scrollContentToBottom() {
 
 function updateNavigation(screen = currentScreen()) {
   const matrixIncomplete = screen.type === "Question.MatrixChoiceGroup" && !isScreenComplete(screen);
-  els.navActions.hidden = matrixIncomplete;
+  els.navActions.hidden = false;
   els.back.disabled = state.index === 0 || state.submitting;
   els.next.disabled = matrixIncomplete || state.submitting || (screen.type === "Submit" && state.submitted);
   els.next.setAttribute("aria-label", screen.type === "Submit" ? "Submit" : "Next");
