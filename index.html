@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Korea Dynamic Test Questionnaire</title>
-    <link rel="stylesheet" href="./styles.css?v=20260419-matrix-ux">
+    <link rel="stylesheet" href="./styles.css?v=20260419-bottom-progress">
   </head>
   <body>
     <main class="stage" aria-live="polite">
@@ -20,15 +20,17 @@
         <section class="masthead">
           <p class="kicker" id="kicker">Korea Dynamic Test Questionnaire</p>
           <h1 id="screenTitle"></h1>
-          <div class="progress-track" aria-label="Survey progress">
-            <span id="progressBar"></span>
-          </div>
         </section>
 
         <section class="content" id="content"></section>
 
         <footer class="bottom-nav">
-          <div class="next-preview" id="nextPreview"></div>
+          <div class="footer-progress" aria-label="Survey progress">
+            <span class="progress-count" id="progressCount">1/29</span>
+            <div class="progress-track">
+              <span id="progressBar"></span>
+            </div>
+          </div>
           <div class="nav-actions">
             <button class="fab secondary" id="backButton" type="button" aria-label="Previous">
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -58,6 +60,6 @@
       </form>
     </dialog>
 
-    <script src="./app.js?v=20260419-matrix-ux"></script>
+    <script src="./app.js?v=20260419-bottom-progress"></script>
   </body>
 </html>

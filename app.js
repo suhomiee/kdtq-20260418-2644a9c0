@@ -106,8 +106,8 @@ const els = {
   kicker: document.getElementById("kicker"),
   title: document.getElementById("screenTitle"),
   progress: document.getElementById("progressBar"),
+  progressCount: document.getElementById("progressCount"),
   content: document.getElementById("content"),
-  nextPreview: document.getElementById("nextPreview"),
   back: document.getElementById("backButton"),
   next: document.getElementById("nextButton"),
   navActions: document.querySelector(".nav-actions"),
@@ -166,10 +166,13 @@ function currentScreen() {
 
 function render() {
   const screen = currentScreen();
-  const progress = state.index / (SURVEY.screens.length - 1);
+  const currentStep = state.index + 1;
+  const totalSteps = SURVEY.screens.length;
+  const progress = currentStep / totalSteps;
   els.kicker.textContent = "Korea Dynamic Test Questionnaire";
   els.title.textContent = screen.title;
   els.progress.style.width = `${Math.max(4, Math.round(progress * 100))}%`;
+  els.progressCount.textContent = `${currentStep}/${totalSteps}`;
   els.content.replaceChildren();
   els.content.scrollTop = 0;
 
@@ -323,7 +326,6 @@ function scrollContentToBottom() {
 
 function updateNavigation(screen = currentScreen()) {
   const matrixIncomplete = screen.type === "Question.MatrixChoiceGroup" && !isScreenComplete(screen);
-  els.nextPreview.textContent = "";
   els.navActions.hidden = matrixIncomplete;
   els.back.disabled = state.index === 0 || state.submitting;
   els.next.disabled = matrixIncomplete || state.submitting || (screen.type === "Submit" && state.submitted);
