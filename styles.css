@@ -176,13 +176,6 @@ textarea {
   background: transparent;
 }
 
-.survey-image.rating-scale-image {
-  width: 142%;
-  max-width: none;
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
-
 .strava-route-card {
   width: 100%;
   min-height: 390px;
@@ -258,11 +251,197 @@ textarea {
 
 .matrix-options.rating {
   grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .matrix-options.rating .choice {
-  min-height: 44px;
-  padding: 6px;
+  min-height: 54px;
+  padding: 5px 4px;
+}
+
+.value-1 {
+  --rating-color: #d95a2f;
+  --rating-soft: #fff0ea;
+  --rating-border: #e39a83;
+  --rating-mouth: #4a2418;
+}
+
+.value-2 {
+  --rating-color: #dc9634;
+  --rating-soft: #fff6e6;
+  --rating-border: #e6bd77;
+  --rating-mouth: #4b2d17;
+}
+
+.value-3 {
+  --rating-color: #e0c638;
+  --rating-soft: #fffbe5;
+  --rating-border: #d8c969;
+  --rating-mouth: #463719;
+}
+
+.value-4 {
+  --rating-color: #bbcf48;
+  --rating-soft: #f8fbe5;
+  --rating-border: #c5d76f;
+  --rating-mouth: #34410f;
+}
+
+.value-5 {
+  --rating-color: #5ca540;
+  --rating-soft: #eef8ea;
+  --rating-border: #8fc780;
+  --rating-mouth: #243618;
+}
+
+.liking-scale-guide {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  align-items: end;
+  margin: 2px -2px 30px;
+}
+
+.liking-level {
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.liking-level-number {
+  color: #2f2f2f;
+  font-size: 24px;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.rating-face {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0) 28%),
+    radial-gradient(circle at 68% 74%, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0) 42%),
+    var(--rating-color);
+  box-shadow:
+    inset 4px 5px 9px rgba(255, 255, 255, 0.3),
+    inset -6px -8px 12px rgba(0, 0, 0, 0.14),
+    0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.rating-face::before,
+.rating-face::after {
+  content: "";
+  position: absolute;
+  top: 34%;
+  width: 9%;
+  height: 14%;
+  border-radius: 50%;
+  background: #3e2b1d;
+}
+
+.rating-face::before {
+  left: 31%;
+}
+
+.rating-face::after {
+  left: 60%;
+}
+
+.rating-face-large {
+  width: 58px;
+}
+
+.rating-face-mini {
+  width: 18px;
+}
+
+.rating-mouth {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  width: 42%;
+  height: 20%;
+  transform: translateX(-50%);
+}
+
+.value-1 .rating-mouth {
+  top: 66%;
+  width: 43%;
+  border-top: 4px solid var(--rating-mouth);
+  border-radius: 50% 50% 0 0;
+}
+
+.value-2 .rating-mouth {
+  top: 67%;
+  width: 36%;
+  border-top: 3px solid var(--rating-mouth);
+  border-radius: 50% 50% 0 0;
+}
+
+.value-3 .rating-mouth {
+  top: 68%;
+  width: 38%;
+  height: 0;
+  border-top: 3px solid var(--rating-mouth);
+  border-radius: 999px;
+}
+
+.value-4 .rating-mouth {
+  top: 57%;
+  width: 38%;
+  border-bottom: 4px solid var(--rating-mouth);
+  border-radius: 0 0 50% 50%;
+}
+
+.value-5 .rating-mouth {
+  top: 56%;
+  width: 42%;
+  height: 23%;
+  border-radius: 0 0 999px 999px;
+  background: var(--rating-mouth);
+}
+
+.rating-choice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-color: var(--rating-border);
+  background: var(--rating-soft);
+  color: #4f4f4f;
+  padding-inline: 4px;
+}
+
+.rating-choice:hover,
+.rating-choice:focus-visible {
+  border-color: var(--rating-color);
+  color: #303030;
+  box-shadow: 0 0 0 4px var(--rating-soft);
+}
+
+.rating-choice.is-selected {
+  border-color: var(--rating-color);
+  background: var(--rating-color);
+  color: #ffffff;
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.11);
+  transform: translateY(-1px);
+}
+
+.rating-choice.is-selected .rating-face {
+  box-shadow:
+    inset 4px 5px 9px rgba(255, 255, 255, 0.3),
+    inset -6px -8px 12px rgba(0, 0, 0, 0.14),
+    0 0 0 2px rgba(255, 255, 255, 0.58);
+}
+
+.rating-choice-number {
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1;
 }
 
 .text-answer {

@@ -5,6 +5,7 @@ const ENDPOINT_LOCKED_STORAGE_KEY = "korea-dynamic-test-flow-url-locked";
 const ANSWER_STORAGE_KEY = "korea-dynamic-test-answers";
 const SHAREPOINT_LIST_TITLE = "KDTQ Survey Inbox";
 const STRAVA_EMBED_SCRIPT_ID = "strava-embed-script";
+const RATING_SCALE_VALUES = ["1", "2", "3", "4", "5"];
 
 const SURVEY = {
   title: "[May 10th] Korea Dynamic Test Questionnaire",
@@ -166,6 +167,7 @@ function currentScreen() {
 
 function render() {
   const screen = currentScreen();
+  const ratingScale = isRatingScaleScreen(screen);
   const currentStep = state.index + 1;
   const totalSteps = SURVEY.screens.length;
   const progress = currentStep / totalSteps;
@@ -176,12 +178,16 @@ function render() {
   els.content.replaceChildren();
   els.content.scrollTop = 0;
 
-  if (screen.image) {
+  if (screen.image && !ratingScale) {
     const image = document.createElement("img");
-    image.className = `survey-image${isRatingScaleScreen(screen) ? " rating-scale-image" : ""}`;
+    image.className = "survey-image";
     image.src = screen.image;
     image.alt = screen.title;
     els.content.append(image);
+  }
+
+  if (ratingScale) {
+    els.content.append(renderLikingScaleGuide());
   }
 
   if (screen.embed?.type === "StravaRoute") {
@@ -261,7 +267,7 @@ function renderMatrix(screen) {
 
   const wrapper = document.createElement("div");
   wrapper.className = "matrix";
-  const rating = screen.choices.length === 5 && screen.choices.every((choice) => /^\d+$/.test(choice));
+  const rating = isRatingScaleScreen(screen);
 
   const rowEls = [];
 
@@ -278,7 +284,7 @@ function renderMatrix(screen) {
     options.className = `matrix-options${rating ? " rating" : ""}`;
 
     screen.choices.forEach((choice) => {
-      const button = makeChoiceButton(choice, state.answers[row.id] === choice);
+      const button = makeChoiceButton(choice, state.answers[row.id] === choice, rating);
       button.addEventListener("click", () => {
         state.answers[row.id] = choice;
         saveAnswers();
@@ -303,7 +309,7 @@ function renderMatrix(screen) {
 
 function updateChoiceGroup(options, selectedChoice) {
   options.querySelectorAll(".choice").forEach((button) => {
-    const selected = button.textContent === selectedChoice;
+    const selected = (button.dataset.value || button.textContent) === selectedChoice;
     button.classList.toggle("is-selected", selected);
     button.setAttribute("aria-pressed", selected ? "true" : "false");
   });
@@ -342,15 +348,56 @@ function isScreenComplete(screen) {
 function isRatingScaleScreen(screen) {
   return screen.type === "Question.MatrixChoiceGroup"
     && screen.image
-    && screen.choices.length === 5
-    && screen.choices.every((choice, index) => choice === String(index + 1));
+    && RATING_SCALE_VALUES.every((choice, index) => screen.choices[index] === choice);
 }
 
-function makeChoiceButton(label, selected) {
+function renderLikingScaleGuide() {
+  const guide = document.createElement("div");
+  guide.className = "liking-scale-guide";
+  guide.setAttribute("aria-label", "Liking scale from 1 to 5");
+
+  RATING_SCALE_VALUES.forEach((value) => {
+    const item = document.createElement("div");
+    item.className = `liking-level value-${value}`;
+    item.setAttribute("aria-label", `Liking ${value}`);
+
+    const number = document.createElement("span");
+    number.className = "liking-level-number";
+    number.textContent = value;
+
+    item.append(createRatingFace(value, "large"), number);
+    guide.append(item);
+  });
+
+  return guide;
+}
+
+function createRatingFace(value, size) {
+  const face = document.createElement("span");
+  face.className = `rating-face rating-face-${size} value-${value}`;
+  face.setAttribute("aria-hidden", "true");
+
+  const mouth = document.createElement("span");
+  mouth.className = "rating-mouth";
+  face.append(mouth);
+
+  return face;
+}
+
+function makeChoiceButton(label, selected, rating = false) {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = `choice${selected ? " is-selected" : ""}`;
-  button.textContent = label;
+  button.className = `choice${rating ? ` rating-choice value-${label}` : ""}${selected ? " is-selected" : ""}`;
+  button.dataset.value = label;
+  if (rating) {
+    const number = document.createElement("span");
+    number.className = "rating-choice-number";
+    number.textContent = label;
+    button.setAttribute("aria-label", `Liking ${label}`);
+    button.append(createRatingFace(label, "mini"), number);
+  } else {
+    button.textContent = label;
+  }
   button.setAttribute("aria-pressed", selected ? "true" : "false");
   return button;
 }
