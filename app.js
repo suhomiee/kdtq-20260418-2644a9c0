@@ -376,31 +376,16 @@ function renderMatrix(screen) {
 
   screen.rows.forEach((row, rowIndex) => {
     const rowEl = document.createElement("section");
-    rowEl.className = "matrix-row";
+    rowEl.className = `matrix-row${rating ? " is-liking-row" : " is-marker-row"}`;
     rowEl.dataset.rowId = row.id;
 
     const rowTitle = document.createElement("div");
     rowTitle.className = "row-title";
     rowTitle.textContent = row.title;
 
-    const options = document.createElement("div");
-    options.className = `matrix-options${rating ? " rating" : ""}`;
-
-    screen.choices.forEach((choice) => {
-      const button = makeChoiceButton(choice, state.answers[row.id] === choice, rating);
-      button.addEventListener("click", () => {
-        state.answers[row.id] = choice;
-        saveAnswers();
-        updateChoiceGroup(options, choice);
-        updateNavigation(screen);
-        if (rowIndex < rowEls.length - 1) {
-          scrollContentToElement(rowEls[rowIndex + 1]);
-        } else {
-          scrollContentToBottom();
-        }
-      });
-      options.append(button);
-    });
+    const options = rating
+      ? createLikingScale(screen, row, rowIndex, rowEls)
+      : createMarkerScale(screen, row, rowIndex, rowEls);
 
     rowEl.append(rowTitle, options);
     wrapper.append(rowEl);
@@ -410,12 +395,179 @@ function renderMatrix(screen) {
   els.content.append(wrapper);
 }
 
-function updateChoiceGroup(options, selectedChoice) {
-  options.querySelectorAll(".choice").forEach((button) => {
-    const selected = (button.dataset.value || button.textContent) === selectedChoice;
-    button.classList.toggle("is-selected", selected);
-    button.setAttribute("aria-pressed", selected ? "true" : "false");
+function createLikingScale(screen, row, rowIndex, rowEls) {
+  const control = document.createElement("div");
+  control.className = "liking-scale answer-scale";
+
+  const readout = document.createElement("div");
+  readout.className = "scale-readout";
+  const valueText = document.createElement("strong");
+  valueText.className = "scale-value";
+  readout.append(valueText);
+
+  const sliderControl = document.createElement("div");
+  sliderControl.className = "liking-control";
+
+  const range = document.createElement("input");
+  range.className = "liking-range";
+  range.type = "range";
+  range.min = "0";
+  range.max = String(screen.choices.length - 1);
+  range.setAttribute("aria-label", `${row.title} liking answer`);
+
+  const slider = document.createElement("div");
+  slider.className = "face-slider";
+  slider.setAttribute("aria-hidden", "true");
+
+  const rail = document.createElement("div");
+  rail.className = "face-rail";
+
+  const stops = document.createElement("div");
+  stops.className = "face-stops";
+  screen.choices.forEach(() => {
+    stops.append(document.createElement("span"));
   });
+
+  const thumb = createRatingFace("3", "thumb");
+
+  slider.append(rail, stops, thumb);
+  sliderControl.append(range, slider);
+
+  const labels = document.createElement("div");
+  labels.className = "scale-labels numeric";
+  labels.append(makeLabel(screen.choices[0]), makeLabel(screen.choices[screen.choices.length - 1]));
+
+  control.append(readout, sliderControl, labels);
+
+  const selectedIndex = getChoiceIndex(screen.choices, state.answers[row.id]);
+  const initialIndex = selectedIndex >= 0 ? selectedIndex : Math.floor((screen.choices.length - 1) / 2);
+  updateLikingScale(control, screen.choices, initialIndex, selectedIndex >= 0);
+
+  let lastAdvancedChoice = selectedIndex >= 0 ? screen.choices[selectedIndex] : null;
+  const commit = (shouldAdvance) => {
+    const choice = screen.choices[Number(range.value)];
+    commitMatrixAnswer(row.id, choice);
+    updateLikingScale(control, screen.choices, Number(range.value), true);
+    updateNavigation(screen);
+    if (shouldAdvance && lastAdvancedChoice !== choice) {
+      lastAdvancedChoice = choice;
+      advanceMatrixFlow(rowIndex, rowEls);
+    }
+  };
+
+  range.addEventListener("input", () => commit(false));
+  range.addEventListener("change", () => commit(true));
+  range.addEventListener("pointerup", () => commit(true));
+  range.addEventListener("keyup", (event) => {
+    if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "Enter", " "].includes(event.key)) {
+      commit(event.key === "Enter" || event.key === " ");
+    }
+  });
+
+  return control;
+}
+
+function updateLikingScale(control, choices, index, selected) {
+  const safeIndex = Math.max(0, Math.min(index, choices.length - 1));
+  const selectedValue = choices[safeIndex];
+  const range = control.querySelector(".liking-range");
+  const valueText = control.querySelector(".scale-value");
+  const thumb = control.querySelector(".rating-face-thumb");
+  const position = choices.length > 1 ? (safeIndex / (choices.length - 1)) * 100 : 0;
+
+  control.classList.toggle("is-empty", !selected);
+  control.style.setProperty("--pos", `${position}%`);
+  if (range) {
+    range.value = String(safeIndex);
+  }
+  if (valueText) {
+    valueText.textContent = selectedValue;
+  }
+  if (thumb) {
+    choices.forEach((choice) => thumb.classList.remove(`value-${choice}`));
+    thumb.classList.add(`value-${selectedValue}`);
+  }
+}
+
+function createMarkerScale(screen, row, rowIndex, rowEls) {
+  const control = document.createElement("div");
+  control.className = "marker-scale answer-scale";
+
+  const readout = document.createElement("div");
+  readout.className = "scale-readout";
+  const valueText = document.createElement("strong");
+  valueText.className = "scale-value";
+  readout.append(valueText);
+
+  const rail = document.createElement("div");
+  rail.className = "marker-rail";
+  rail.style.setProperty("--count", String(screen.choices.length));
+  rail.setAttribute("role", "radiogroup");
+  rail.setAttribute("aria-label", `${row.title} answer`);
+
+  screen.choices.forEach((choice, choiceIndex) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "marker-button";
+    button.dataset.value = choice;
+    button.setAttribute("role", "radio");
+    button.setAttribute("aria-label", choice);
+    button.addEventListener("click", () => {
+      commitMatrixAnswer(row.id, choice);
+      updateMarkerScale(control, screen.choices, choiceIndex);
+      updateNavigation(screen);
+      advanceMatrixFlow(rowIndex, rowEls);
+    });
+    rail.append(button);
+  });
+
+  const labels = document.createElement("div");
+  labels.className = "scale-labels";
+  labels.append(makeLabel(screen.choices[0]), makeLabel(screen.choices[screen.choices.length - 1]));
+
+  control.append(readout, rail, labels);
+
+  const selectedIndex = getChoiceIndex(screen.choices, state.answers[row.id]);
+  updateMarkerScale(control, screen.choices, selectedIndex);
+
+  return control;
+}
+
+function updateMarkerScale(control, choices, selectedIndex) {
+  const safeIndex = selectedIndex >= 0 ? selectedIndex : -1;
+  const valueText = control.querySelector(".scale-value");
+  control.classList.toggle("is-empty", safeIndex < 0);
+  if (valueText) {
+    valueText.textContent = safeIndex >= 0 ? choices[safeIndex] : "";
+  }
+  control.querySelectorAll(".marker-button").forEach((button, index) => {
+    const selected = index === safeIndex;
+    button.classList.toggle("is-selected", selected);
+    button.setAttribute("aria-checked", selected ? "true" : "false");
+  });
+}
+
+function makeLabel(text) {
+  const label = document.createElement("span");
+  label.textContent = text;
+  return label;
+}
+
+function getChoiceIndex(choices, value) {
+  return choices.findIndex((choice) => choice === value);
+}
+
+function commitMatrixAnswer(rowId, choice) {
+  state.answers[rowId] = choice;
+  saveAnswers();
+}
+
+function advanceMatrixFlow(rowIndex, rowEls) {
+  if (rowIndex < rowEls.length - 1) {
+    scrollContentToElement(rowEls[rowIndex + 1]);
+  } else {
+    scrollContentToBottom();
+  }
 }
 
 function scrollContentToElement(element) {
