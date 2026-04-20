@@ -421,14 +421,20 @@ function renderSubmit() {
 
   const button = document.createElement("button");
   button.type = "button";
-  button.className = "submit-button";
-  button.textContent = state.submitting ? "Submitting..." : state.submitted ? "Submitted" : "Submit";
+  button.className = `submit-button${state.submitting ? " is-submitting" : ""}${state.submitted ? " is-submitted" : ""}`;
   button.disabled = state.submitting || state.submitted;
+  button.setAttribute("aria-busy", state.submitting ? "true" : "false");
   button.addEventListener("click", submitSurvey);
+
+  const buttonLabel = document.createElement("span");
+  buttonLabel.className = "submit-button-label";
+  buttonLabel.textContent = state.submitting ? "Submitting..." : state.submitted ? "Submitted" : "Submit";
+  button.append(buttonLabel);
 
   const status = document.createElement("div");
   status.className = `submit-status${state.submitError ? " error" : ""}`;
   status.id = "submitStatus";
+  status.setAttribute("aria-live", "polite");
   status.textContent = state.submitMessage;
 
   els.content.append(copy, button, status);
@@ -464,7 +470,7 @@ async function submitSurvey() {
   }
 
   state.submitting = true;
-  state.submitMessage = "";
+  state.submitMessage = "Saving to Excel. Please wait.";
   state.submitError = false;
   render();
 
