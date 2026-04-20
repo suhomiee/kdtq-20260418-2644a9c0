@@ -6,6 +6,7 @@ const ANSWER_STORAGE_KEY = "korea-dynamic-test-answers";
 const SHAREPOINT_LIST_TITLE = "KDTQ Survey Inbox";
 const STRAVA_EMBED_SCRIPT_ID = "strava-embed-script";
 const RATING_SCALE_VALUES = ["1", "2", "3", "4", "5"];
+const KOREA_TIME_ZONE = "Asia/Seoul";
 
 const SURVEY = {
   title: "[May 10th] Korea Dynamic Test Questionnaire",
@@ -579,7 +580,9 @@ function updateSubmitStatus(message, isError) {
 }
 
 function buildPayload() {
-  const submittedAt = new Date().toISOString();
+  const submittedDate = new Date();
+  const submittedAt = formatKoreaTimestamp(submittedDate);
+  const submittedAtUtc = submittedDate.toISOString();
   const responseId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
   const flatRows = [];
   const answersByQuestion = {};
@@ -642,6 +645,7 @@ function buildPayload() {
     schemaVersion: "2026-04-18.1",
     responseId,
     submittedAt,
+    submittedAtUtc,
     formTitle: SURVEY.title,
     sourceFormUrl: SOURCE_FORM_URL,
     answerRowCount: flatRows.length,
@@ -655,6 +659,26 @@ function buildPayload() {
     flatRows,
     surveyDbRow
   };
+}
+
+function formatKoreaTimestamp(date) {
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: KOREA_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23"
+  });
+  const parts = Object.fromEntries(
+    formatter
+      .formatToParts(date)
+      .filter((part) => part.type !== "literal")
+      .map((part) => [part.type, part.value])
+  );
+  return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}:${parts.second} KST`;
 }
 
 function cleanHeader(value) {
