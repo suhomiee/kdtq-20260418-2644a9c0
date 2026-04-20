@@ -478,6 +478,7 @@ textarea {
   max-width: 560px;
   display: grid;
   gap: 12px;
+  margin-inline: auto;
   padding-top: 4px;
 }
 
