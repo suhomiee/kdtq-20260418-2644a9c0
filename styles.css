@@ -54,6 +54,10 @@ textarea {
   letter-spacing: 0;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .stage {
   min-height: 100svh;
   display: grid;
@@ -95,6 +99,12 @@ textarea {
   opacity: 0.18;
 }
 
+.phone.is-start {
+  grid-template-rows: auto auto;
+  align-content: center;
+  row-gap: 22px;
+}
+
 .profile-button {
   position: absolute;
   z-index: 1;
@@ -109,11 +119,6 @@ textarea {
   background: transparent;
   color: #686868;
   cursor: pointer;
-}
-
-.profile-button[hidden],
-.settings[hidden] {
-  display: none !important;
 }
 
 .profile-button svg {
@@ -133,7 +138,13 @@ textarea {
   padding-top: 70px;
 }
 
+.phone.is-start .masthead {
+  padding-top: 0;
+  text-align: center;
+}
+
 .kicker {
+  display: none;
   margin: 0 0 36px;
   font-size: 22px;
   font-weight: 850;
@@ -150,6 +161,13 @@ textarea {
   line-height: 1.2;
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+.phone.is-start #screenTitle {
+  color: var(--ink);
+  font-size: clamp(34px, 8vw, 58px);
+  font-weight: 880;
+  line-height: 1.02;
 }
 
 .progress-track {
@@ -181,6 +199,14 @@ textarea {
   scrollbar-width: none;
 }
 
+.phone.is-start .content {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  padding-top: 0;
+  text-align: center;
+}
+
 .content::-webkit-scrollbar {
   display: none;
 }
@@ -210,12 +236,51 @@ textarea {
 
 .survey-image-frame {
   position: relative;
-  width: 100%;
-  min-height: clamp(150px, 31svh, 260px);
-  margin: 0 auto 18px;
+  width: min(56%, 220px);
+  min-height: clamp(82px, 15svh, 130px);
+  margin: 0 auto 12px;
   overflow: hidden;
   border-radius: 8px;
   background: #f4f4f4;
+}
+
+.start-panel {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  width: min(100%, 390px);
+}
+
+.start-copy {
+  max-width: 330px;
+  margin: 0;
+  color: #5d5d5d;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.primary-action {
+  width: min(100%, 320px);
+  min-height: 48px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #ffffff;
+  padding: 0 24px;
+  font-size: 14px;
+  font-weight: 850;
+  cursor: pointer;
+  box-shadow: 0 16px 32px rgba(0, 112, 112, 0.18);
+}
+
+.primary-action:focus-visible {
+  outline: 3px solid rgba(0, 112, 112, 0.22);
+  outline-offset: 4px;
+}
+
+.phone.is-agreement .primary-action {
+  margin-top: 4px;
 }
 
 .survey-image-frame.is-loaded {
@@ -711,6 +776,12 @@ textarea.text-answer {
   min-height: 112px;
 }
 
+.bottom-nav.no-actions .footer-progress {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 0;
+}
+
 .footer-progress {
   width: calc(100% - 132px);
   max-width: calc(100% - 132px);
@@ -730,7 +801,7 @@ textarea.text-answer {
 .nav-actions {
   position: absolute;
   right: 0;
-  bottom: 28px;
+  bottom: 38px;
   display: inline-flex;
   gap: 10px;
 }
@@ -883,7 +954,9 @@ textarea.text-answer {
   }
 
   .survey-image-frame {
-    min-height: clamp(220px, 34svh, 360px);
+    width: min(52%, 340px);
+    max-width: 340px;
+    min-height: clamp(120px, 20svh, 190px);
   }
 
   .strava-route-card {
@@ -955,8 +1028,9 @@ textarea.text-answer {
   }
 
   .survey-image-frame {
-    max-width: 780px;
-    min-height: clamp(240px, 36svh, 380px);
+    width: min(50%, 390px);
+    max-width: 390px;
+    min-height: clamp(130px, 22svh, 210px);
   }
 
   .strava-route-card {
@@ -1015,8 +1089,25 @@ textarea.text-answer {
     padding-left: max(26px, env(safe-area-inset-left));
   }
 
+  .phone.is-start {
+    padding-right: max(30px, env(safe-area-inset-right));
+    padding-left: max(30px, env(safe-area-inset-left));
+  }
+
+  .phone.is-start #screenTitle {
+    font-size: clamp(34px, 12vw, 50px);
+  }
+
   .profile-button {
     right: max(22px, env(safe-area-inset-right));
+  }
+
+  .bottom-nav {
+    min-height: 128px;
+  }
+
+  .nav-actions {
+    bottom: max(58px, calc(env(safe-area-inset-bottom) + 36px));
   }
 
   .matrix-options {
@@ -1057,6 +1148,20 @@ textarea.text-answer {
   }
 
   .nav-actions {
-    bottom: 16px;
+    bottom: 28px;
+  }
+}
+
+@media (max-width: 520px) and (max-height: 720px) {
+  .phone {
+    grid-template-rows: auto minmax(0, 1fr) 104px;
+  }
+
+  .bottom-nav {
+    min-height: 104px;
+  }
+
+  .nav-actions {
+    bottom: max(42px, calc(env(safe-area-inset-bottom) + 28px));
   }
 }
