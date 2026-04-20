@@ -38,7 +38,10 @@ body {
 
 body {
   margin: 0;
-  background: var(--canvas);
+  background:
+    linear-gradient(180deg, rgba(11, 20, 19, 0.16), rgba(11, 20, 19, 0.34)),
+    url("./assets/page-background.avif") center / cover fixed,
+    var(--canvas);
   color: var(--ink);
   font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   letter-spacing: 0;
@@ -838,9 +841,157 @@ textarea.text-answer {
   color: #ffffff;
 }
 
-@media (min-width: 760px) {
+@media (min-width: 700px) and (max-width: 1023px) {
+  .stage {
+    padding: clamp(18px, 4vw, 40px);
+  }
+
   .phone {
-    width: min(420px, calc(100vw - 80px));
+    width: min(760px, calc(100vw - 48px));
+    height: min(980px, calc(100svh - 48px));
+    min-height: min(760px, calc(100svh - 48px));
+    padding-right: clamp(44px, 7vw, 72px);
+    padding-left: clamp(44px, 7vw, 72px);
+    grid-template-rows: auto minmax(0, 1fr) 112px;
+    border-radius: 28px;
+  }
+
+  .masthead {
+    padding-top: clamp(48px, 6svh, 76px);
+  }
+
+  .kicker {
+    margin-bottom: 36px;
+    font-size: clamp(24px, 2.6vw, 28px);
+  }
+
+  #screenTitle {
+    max-width: 720px;
+    font-size: clamp(20px, 2.1vw, 24px);
+    line-height: 1.18;
+  }
+
+  .content {
+    padding-top: 8px;
+  }
+
+  .question-copy,
+  .submit-copy {
+    max-width: 680px;
+    font-size: 16px;
+    line-height: 1.52;
+  }
+
+  .survey-image-frame {
+    min-height: clamp(220px, 34svh, 360px);
+  }
+
+  .strava-route-card {
+    min-height: clamp(460px, 56svh, 640px);
+  }
+
+  .text-answer {
+    min-height: 54px;
+    font-size: 16px;
+  }
+
+  textarea.text-answer {
+    min-height: 180px;
+  }
+
+  .matrix {
+    gap: 26px;
+  }
+
+  .matrix-options {
+    gap: 12px;
+  }
+
+  .choice {
+    min-height: 46px;
+    padding: 0 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .stage {
+    padding: 36px 48px;
+  }
+
+  .phone {
+    width: min(960px, calc(100vw - 96px));
+    height: min(900px, calc(100svh - 72px));
+    min-height: min(720px, calc(100svh - 72px));
+    padding-right: clamp(58px, 6vw, 78px);
+    padding-left: clamp(58px, 6vw, 78px);
+    grid-template-rows: auto minmax(0, 1fr) 116px;
+    border-radius: 28px;
+  }
+
+  .masthead {
+    padding-top: clamp(50px, 7svh, 78px);
+  }
+
+  .kicker {
+    margin-bottom: 40px;
+    font-size: 28px;
+  }
+
+  #screenTitle {
+    max-width: 780px;
+    font-size: 23px;
+    line-height: 1.18;
+  }
+
+  .content {
+    padding: 8px 4px 10px;
+  }
+
+  .question-copy,
+  .submit-copy {
+    max-width: 760px;
+    font-size: 16px;
+    line-height: 1.52;
+  }
+
+  .survey-image-frame {
+    max-width: 780px;
+    min-height: clamp(240px, 36svh, 380px);
+  }
+
+  .strava-route-card {
+    min-height: clamp(480px, 58svh, 660px);
+  }
+
+  .text-answer {
+    min-height: 56px;
+    font-size: 16px;
+  }
+
+  textarea.text-answer {
+    min-height: 190px;
+  }
+
+  .matrix {
+    gap: 28px;
+  }
+
+  .matrix-options {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .matrix-options.rating {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .choice {
+    min-height: 48px;
+    padding: 0 18px;
+  }
+
+  .bottom-nav {
+    min-height: 116px;
   }
 }
 
