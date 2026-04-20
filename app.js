@@ -7,16 +7,18 @@ const SHAREPOINT_LIST_TITLE = "KDTQ Survey Inbox";
 const STRAVA_EMBED_SCRIPT_ID = "strava-embed-script";
 const RATING_SCALE_VALUES = ["1", "2", "3", "4", "5"];
 const KOREA_TIME_ZONE = "Asia/Seoul";
-const START_SCREEN_TITLE = "[May 10th] Korea Dynamic Test Questionnaire";
+const START_SCREEN_TITLE = "Korea Dynamic Test Questionnaire";
+const START_SCREEN_DATE = "Test Date : May 10th, 2026";
 
 const SURVEY = {
-  title: "[May 10th] Korea Dynamic Test Questionnaire",
+  title: START_SCREEN_TITLE,
   description: "Product Testing Confidentiality Agreement\nFOR PRODUCT TESTERS\n\n I hereby agree to comply with the following terms regarding product testing for TKG Taekwang and Nike (hereinafter referred to as \"the Company\").\nAs part of my responsibilities as a product tester, I will soon receive confidential information and company-owned products related to the product. I acknowledge that all information and products related to the test are owned by the Company and are considered confidential.\n\nAll information related to the product that I receive (including technical or other information, UI, and other product photos and images) must always be treated as confidential. I am prohibited from disclosing this information to unauthorized third parties or in any other form, and failure to return the products or information constitutes a breach of the confidentiality agreement with the Company. This applies even if the materials are not explicitly marked as \"confidential.\"\n\nBy reading and signing this agreement, I confirm that I understand the information and products related to the test are confidential to the Company. I also acknowledge that unauthorized disclosure could cause irreparable harm to the Company and its business. I pledge to this confidentiality agreement and understand that any breach may result in civil and criminal liability under relevant laws, including the Unfair Competition Prevention and Trade Secret Protection Act.",
   screens: [
     {
       id: "start",
       type: "Start",
       title: START_SCREEN_TITLE,
+      testDate: START_SCREEN_DATE,
       subtitle: "",
       choices: []
     },
@@ -118,6 +120,7 @@ const els = {
   phone: document.querySelector(".phone"),
   kicker: document.getElementById("kicker"),
   title: document.getElementById("screenTitle"),
+  meta: document.getElementById("screenMeta"),
   progress: document.getElementById("progressBar"),
   progressCount: document.getElementById("progressCount"),
   content: document.getElementById("content"),
@@ -191,6 +194,8 @@ function render() {
   els.kicker.hidden = true;
   els.kicker.textContent = "";
   els.title.textContent = screen.title;
+  els.meta.hidden = !screen.testDate;
+  els.meta.textContent = screen.testDate || "";
   els.progress.style.width = `${Math.max(4, Math.round(progress * 100))}%`;
   els.progressCount.textContent = `${Math.max(1, currentStep)}/${totalSteps}`;
   els.content.replaceChildren();
