@@ -417,7 +417,7 @@ function makeChoiceButton(label, selected, rating = false) {
 function renderSubmit() {
   const copy = document.createElement("p");
   copy.className = "submit-copy";
-  copy.textContent = "Your response will be saved automatically to the Excel Online response table.";
+  copy.textContent = "Please submit your response when you are ready.";
 
   const button = document.createElement("button");
   button.type = "button";
@@ -465,12 +465,12 @@ async function submitSurvey() {
   }
 
   if (!canUseSharePointBackend() && !getEndpoint()) {
-    updateSubmitStatus("Submission is not connected yet. Please contact the survey administrator.", true);
+    updateSubmitStatus("Submission is not available right now. Please contact the survey administrator.", true);
     return;
   }
 
   state.submitting = true;
-  state.submitMessage = "Saving to Excel. Please wait.";
+  state.submitMessage = "Sending your response. Please wait.";
   state.submitError = false;
   render();
 
@@ -481,11 +481,11 @@ async function submitSurvey() {
     if (canUseSharePointBackend()) {
       await submitToSharePoint(payload);
       state.submitted = true;
-      state.submitMessage = "Submitted. Thank you.";
+      state.submitMessage = "Your response has been submitted. Thank you.";
     } else {
       await submitToPowerAutomate(body);
       state.submitted = true;
-      state.submitMessage = "Submitted. Thank you.";
+      state.submitMessage = "Your response has been submitted. Thank you.";
     }
     localStorage.removeItem(ANSWER_STORAGE_KEY);
   } catch (error) {
@@ -495,11 +495,11 @@ async function submitSurvey() {
       : false;
     if (sent) {
       state.submitted = true;
-      state.submitMessage = "Submitted. Thank you.";
+      state.submitMessage = "Your response has been submitted. Thank you.";
       localStorage.removeItem(ANSWER_STORAGE_KEY);
     } else {
       state.submitError = true;
-      state.submitMessage = `Submit failed: ${error.message}`;
+      state.submitMessage = `Submission could not be completed. Please try again. (${error.message})`;
     }
   } finally {
     state.submitting = false;
