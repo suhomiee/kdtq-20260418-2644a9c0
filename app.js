@@ -9,6 +9,7 @@ const RATING_SCALE_VALUES = ["1", "2", "3", "4", "5"];
 const KOREA_TIME_ZONE = "Asia/Seoul";
 const START_SCREEN_TITLE = "Korea Dynamic Test Questionnaire";
 const START_SCREEN_DATE = "Test Date : May 10th, 2026";
+const SCALE_TONE_QUALITY = "quality";
 
 const SURVEY = {
   title: START_SCREEN_TITLE,
@@ -52,7 +53,7 @@ const SURVEY = {
     },
     { id: "ref10a028774947e4b02ebad4c50c8406", type: "Question.TextField", title: "Please enter your name.", subtitle: null, image: null, choices: [] },
     { id: "r8cd399d5613b4743866237999b83cbc8", type: "Question.TextField", title: "Which trail shoe do you normally use?", subtitle: null, image: null, choices: [] },
-    { id: "r59ead437294c42b49564b9eedb65d6d7", type: "Question.TextField", title: "What is a typical distance for a single trail running session?", subtitle: null, image: null, choices: [] },
+    scaleChoice("r59ead437294c42b49564b9eedb65d6d7", "What is a typical distance for a single trail running session?", ["5 km or less", "5-10 km", "10-15 km", "15-20 km", "20 km or more"]),
     {
       id: "r3d10b34d304b4cad916178bf6f6ac709",
       type: "Question.ColumnGroup",
@@ -61,13 +62,13 @@ const SURVEY = {
       image: null,
       choices: []
     },
-    matrix("r16976ac35d7f49d99d8b0132ab661fd0", "Is the foot entry easy on and off without tugging?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/c6370e2b-88f9-48eb-a183-2038612629d1", ["Very Difficult", "Moderately Difficult", "Somewhat Difficult", "Somewhat Easy", "Moderately Easy", "Very Easy"], [["r8f2a5c8845ce4fdda8e19cc52c7db96d", "OPTION A"], ["rce49158180f14ca78e86a27f128ee43a", "OPTION B"]]),
-    matrix("r2744e21e248e4dccb3c4c2b5fca61579", "How securely does the lace stay tied?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/add69936-2c47-410d-95cf-f862eab377dc", ["Very Insecure", "Moderately Insecure", "Somewhat Insecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], [["ra83ab2913b2d4e65b3f02e84e5827d23", "OPTION A"], ["ra001992c51a14744ba59903010a402ab", "OPTION B"]], "Does the lace stay tied securely?"),
+    matrix("r16976ac35d7f49d99d8b0132ab661fd0", "Is the foot entry easy on and off without tugging?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/c6370e2b-88f9-48eb-a183-2038612629d1", ["Very Difficult", "Moderately Difficult", "Somewhat Difficult", "Somewhat Easy", "Moderately Easy", "Very Easy"], [["r8f2a5c8845ce4fdda8e19cc52c7db96d", "OPTION A"], ["rce49158180f14ca78e86a27f128ee43a", "OPTION B"]], null, SCALE_TONE_QUALITY),
+    matrix("r2744e21e248e4dccb3c4c2b5fca61579", "How securely does the lace stay tied?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/add69936-2c47-410d-95cf-f862eab377dc", ["Very Insecure", "Moderately Insecure", "Somewhat Insecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], [["ra83ab2913b2d4e65b3f02e84e5827d23", "OPTION A"], ["ra001992c51a14744ba59903010a402ab", "OPTION B"]], "Does the lace stay tied securely?", SCALE_TONE_QUALITY),
     matrix("r1e7b3f177eda44de86224bb54e973a40", "How do you feel about the shoe length?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/b831bfc1-f144-47db-b50c-77d4a56f1cf1", ["Very Short", "Moderately Short", "Somewhat Short", "Just Right", "Somewhat Long", "Moderately Long", "Very Long"], [["r8899cd5a7b2d42478ded61fa6c3055c4", "OPTION A"], ["r584ce29342424e6694710ec887da8d94", "OPTION B"]]),
-    matrix("r013287f922ba4e429bd5fe5b1c218304", "How do you feel about the upper comfort without any irritation, discomfort or stiffness?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/e27147ba-2d52-4450-875f-3d04ea3967aa", ["Very Uncomfortable", "Moderately Uncomfortable", "Somewhat Uncomfortable", "Somewhat Comfortable", "Moderately Comfortable", "Very Comfortable"], [["re54897cc451c495ea72fa31cbeac7e20", "OPTION A"], ["ra952f436ea6b4a2792cb2812d9f12c38", "OPTION B"]], "Does the upper provide a right comfort without any irritation, discomfort or stiffness?"),
-    matrix("r29dc41bb1b964699a1b8851c47d0cb17", "How do you feel about the upper breathability for your running purpose?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/500d41cd-6e5a-46f3-acbf-8ba2fa7dcab4", ["Not Breathable", "Moderately Not Breathable", "Somewhat Not Breathable", "Somewhat Breathable", "Moderately Breathable", "Very Breathable"], [["r5707237fe19c4abcba536fa92fe94fdc", "OPTION A"], ["r86f2ab1c530a4f43a29b677e63d44f77", "OPTION B"]], "Does the upper provide a right breathability to meet your running purpose?"),
-    matrix("r461f5e8e86af4f15839b89eb92655a42", "How do you feel about the upper's secure hold without being too tight or loose?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/71a63305-4b19-416d-9bfa-62e552b6bb78", ["Very Insecure", "Moderately Insecure", "Somewhat Insecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], [["r68443dfa5b4848e6bf1269293c5de1b2", "OPTION A"], ["r8fe377c38e7a4996ae327a6c20b1afc7", "OPTION B"]], "Does the upper hug your foot securely without being too tight or loose?"),
-    matrix("rd10683a1626d4f49bca7fe8d39fa1fc9", "How do you feel about the shoe weight for your running purpose?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/dc22a5aa-ab80-4baa-b660-92ec9c431589", ["Very Heavy", "Moderately Heavy", "Somewhat  Right", "Somewhat Light", "Moderately Light", "Very Light"], [["r9925678be167492c9a604fb1ff5c8b23", "OPTION A"], ["r91c84aa60c304e33bd7fac67363fbef6", "OPTION B"]], "Does the shoe have a right weight to meet your running purpose?"),
+    matrix("r013287f922ba4e429bd5fe5b1c218304", "How do you feel about the upper comfort?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/e27147ba-2d52-4450-875f-3d04ea3967aa", ["Very Uncomfortable", "Moderately Uncomfortable", "Somewhat Uncomfortable", "Somewhat Comfortable", "Moderately Comfortable", "Very Comfortable"], [["re54897cc451c495ea72fa31cbeac7e20", "OPTION A"], ["ra952f436ea6b4a2792cb2812d9f12c38", "OPTION B"]], "Does the upper provide a right comfort without any irritation, discomfort or stiffness?", SCALE_TONE_QUALITY),
+    matrix("r29dc41bb1b964699a1b8851c47d0cb17", "How do you feel about the upper breathability for your running purpose?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/500d41cd-6e5a-46f3-acbf-8ba2fa7dcab4", ["Not Breathable", "Moderately Not Breathable", "Somewhat Not Breathable", "Somewhat Breathable", "Moderately Breathable", "Very Breathable"], [["r5707237fe19c4abcba536fa92fe94fdc", "OPTION A"], ["r86f2ab1c530a4f43a29b677e63d44f77", "OPTION B"]], "Does the upper provide a right breathability to meet your running purpose?", SCALE_TONE_QUALITY),
+    matrix("r461f5e8e86af4f15839b89eb92655a42", "How do you feel about the upper security?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/71a63305-4b19-416d-9bfa-62e552b6bb78", ["Very Insecure", "Moderately Insecure", "Somewhat Insecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], [["r68443dfa5b4848e6bf1269293c5de1b2", "OPTION A"], ["r8fe377c38e7a4996ae327a6c20b1afc7", "OPTION B"]], "Does the upper hug your foot securely without being too tight or loose?", SCALE_TONE_QUALITY),
+    matrix("rd10683a1626d4f49bca7fe8d39fa1fc9", "How do you feel about the shoe weight?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/dc22a5aa-ab80-4baa-b660-92ec9c431589", ["Very Heavy", "Moderately Heavy", "Somewhat Heavy", "Somewhat Light", "Moderately Light", "Very Light"], [["r9925678be167492c9a604fb1ff5c8b23", "OPTION A"], ["r91c84aa60c304e33bd7fac67363fbef6", "OPTION B"]], "Does the shoe have a right weight to meet your running purpose?", SCALE_TONE_QUALITY),
     { id: "rab281cb9c61242179a1b6a77c7b1f813", type: "Question.TextField", title: "Please share your thoughts about the most impressive aspects of initial step-in feel or areas that need improvement.", subtitle: null, image: null, choices: [] },
     {
       id: "r406205423cb14e10b0f46ceebebb7517",
@@ -77,23 +78,23 @@ const SURVEY = {
       image: null,
       choices: []
     },
-    matrix("rae32dae17f8a478b8f720824f85d8da9", "How do you feel about the heel cushioning, from soft to firm?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/ac74acb0-74e9-46d2-895f-884f7412c962", ["Very Soft", "Moderately Soft", "Somewhat Soft", "Somewhat Firm", "Moderately Firm", "Very Firm"], [["rf7e4c5a6dae447be8d53dd14f9bd5ca6", "OPTION A"], ["r89f60ea45e704c338e504ba001a12d69", "OPTION B"]], "Does the heel provide a right cushioning without being too soft or firm?"),
+    matrix("rae32dae17f8a478b8f720824f85d8da9", "How do you feel about the heel cushioning?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/ac74acb0-74e9-46d2-895f-884f7412c962", ["Very Soft", "Moderately Soft", "Somewhat Soft", "Somewhat Firm", "Moderately Firm", "Very Firm"], [["rf7e4c5a6dae447be8d53dd14f9bd5ca6", "OPTION A"], ["r89f60ea45e704c338e504ba001a12d69", "OPTION B"]], "Does the heel provide a right cushioning without being too soft or firm?"),
     matrix("rf533f683c7fb4104b012d5d01cb3640d", "How do you like the heel cushioning?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/122f725f-40a2-4187-8ee0-922439c6366f", ["1", "2", "3", "4", "5"], [["r8a737a1f08ef4b009b13d746ef069de1", "OPTION A"], ["r425e5142dfbb423faec6173d2670ee09", "OPTION B"]]),
     matrix("rcfabeb2948a044c58c7786b542b4c9f4", "How do you feel about the forefoot cushioning, from soft to firm?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/e08de02e-f779-424e-8ad1-bfd3ed642b9c", ["Very Soft", "Moderately Soft", "Somewhat Soft", "Somewhat Firm", "Moderately Firm", "Very Firm"], [["ra612c6af5d72492280ddc1a6ef39133d", "OPTION A"], ["r2a014b0a1d504d4e801c862ca6fdd1b3", "OPTION B"]], "Does the forefoot provide a right cushioning without being too soft or firm?"),
     matrix("r0a748c7cc2bd4162afc5705d7a969ccb", "How do you like the forefoot cushioning?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/fb983e99-9032-4413-aeb5-72847996fedc", ["1", "2", "3", "4", "5"], [["r2f0e9f3c7c974e8d830964ce8ca86c1e", "OPTION A"], ["r8df4825c475542d1ad4d15260869b928", "OPTION B"]]),
-    matrix("rad0549bcfd794b02ad2d92ac7d105434", "How do you feel about the shoe responsiveness, from dead to springy?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/35920349-3618-4228-9dd1-9ce4e00af5a8", ["Very Dead", "Moderately Dead", "Somewhat Dead", "Somewhat Springy", "Moderately Springy", "Very Springy"], [["r7562e76f90e54ae7bfad32be55d9a20c", "OPTION A"], ["rc2dadc72b56243e0b8fa9bf3fc144a95", "OPTION B"]], "Does the midsole provide a right responsiveness without being flat and dead?"),
-    matrix("r0441f8eeb105498cb4979a0e65354f59", "How do you like the responsiveness?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/8a7d9c41-fa6d-45c7-9c50-26b486302e0a", ["1", "2", "3", "4", "5"], [["rba7aff53824545938ad3e4f208c0525b", "OPTION A"], ["r0d1d4ef37ba04642b582b0862d69f580", "OPTION B"]]),
-    matrix("r9ed97752500a4c1fb1fe2895a59b1f18", "How do you feel about the stability at ground contact?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/3ca0d492-2057-414c-acb1-68394581a2da", ["Very Unstable", "Moderately Unstable", "Somewhat Unstable", "Somewhat Stable", "Moderately Stable", "Very Stable"], [["rc2b4c0008806493f801b12756d894925", "OPTION A"], ["r1c7ca7ffb61545c3b81d8f561fa805db", "OPTION B"]]),
+    matrix("rad0549bcfd794b02ad2d92ac7d105434", "How do you feel about the shoe's energy return?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/35920349-3618-4228-9dd1-9ce4e00af5a8", ["Very Dead", "Moderately Dead", "Somewhat Dead", "Somewhat Springy", "Moderately Springy", "Very Springy"], [["r7562e76f90e54ae7bfad32be55d9a20c", "OPTION A"], ["rc2dadc72b56243e0b8fa9bf3fc144a95", "OPTION B"]], "Does the midsole provide a right responsiveness without being flat and dead?", SCALE_TONE_QUALITY),
+    matrix("r0441f8eeb105498cb4979a0e65354f59", "How do you like the energy return?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/8a7d9c41-fa6d-45c7-9c50-26b486302e0a", ["1", "2", "3", "4", "5"], [["rba7aff53824545938ad3e4f208c0525b", "OPTION A"], ["r0d1d4ef37ba04642b582b0862d69f580", "OPTION B"]], "How do you like the responsiveness?"),
+    matrix("r9ed97752500a4c1fb1fe2895a59b1f18", "How do you feel about the stability at ground contact?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/3ca0d492-2057-414c-acb1-68394581a2da", ["Very Unstable", "Moderately Unstable", "Somewhat Unstable", "Somewhat Stable", "Moderately Stable", "Very Stable"], [["rc2b4c0008806493f801b12756d894925", "OPTION A"], ["r1c7ca7ffb61545c3b81d8f561fa805db", "OPTION B"]], null, SCALE_TONE_QUALITY),
     matrix("r5da4c7fd9702401ab5bebad50f5b78ff", "How do you like the stability?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/a36f43b1-6c3a-4c5e-b077-c8a650ac645a", ["1", "2", "3", "4", "5"], [["r7f4ae99bcc904d8caf5e8b6baf90c865", "OPTION A"], ["r36c7094964a944db81a5b042ad54a4b2", "OPTION B"]]),
-    matrix("rb4ea1f79459140ec97027ad889f0ad28", "How do you feel about the underfoot protection when running on uneven terrain?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/263af8e4-a742-4bf0-8ac0-496a148a8820", ["Very Unprotective", "Moderately Unprotective", "Somewhat Unprotective", "Somewhat Protective", "Moderately Protective", "Very Protective"], [["r5cf7e6603c21479d9be3857b55ff9ab4", "OPTION A"], ["rb556f313b0eb4fffa3cc5ff6e5b99dcd", "OPTION B"]]),
-    matrix("r6f49a0fd33294fb6b28d0c08ff099ab1", "How do you feel about the outsole's traction on uneven terrain?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/2b6393af-8dd4-493e-9c2b-e66f45d3d9ae", ["Very Slippery", "Moderately Slippery", "Somewhat Slippery", "Somewhat Grippy", "Moderately Grippy", "Very Grippy"], [["r36596c6ea4d841b6acb81b297c08a51f", "OPTION A"], ["r25a05d7025c947d5abced137cdd997a7", "OPTION B"]]),
+    matrix("rb4ea1f79459140ec97027ad889f0ad28", "How do you feel about the underfoot protection when running on uneven terrain?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/263af8e4-a742-4bf0-8ac0-496a148a8820", ["Very Unprotective", "Moderately Unprotective", "Somewhat Unprotective", "Somewhat Protective", "Moderately Protective", "Very Protective"], [["r5cf7e6603c21479d9be3857b55ff9ab4", "OPTION A"], ["rb556f313b0eb4fffa3cc5ff6e5b99dcd", "OPTION B"]], null, SCALE_TONE_QUALITY),
+    matrix("r6f49a0fd33294fb6b28d0c08ff099ab1", "How do you feel about the outsole's traction on uneven terrain?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/2b6393af-8dd4-493e-9c2b-e66f45d3d9ae", ["Very Slippery", "Moderately Slippery", "Somewhat Slippery", "Somewhat Grippy", "Moderately Grippy", "Very Grippy"], [["r36596c6ea4d841b6acb81b297c08a51f", "OPTION A"], ["r25a05d7025c947d5abced137cdd997a7", "OPTION B"]], null, SCALE_TONE_QUALITY),
     matrix("r5d4f3001bcd54a539e77baa293db2874", "How do you like the underfoot protection?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/0423aee4-7dd6-4b91-9532-887a19b75c95", ["1", "2", "3", "4", "5"], [["r2c8b417145544ee6b17696ba92b1aa38", "OPTION A"], ["r64941770173a4147a9659e2d55153870", "OPTION B"]]),
     { id: "r10ff47a33eec45f0a524c2b66cf3e4b1", type: "Question.TextField", title: "Please share your thoughts about the most impressive aspects of underfoot or areas that need improvement.", subtitle: null, image: null, choices: [] },
     { id: "submit", type: "Submit", title: "Submit Response", subtitle: null, image: null, choices: [] }
   ]
 };
 
-function matrix(id, title, subtitle, image, choices, rows, legacyTitle = null) {
+function matrix(id, title, subtitle, image, choices, rows, legacyTitle = null, scaleTone = "neutral") {
   return {
     id,
     type: "Question.MatrixChoiceGroup",
@@ -102,7 +103,20 @@ function matrix(id, title, subtitle, image, choices, rows, legacyTitle = null) {
     subtitle,
     image,
     choices,
+    scaleTone,
     rows: rows.map(([rowId, rowTitle]) => ({ id: rowId, title: rowTitle }))
+  };
+}
+
+function scaleChoice(id, title, choices, scaleTone = "neutral") {
+  return {
+    id,
+    type: "Question.ScaleChoice",
+    title,
+    subtitle: null,
+    image: null,
+    choices,
+    scaleTone
   };
 }
 
@@ -219,6 +233,8 @@ function render() {
     els.content.append(renderText(screen.subtitle || "", "question-copy intro"));
   } else if (screen.type === "Question.TextField") {
     renderTextField(screen);
+  } else if (screen.type === "Question.ScaleChoice") {
+    renderScaleChoice(screen);
   } else if (screen.type === "Question.MatrixChoiceGroup") {
     renderMatrix(screen);
   } else if (screen.type === "Submit") {
@@ -359,6 +375,17 @@ function renderTextField(screen) {
   els.content.append(field);
 }
 
+function renderScaleChoice(screen) {
+  if (screen.subtitle) {
+    els.content.append(renderText(screen.subtitle, "question-copy"));
+  }
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "single-scale";
+  wrapper.append(createMarkerScale(screen, { id: screen.id, title: screen.title }, 0, []));
+  els.content.append(wrapper);
+}
+
 function renderMatrix(screen) {
   if (screen.subtitle) {
     els.content.append(renderText(screen.subtitle, "question-copy"));
@@ -487,7 +514,8 @@ function updateLikingScale(control, choices, index, selected) {
 
 function createMarkerScale(screen, row, rowIndex, rowEls) {
   const control = document.createElement("div");
-  control.className = "marker-scale answer-scale";
+  control.className = `marker-scale answer-scale${screen.scaleTone === SCALE_TONE_QUALITY ? " is-quality-scale" : ""}`;
+  control.dataset.scaleTone = screen.scaleTone || "neutral";
 
   const readout = document.createElement("div");
   readout.className = "scale-readout";
@@ -523,7 +551,7 @@ function createMarkerScale(screen, row, rowIndex, rowEls) {
 
   control.append(readout, rail, labels);
 
-  const selectedIndex = getChoiceIndex(screen.choices, state.answers[row.id]);
+  const selectedIndex = getChoiceIndex(screen.choices, getStoredChoiceAnswer(screen, row.id));
   updateMarkerScale(control, screen.choices, selectedIndex);
 
   return control;
@@ -533,6 +561,14 @@ function updateMarkerScale(control, choices, selectedIndex) {
   const safeIndex = selectedIndex >= 0 ? selectedIndex : -1;
   const valueText = control.querySelector(".scale-value");
   control.classList.toggle("is-empty", safeIndex < 0);
+  if (control.dataset.scaleTone === SCALE_TONE_QUALITY && safeIndex >= 0) {
+    const tone = qualityScaleColor(safeIndex, choices.length);
+    control.style.setProperty("--marker-selected-color", tone.color);
+    control.style.setProperty("--marker-selected-shadow", tone.shadow);
+  } else {
+    control.style.removeProperty("--marker-selected-color");
+    control.style.removeProperty("--marker-selected-shadow");
+  }
   if (valueText) {
     valueText.textContent = safeIndex >= 0 ? choices[safeIndex] : "";
   }
@@ -551,6 +587,28 @@ function makeLabel(text) {
 
 function getChoiceIndex(choices, value) {
   return choices.findIndex((choice) => choice === value);
+}
+
+function getStoredChoiceAnswer(screen, answerId) {
+  const answer = state.answers[answerId] || "";
+  return screen?.choices?.includes(answer) ? answer : "";
+}
+
+function qualityScaleColor(index, count) {
+  const palette = [
+    ["#c84f43", "rgba(200, 79, 67, 0.22)"],
+    ["#d8763d", "rgba(216, 118, 61, 0.2)"],
+    ["#c39b38", "rgba(195, 155, 56, 0.19)"],
+    ["#789f55", "rgba(120, 159, 85, 0.2)"],
+    ["#338c66", "rgba(51, 140, 102, 0.21)"],
+    ["#007070", "rgba(0, 112, 112, 0.22)"]
+  ];
+  if (count <= 1) {
+    return { color: palette[palette.length - 1][0], shadow: palette[palette.length - 1][1] };
+  }
+  const paletteIndex = Math.round((index / (count - 1)) * (palette.length - 1));
+  const [color, shadow] = palette[Math.max(0, Math.min(paletteIndex, palette.length - 1))];
+  return { color, shadow };
 }
 
 function commitMatrixAnswer(rowId, choice) {
@@ -855,6 +913,26 @@ function buildPayload() {
       });
     }
 
+    if (screen.type === "Question.ScaleChoice") {
+      const answer = getStoredChoiceAnswer(screen, screen.id);
+      answerColumnIndex += 1;
+      surveyDbRow[columnHeader(answerColumnIndex, screen.title)] = answer;
+      answersByQuestion[screen.id] = {
+        questionId: screen.id,
+        questionTitle: screen.title,
+        answer
+      };
+      flatRows.push({
+        responseId,
+        submittedAt,
+        questionId: screen.id,
+        questionTitle: screen.title,
+        rowId: "",
+        rowTitle: "",
+        answer
+      });
+    }
+
     if (screen.type === "Question.MatrixChoiceGroup") {
       const storageTitle = screen.legacyTitle || screen.title;
       answersByQuestion[screen.id] = {
@@ -863,7 +941,7 @@ function buildPayload() {
         rows: {}
       };
       screen.rows.forEach((row) => {
-        const answer = state.answers[row.id] || "";
+        const answer = getStoredChoiceAnswer(screen, row.id);
         answerColumnIndex += 1;
         surveyDbRow[columnHeader(answerColumnIndex, storageTitle, row.title)] = answer;
         answersByQuestion[screen.id].rows[row.id] = {
@@ -896,12 +974,16 @@ function buildPayload() {
     tester: {
       name: state.answers.ref10a028774947e4b02ebad4c50c8406 || "",
       normalTrailShoe: state.answers.r8cd399d5613b4743866237999b83cbc8 || "",
-      typicalDistance: state.answers.r59ead437294c42b49564b9eedb65d6d7 || ""
+      typicalDistance: getStoredChoiceAnswer(getScreenById("r59ead437294c42b49564b9eedb65d6d7"), "r59ead437294c42b49564b9eedb65d6d7")
     },
     answers: answersByQuestion,
     flatRows,
     surveyDbRow
   };
+}
+
+function getScreenById(id) {
+  return SURVEY.screens.find((screen) => screen.id === id);
 }
 
 function formatKoreaTimestamp(date) {

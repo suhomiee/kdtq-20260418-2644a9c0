@@ -470,6 +470,8 @@ textarea {
 
 .answer-scale {
   --pos: 50%;
+  --marker-selected-color: var(--accent);
+  --marker-selected-shadow: rgba(0, 112, 112, 0.22);
   width: 100%;
   max-width: 560px;
   display: grid;
@@ -499,6 +501,7 @@ textarea {
 }
 
 .marker-scale .scale-value {
+  color: var(--marker-selected-color);
   font-size: 22px;
   text-align: center;
 }
@@ -675,9 +678,9 @@ textarea {
 .marker-button.is-selected {
   width: 24px;
   height: 24px;
-  border-color: var(--accent);
-  background: var(--accent);
-  box-shadow: 0 10px 20px rgba(0, 112, 112, 0.22);
+  border-color: var(--marker-selected-color);
+  background: var(--marker-selected-color);
+  box-shadow: 0 10px 20px var(--marker-selected-shadow);
 }
 
 .marker-button:active {
