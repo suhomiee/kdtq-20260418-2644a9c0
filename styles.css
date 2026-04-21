@@ -304,8 +304,8 @@ textarea {
   outline-offset: 4px;
 }
 
-.phone.is-agreement .primary-action {
-  margin-top: 4px;
+.phone.is-agreement .agreement-action {
+  margin: 0 0 18px;
 }
 
 .survey-image-frame.is-loaded {

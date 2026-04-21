@@ -62,11 +62,11 @@ const SURVEY = {
       choices: []
     },
     matrix("r16976ac35d7f49d99d8b0132ab661fd0", "Is the foot entry easy on and off without tugging?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/c6370e2b-88f9-48eb-a183-2038612629d1", ["Very Difficult", "Moderately Difficult", "Somewhat Difficult", "Somewhat Easy", "Moderately Easy", "Very Easy"], [["r8f2a5c8845ce4fdda8e19cc52c7db96d", "OPTION A"], ["rce49158180f14ca78e86a27f128ee43a", "OPTION B"]]),
-    matrix("r2744e21e248e4dccb3c4c2b5fca61579", "How securely does the lace stay tied?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/add69936-2c47-410d-95cf-f862eab377dc", ["Very Unsecure", "Moderately Unsecure", "Somewhat Unsecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], [["ra83ab2913b2d4e65b3f02e84e5827d23", "OPTION A"], ["ra001992c51a14744ba59903010a402ab", "OPTION B"]], "Does the lace stay tied securely?"),
-    matrix("r1e7b3f177eda44de86224bb54e973a40", "Do you feel the shoe is a right size in the length?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/b831bfc1-f144-47db-b50c-77d4a56f1cf1", ["Very Short", "Moderately Short", "Somewhat Short", "Just Right", "Somewhat Long", "Moderately Long", "Very Long"], [["r8899cd5a7b2d42478ded61fa6c3055c4", "OPTION A"], ["r584ce29342424e6694710ec887da8d94", "OPTION B"]]),
+    matrix("r2744e21e248e4dccb3c4c2b5fca61579", "How securely does the lace stay tied?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/add69936-2c47-410d-95cf-f862eab377dc", ["Very Insecure", "Moderately Insecure", "Somewhat Insecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], [["ra83ab2913b2d4e65b3f02e84e5827d23", "OPTION A"], ["ra001992c51a14744ba59903010a402ab", "OPTION B"]], "Does the lace stay tied securely?"),
+    matrix("r1e7b3f177eda44de86224bb54e973a40", "How do you feel about the shoe length?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/b831bfc1-f144-47db-b50c-77d4a56f1cf1", ["Very Short", "Moderately Short", "Somewhat Short", "Just Right", "Somewhat Long", "Moderately Long", "Very Long"], [["r8899cd5a7b2d42478ded61fa6c3055c4", "OPTION A"], ["r584ce29342424e6694710ec887da8d94", "OPTION B"]]),
     matrix("r013287f922ba4e429bd5fe5b1c218304", "How do you feel about the upper comfort without any irritation, discomfort or stiffness?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/e27147ba-2d52-4450-875f-3d04ea3967aa", ["Very Uncomfortable", "Moderately Uncomfortable", "Somewhat Uncomfortable", "Somewhat Comfortable", "Moderately Comfortable", "Very Comfortable"], [["re54897cc451c495ea72fa31cbeac7e20", "OPTION A"], ["ra952f436ea6b4a2792cb2812d9f12c38", "OPTION B"]], "Does the upper provide a right comfort without any irritation, discomfort or stiffness?"),
     matrix("r29dc41bb1b964699a1b8851c47d0cb17", "How do you feel about the upper breathability for your running purpose?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/500d41cd-6e5a-46f3-acbf-8ba2fa7dcab4", ["Not Breathable", "Moderately Not Breathable", "Somewhat Not Breathable", "Somewhat Breathable", "Moderately Breathable", "Very Breathable"], [["r5707237fe19c4abcba536fa92fe94fdc", "OPTION A"], ["r86f2ab1c530a4f43a29b677e63d44f77", "OPTION B"]], "Does the upper provide a right breathability to meet your running purpose?"),
-    matrix("r461f5e8e86af4f15839b89eb92655a42", "How do you feel about the upper's secure hold without being too tight or loose?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/71a63305-4b19-416d-9bfa-62e552b6bb78", ["Very Unsecure", "Moderately Unsecure", "Somewhat Unsecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], [["r68443dfa5b4848e6bf1269293c5de1b2", "OPTION A"], ["r8fe377c38e7a4996ae327a6c20b1afc7", "OPTION B"]], "Does the upper hug your foot securely without being too tight or loose?"),
+    matrix("r461f5e8e86af4f15839b89eb92655a42", "How do you feel about the upper's secure hold without being too tight or loose?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/71a63305-4b19-416d-9bfa-62e552b6bb78", ["Very Insecure", "Moderately Insecure", "Somewhat Insecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], [["r68443dfa5b4848e6bf1269293c5de1b2", "OPTION A"], ["r8fe377c38e7a4996ae327a6c20b1afc7", "OPTION B"]], "Does the upper hug your foot securely without being too tight or loose?"),
     matrix("rd10683a1626d4f49bca7fe8d39fa1fc9", "How do you feel about the shoe weight for your running purpose?", null, "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/dc22a5aa-ab80-4baa-b660-92ec9c431589", ["Very Heavy", "Moderately Heavy", "Somewhat  Right", "Somewhat Light", "Moderately Light", "Very Light"], [["r9925678be167492c9a604fb1ff5c8b23", "OPTION A"], ["r91c84aa60c304e33bd7fac67363fbef6", "OPTION B"]], "Does the shoe have a right weight to meet your running purpose?"),
     { id: "rab281cb9c61242179a1b6a77c7b1f813", type: "Question.TextField", title: "Please share your thoughts about the most impressive aspects of initial step-in feel or areas that need improvement.", subtitle: null, image: null, choices: [] },
     {
@@ -245,13 +245,15 @@ function renderStart() {
 }
 
 function renderAgreement(screen) {
-  els.content.append(renderText(screen.subtitle || "", "question-copy intro"));
-  els.content.append(makePrimaryAction("I Agree", () => {
+  const agreeButton = makePrimaryAction("I Agree", () => {
     if (state.index < SURVEY.screens.length - 1) {
       state.index += 1;
       render();
     }
-  }));
+  });
+  agreeButton.classList.add("agreement-action");
+  els.content.append(agreeButton);
+  els.content.append(renderText(screen.subtitle || "", "question-copy intro"));
 }
 
 function makePrimaryAction(label, onClick) {
