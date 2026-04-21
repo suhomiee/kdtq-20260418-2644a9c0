@@ -134,6 +134,8 @@ const els = {
   saveSettings: document.getElementById("saveSettings")
 };
 
+const NEXT_BUTTON_ICON = els.next.innerHTML;
+
 bootstrapEndpointFromHash();
 syncSettingsVisibility();
 render();
@@ -245,14 +247,6 @@ function renderStart() {
 }
 
 function renderAgreement(screen) {
-  const agreeButton = makePrimaryAction("I Agree", () => {
-    if (state.index < SURVEY.screens.length - 1) {
-      state.index += 1;
-      render();
-    }
-  });
-  agreeButton.classList.add("agreement-action");
-  els.content.append(agreeButton);
   els.content.append(renderText(screen.subtitle || "", "question-copy intro"));
 }
 
@@ -599,14 +593,32 @@ function updateNavigation(screen = currentScreen()) {
   const isStart = screen.type === "Start";
   const isAgreement = screen.id === "agreement";
   els.bottomNav.hidden = isStart;
-  els.bottomNav.classList.toggle("no-actions", isAgreement);
-  els.navActions.hidden = isStart || isAgreement;
-  if (isStart || isAgreement) {
+  els.bottomNav.classList.toggle("no-actions", false);
+  els.navActions.hidden = isStart;
+  if (isStart) {
+    return;
+  }
+  setNextButtonMode(isAgreement ? "agreement" : "default");
+  if (isAgreement) {
+    els.back.disabled = true;
+    els.next.disabled = false;
+    els.next.setAttribute("aria-label", "I Agree");
     return;
   }
   els.back.disabled = state.index <= 1 || state.submitting;
   els.next.disabled = state.submitting || (screen.type === "Submit" && state.submitted);
   els.next.setAttribute("aria-label", screen.type === "Submit" ? "Submit" : "Next");
+}
+
+function setNextButtonMode(mode) {
+  const isAgreement = mode === "agreement";
+  els.next.classList.toggle("agreement-confirm", isAgreement);
+  if (isAgreement) {
+    els.next.textContent = "I Agree";
+  } else if (els.next.dataset.mode === "agreement") {
+    els.next.innerHTML = NEXT_BUTTON_ICON;
+  }
+  els.next.dataset.mode = mode;
 }
 
 function isRatingScaleScreen(screen) {

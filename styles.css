@@ -304,10 +304,6 @@ textarea {
   outline-offset: 4px;
 }
 
-.phone.is-agreement .agreement-action {
-  margin: 0 0 18px;
-}
-
 .survey-image-frame.is-loaded {
   min-height: 0;
   background: transparent;
@@ -1100,6 +1096,29 @@ textarea.text-answer {
   border: 1px solid #e4e4e4;
   background: #f8f8f8;
   color: #777777;
+}
+
+.phone.is-agreement .fab.secondary {
+  display: none;
+}
+
+.fab.agreement-confirm {
+  width: 112px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 850;
+  box-shadow: 0 14px 30px rgba(0, 112, 112, 0.16);
+}
+
+.fab.agreement-confirm:hover {
+  background: #008181;
+}
+
+.fab.agreement-confirm:active {
+  background: #005f5f;
+  transform: translateY(2px) scale(0.985);
 }
 
 .fab:disabled {
