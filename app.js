@@ -596,7 +596,6 @@ function scrollContentToBottom() {
 function updateNavigation(screen = currentScreen()) {
   const isStart = screen.type === "Start";
   const isAgreement = screen.id === "agreement";
-  const matrixIncomplete = screen.type === "Question.MatrixChoiceGroup" && !isScreenComplete(screen);
   els.bottomNav.hidden = isStart;
   els.bottomNav.classList.toggle("no-actions", isAgreement);
   els.navActions.hidden = isStart || isAgreement;
@@ -604,15 +603,8 @@ function updateNavigation(screen = currentScreen()) {
     return;
   }
   els.back.disabled = state.index <= 1 || state.submitting;
-  els.next.disabled = matrixIncomplete || state.submitting || (screen.type === "Submit" && state.submitted);
+  els.next.disabled = state.submitting || (screen.type === "Submit" && state.submitted);
   els.next.setAttribute("aria-label", screen.type === "Submit" ? "Submit" : "Next");
-}
-
-function isScreenComplete(screen) {
-  if (screen.type !== "Question.MatrixChoiceGroup") {
-    return true;
-  }
-  return screen.rows.every((row) => Boolean(state.answers[row.id]));
 }
 
 function isRatingScaleScreen(screen) {
