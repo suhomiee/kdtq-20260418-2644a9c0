@@ -34,16 +34,15 @@ const SURVEY = {
       id: "r33e4738100594b8286086c8a7fafa1f9",
       type: "Question.ColumnGroup",
       title: "Route & Elevation",
-      subtitle: "Seongjigok Reservoir candidate course (Busan Children's Grand Park, 295 Saessak-ro, Busanjin-gu, Busan)\n\nCandidate basis: Seongjigok Reservoir loop and nearby Busan Children's Grand Park / Baegyangsan trail entrance. The final public Strava route will be embedded here after the course is confirmed.",
+      subtitle: "Seongjigok Reservoir, 295 Saessak-ro, Busanjin-gu, Busan, South Korea\n\nKorea Dynamic Test route on Strava. Trail run distance 2.6 km / elevation gain 66 m.",
       image: null,
       embed: {
-        type: "StravaRoutePending",
-        eyebrow: "STRAVA ROUTE PENDING",
-        title: "Seongjigok Reservoir Candidate Course",
-        location: "Busan Children's Grand Park, 295 Saessak-ro, Busanjin-gu, Busan",
-        routeNote: "Reservoir loop + nearby park / Baegyangsan trail entrance",
-        distanceNote: "Approx. 2.5 km reservoir loop reference; final test route TBD",
-        stravaUrl: "https://www.strava.com/routes/new"
+        type: "StravaRoute",
+        id: "3482620893647463620",
+        token: "BC7jbUjYnVN0xBLuVGwmcQoo--4W-lug8u4A5ki1O2s",
+        mapHash: "14.5/35.18681/129.04291",
+        style: "standard",
+        fromEmbed: "true"
       },
       choices: []
     },
@@ -136,7 +135,7 @@ const KO_COPY = {
   },
   r33e4738100594b8286086c8a7fafa1f9: {
     title: "코스 및 고도",
-    subtitle: "성지곡수원지 코스 후보 (부산어린이대공원, 부산 부산진구 새싹로 295)\n\n코스 미정: 성지곡수원지 순환 산책로와 부산어린이대공원/백양산 초입 트레일을 기준으로 최종 Strava route 확정 후 교체 예정입니다."
+    subtitle: "성지곡수원지, 부산광역시 부산진구 새싹로 295 (초읍동)\n\nStrava에 생성된 Korea Dynamic Test 코스입니다. 트레일 러닝 거리 2.6 km / 상승고도 66 m."
   },
   r6054912e5d1e4572a039c018e3bd6a9a: {
     title: "테스터 정보",
@@ -615,9 +614,9 @@ function renderStravaRoute(embed) {
   placeholder.dataset.embedType = "route";
   placeholder.dataset.embedId = embed.id;
   placeholder.dataset.fullWidth = "true";
-  placeholder.dataset.style = "standard";
+  placeholder.dataset.style = embed.style || "standard";
   placeholder.dataset.mapHash = embed.mapHash;
-  placeholder.dataset.fromEmbed = "false";
+  placeholder.dataset.fromEmbed = embed.fromEmbed || "true";
   placeholder.dataset.token = embed.token;
 
   wrapper.append(placeholder);
