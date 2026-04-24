@@ -43,7 +43,7 @@ body {
     url("./assets/page-background.avif") center / cover fixed,
     var(--canvas);
   color: var(--ink);
-  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Inter", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   letter-spacing: 0;
 }
 
@@ -163,11 +163,49 @@ textarea {
   word-break: break-word;
 }
 
+.screen-title-ko,
+.screen-title-en,
+.screen-meta-ko,
+.screen-meta-en,
+.copy-ko,
+.copy-en,
+.button-ko,
+.button-en,
+.row-ko,
+.row-en,
+.scale-value-ko,
+.scale-value-en,
+.choice-label-ko,
+.choice-label-en {
+  display: block;
+}
+
+.screen-title-ko {
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+
+.screen-title-en {
+  margin-top: 4px;
+  color: #8a8a8a;
+  font-size: 0.7em;
+  font-weight: 760;
+  line-height: 1.16;
+}
+
 .phone.is-start #screenTitle {
   color: var(--ink);
   font-size: clamp(34px, 7.4vw, 56px);
   font-weight: 880;
   line-height: 1.02;
+}
+
+.phone.is-start #screenTitle .screen-title-en {
+  margin-top: 12px;
+  color: #5f6664;
+  font-size: clamp(15px, 2.2vw, 19px);
+  font-weight: 760;
+  line-height: 1.18;
 }
 
 .screen-meta {
@@ -176,6 +214,13 @@ textarea {
   font-size: 16px;
   font-weight: 850;
   line-height: 1.2;
+}
+
+.screen-meta-en {
+  margin-top: 4px;
+  color: rgba(0, 112, 112, 0.66);
+  font-size: 0.78em;
+  font-weight: 760;
 }
 
 .progress-track {
@@ -231,6 +276,34 @@ textarea {
   word-break: break-word;
 }
 
+.localized-copy {
+  white-space: normal;
+}
+
+.copy-block {
+  white-space: pre-line;
+}
+
+.question-copy .copy-en,
+.submit-copy .copy-en,
+.start-copy .copy-en {
+  margin-top: 8px;
+  color: #8a8a8a;
+  font-size: 0.82em;
+  font-weight: 650;
+  line-height: 1.42;
+}
+
+.agreement-copy .copy-ko {
+  color: #4e4e4e;
+}
+
+.agreement-copy .copy-en {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 112, 112, 0.16);
+}
+
 .question-copy.intro {
   color: #565656;
   font-weight: 650;
@@ -270,7 +343,7 @@ textarea {
 
 .primary-action {
   width: min(100%, 320px);
-  min-height: 56px;
+  min-height: 62px;
   border: 0;
   border-radius: 999px;
   background: var(--accent);
@@ -286,6 +359,19 @@ textarea {
     box-shadow 150ms ease,
     transform 150ms ease;
   -webkit-tap-highlight-color: transparent;
+}
+
+.button-ko {
+  font-size: 1em;
+  line-height: 1.1;
+}
+
+.button-en {
+  margin-top: 1px;
+  font-size: 0.68em;
+  font-weight: 760;
+  line-height: 0.96;
+  opacity: 0.82;
 }
 
 .primary-action:hover {
@@ -442,20 +528,12 @@ textarea {
 }
 
 .matrix-row + .matrix-row {
-  margin-top: 2px;
-  padding-top: 24px;
-  position: relative;
+  margin-top: 8px;
+  padding-top: 18px;
 }
 
 .matrix-row + .matrix-row::before {
-  background: linear-gradient(90deg, var(--accent), rgba(0, 112, 112, 0.32) 48%, rgba(0, 0, 0, 0.08));
-  border-radius: 999px;
-  content: "";
-  height: 2px;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
+  display: none;
 }
 
 .matrix-row + .matrix-row .row-title {
@@ -464,8 +542,16 @@ textarea {
 
 .row-title {
   color: #444444;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 850;
+  line-height: 1.1;
+}
+
+.row-en {
+  margin-top: 3px;
+  color: #8b8b8b;
+  font-size: 0.78em;
+  font-weight: 780;
 }
 
 .answer-scale {
@@ -495,7 +581,21 @@ textarea {
   overflow-wrap: anywhere;
 }
 
+.scale-value-en {
+  margin-top: 3px;
+  color: inherit;
+  font-size: 0.58em;
+  font-weight: 760;
+  line-height: 1.18;
+  opacity: 0.82;
+}
+
 .marker-scale .scale-readout {
+  justify-content: center;
+  text-align: center;
+}
+
+.liking-scale .scale-readout {
   justify-content: center;
   text-align: center;
 }
@@ -555,9 +655,18 @@ textarea {
   top: 50%;
   height: 6px;
   border-radius: 999px;
-  background: #d6ddda;
+  background: linear-gradient(
+    90deg,
+    rgba(217, 90, 47, 0.78) 0%,
+    rgba(220, 150, 52, 0.76) 25%,
+    rgba(224, 198, 56, 0.72) 50%,
+    rgba(187, 207, 72, 0.74) 75%,
+    rgba(92, 165, 64, 0.8) 100%
+  );
   transform: translateY(-50%);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.58),
+    inset 0 -1px 1px rgba(22, 35, 33, 0.1);
 }
 
 .face-rail::before {
@@ -566,7 +675,8 @@ textarea {
   inset: 0 auto 0 0;
   width: var(--pos);
   border-radius: inherit;
-  background: rgba(0, 112, 112, 0.34);
+  background: rgba(255, 255, 255, 0.18);
+  mix-blend-mode: screen;
 }
 
 .face-stops {
@@ -620,18 +730,30 @@ textarea {
   justify-content: space-between;
   gap: 18px;
   color: #69716f;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 820;
-  line-height: 1.16;
+  line-height: 1.18;
   text-transform: uppercase;
 }
 
-.scale-labels span {
+.scale-labels > span {
   max-width: 48%;
 }
 
-.scale-labels span:last-child {
+.scale-labels > span:last-child {
   text-align: right;
+}
+
+.choice-label-ko {
+  text-transform: none;
+}
+
+.choice-label-en {
+  margin-top: 3px;
+  color: #8c9693;
+  font-size: 0.82em;
+  font-weight: 760;
+  text-transform: uppercase;
 }
 
 .scale-labels.numeric {
@@ -645,7 +767,7 @@ textarea {
   display: grid;
   grid-template-columns: repeat(var(--count), minmax(0, 1fr));
   align-items: center;
-  min-height: 50px;
+  min-height: 54px;
 }
 
 .marker-rail::before {
@@ -654,33 +776,93 @@ textarea {
   left: calc(100% / var(--count) / 2);
   right: calc(100% / var(--count) / 2);
   top: 50%;
-  height: 2px;
+  height: 6px;
   border-radius: 999px;
   background: #bcc5c2;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.6),
+    inset 0 -1px 1px rgba(22, 35, 33, 0.08);
   transform: translateY(-50%);
+}
+
+.marker-scale.is-quality-scale .marker-rail::before {
+  background: linear-gradient(
+    90deg,
+    rgba(200, 79, 67, 0.78) 0%,
+    rgba(216, 118, 61, 0.76) 24%,
+    rgba(195, 155, 56, 0.72) 48%,
+    rgba(51, 140, 102, 0.76) 74%,
+    rgba(0, 112, 112, 0.82) 100%
+  );
+}
+
+.marker-scale.is-quality-scale[data-scale-tone="ideal-center"] .marker-rail::before {
+  background: linear-gradient(
+    90deg,
+    rgba(200, 79, 67, 0.78) 0%,
+    rgba(216, 118, 61, 0.75) 23%,
+    rgba(0, 112, 112, 0.84) 50%,
+    rgba(216, 118, 61, 0.75) 77%,
+    rgba(200, 79, 67, 0.78) 100%
+  );
 }
 
 .marker-button {
   position: relative;
   z-index: 1;
   justify-self: center;
-  width: 20px;
-  height: 20px;
+  width: clamp(34px, 9vw, 42px);
+  height: clamp(34px, 9vw, 42px);
   padding: 0;
-  border: 2px solid #acb7b4;
+  border: 0;
   border-radius: 50%;
-  background: #ffffff;
+  background: transparent;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(16, 28, 27, 0.08);
-  transition: transform 140ms ease, border-color 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
+  display: grid;
+  place-items: center;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 140ms ease;
+}
+
+.marker-button::before,
+.marker-button::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  transition: transform 150ms ease, opacity 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+
+.marker-button::before {
+  z-index: 2;
+  width: 7px;
+  height: 7px;
+  background: #f8fbfa;
+  box-shadow: 0 0 0 1px rgba(0, 112, 112, 0.14);
+}
+
+.marker-button::after {
+  z-index: 1;
+  width: 32px;
+  height: 32px;
+  background: var(--marker-selected-shadow);
+  opacity: 0;
+  transform: scale(0.58);
 }
 
 .marker-button.is-selected {
-  width: 24px;
-  height: 24px;
-  border-color: var(--marker-selected-color);
+  background: transparent;
+}
+
+.marker-button.is-selected::before {
+  width: 14px;
+  height: 14px;
   background: var(--marker-selected-color);
-  box-shadow: 0 10px 20px var(--marker-selected-shadow);
+  box-shadow: 0 7px 14px rgba(16, 28, 27, 0.13);
+}
+
+.marker-button.is-selected::after {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .marker-button:active {
@@ -1023,6 +1205,7 @@ textarea.text-answer {
   font-size: 13px;
   font-weight: 700;
   line-height: 1.35;
+  white-space: pre-line;
 }
 
 .submit-status.error {
@@ -1106,11 +1289,12 @@ textarea.text-answer {
 }
 
 .fab.agreement-confirm {
-  width: 112px;
+  width: 116px;
+  height: 50px;
   border-radius: 999px;
   background: var(--accent);
   color: #ffffff;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 850;
   box-shadow: 0 14px 30px rgba(0, 112, 112, 0.16);
 }
@@ -1453,16 +1637,6 @@ textarea.text-answer {
 
   .marker-rail {
     min-height: 46px;
-  }
-
-  .marker-button {
-    width: 19px;
-    height: 19px;
-  }
-
-  .marker-button.is-selected {
-    width: 23px;
-    height: 23px;
   }
 
   .matrix-options.rating {
