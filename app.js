@@ -568,6 +568,9 @@ function resetContentScroll() {
 function renderSurveyImage(screen) {
   const frame = document.createElement("figure");
   frame.className = "survey-image-frame is-loading";
+  if (screen.id === "r16976ac35d7f49d99d8b0132ab661fd0") {
+    frame.classList.add("is-foot-entry");
+  }
 
   const skeleton = document.createElement("div");
   skeleton.className = "image-skeleton";
