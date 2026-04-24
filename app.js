@@ -34,7 +34,7 @@ const SURVEY = {
       id: "r33e4738100594b8286086c8a7fafa1f9",
       type: "Question.ColumnGroup",
       title: "Route & Elevation",
-      subtitle: "Seongjigok Reservoir, 295 Saessak-ro, Busanjin-gu, Busan, South Korea\n\nKorea Dynamic Test route on Strava. Trail run distance 2.6 km / elevation gain 66 m.",
+      subtitle: "Seongjigok Reservoir, 295 Saessak-ro, Busanjin-gu, Busan, South Korea\n\nDetailed final route, slope, and elevation information will be updated and may change.",
       image: null,
       embed: {
         type: "StravaRoute",
@@ -135,7 +135,7 @@ const KO_COPY = {
   },
   r33e4738100594b8286086c8a7fafa1f9: {
     title: "코스 및 고도",
-    subtitle: "성지곡수원지, 부산광역시 부산진구 새싹로 295 (초읍동)\n\nStrava에 생성된 Korea Dynamic Test 코스입니다. 트레일 러닝 거리 2.6 km / 상승고도 66 m."
+    subtitle: "성지곡수원지, 부산광역시 부산진구 새싹로 295 (초읍동)\n\n세부적인 최종 루트와 경사, 고도 정보는 추후 변경될 예정입니다."
   },
   r6054912e5d1e4572a039c018e3bd6a9a: {
     title: "테스터 정보",
