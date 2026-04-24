@@ -483,6 +483,115 @@ textarea {
   border-radius: 8px;
 }
 
+.strava-pending-card {
+  width: 100%;
+  margin: 0 0 16px;
+  padding: clamp(20px, 4.2vw, 30px);
+  border: 1px solid rgba(0, 112, 112, 0.14);
+  border-radius: 10px;
+  background:
+    linear-gradient(135deg, rgba(0, 112, 112, 0.08), rgba(255, 255, 255, 0) 42%),
+    #ffffff;
+  box-shadow: 0 18px 34px rgba(14, 36, 34, 0.08);
+}
+
+.strava-pending-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(0, 112, 112, 0.1);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 860;
+  letter-spacing: 0.04em;
+}
+
+.strava-pending-card h2 {
+  margin: 12px 0 6px;
+  color: #242424;
+  font-size: clamp(21px, 3.6vw, 28px);
+  font-weight: 880;
+  line-height: 1.05;
+}
+
+.strava-pending-location {
+  margin: 0;
+  color: #6e7774;
+  font-size: 14px;
+  font-weight: 740;
+  line-height: 1.35;
+}
+
+.strava-pending-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0 18px;
+}
+
+.strava-pending-details div {
+  min-width: 0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 112, 112, 0.16);
+}
+
+.strava-pending-details dt {
+  color: #87918e;
+  font-size: 11px;
+  font-weight: 820;
+  text-transform: uppercase;
+}
+
+.strava-pending-details dd {
+  margin: 5px 0 0;
+  color: #2d3533;
+  font-size: 13px;
+  font-weight: 780;
+  line-height: 1.32;
+}
+
+.strava-pending-route {
+  display: grid;
+  grid-template-columns: 14px 1fr 14px 1fr 14px;
+  align-items: center;
+  margin: 0 0 16px;
+}
+
+.strava-pending-route span {
+  width: 14px;
+  height: 14px;
+  border: 3px solid var(--accent);
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.strava-pending-route i {
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(0, 112, 112, 0.25), rgba(0, 112, 112, 0.75));
+}
+
+.strava-pending-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 850;
+  text-decoration: none;
+  transition: transform 150ms ease, background 150ms ease;
+}
+
+.strava-pending-link:active {
+  transform: scale(0.98);
+}
+
 .choice-list {
   display: grid;
   gap: 14px;
@@ -524,7 +633,7 @@ textarea {
 
 .matrix-row {
   display: grid;
-  gap: 12px;
+  gap: 8px;
 }
 
 .matrix-row + .matrix-row {
@@ -563,7 +672,7 @@ textarea {
   display: grid;
   gap: 12px;
   margin-inline: auto;
-  padding-top: 4px;
+  padding-top: 0;
 }
 
 .scale-readout {
@@ -1608,6 +1717,15 @@ textarea.text-answer {
 
   .nav-actions {
     bottom: max(58px, calc(env(safe-area-inset-bottom) + 36px));
+  }
+
+  .strava-pending-card {
+    padding: 22px;
+  }
+
+  .strava-pending-details {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .matrix-options {

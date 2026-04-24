@@ -34,13 +34,16 @@ const SURVEY = {
       id: "r33e4738100594b8286086c8a7fafa1f9",
       type: "Question.ColumnGroup",
       title: "Route & Elevation",
-      subtitle: "Bongdaesan Mountain (Dongbaek Station, 522 Haeun-daero, Haeundae-gu, Busan)\n\nhttps://www.strava.com/routes/3479194418174308720\n",
+      subtitle: "Seongjigok Reservoir candidate course (Busan Children's Grand Park, 295 Saessak-ro, Busanjin-gu, Busan)\n\nCandidate basis: Seongjigok Reservoir loop and nearby Busan Children's Grand Park / Baegyangsan trail entrance. The final public Strava route will be embedded here after the course is confirmed.",
       image: null,
       embed: {
-        type: "StravaRoute",
-        id: "3479194418174308720",
-        mapHash: "14.55/35.16442/129.14981",
-        token: "Pgiz2sILlD00G6xlxKNaiBuoMi0qxRIDvj64GD4lwl0"
+        type: "StravaRoutePending",
+        eyebrow: "STRAVA ROUTE PENDING",
+        title: "Seongjigok Reservoir Candidate Course",
+        location: "Busan Children's Grand Park, 295 Saessak-ro, Busanjin-gu, Busan",
+        routeNote: "Reservoir loop + nearby park / Baegyangsan trail entrance",
+        distanceNote: "Approx. 2.5 km reservoir loop reference; final test route TBD",
+        stravaUrl: "https://www.strava.com/routes/new"
       },
       choices: []
     },
@@ -133,7 +136,7 @@ const KO_COPY = {
   },
   r33e4738100594b8286086c8a7fafa1f9: {
     title: "코스 및 고도",
-    subtitle: "봉대산 코스 (동백역, 부산 해운대구 해운대로 522)"
+    subtitle: "성지곡수원지 코스 후보 (부산어린이대공원, 부산 부산진구 새싹로 295)\n\n코스 미정: 성지곡수원지 순환 산책로와 부산어린이대공원/백양산 초입 트레일을 기준으로 최종 Strava route 확정 후 교체 예정입니다."
   },
   r6054912e5d1e4572a039c018e3bd6a9a: {
     title: "테스터 정보",
@@ -492,12 +495,14 @@ function render() {
     renderSurveyImage(screen);
   }
 
-  if (screen.type === "Question.ColumnGroup" && screen.embed?.type === "StravaRoute") {
+  if (screen.type === "Question.ColumnGroup" && (screen.embed?.type === "StravaRoute" || screen.embed?.type === "StravaRoutePending")) {
     els.content.append(renderLocalizedText(screen, "question-copy intro route-copy"));
   }
 
   if (screen.embed?.type === "StravaRoute") {
     renderStravaRoute(screen.embed);
+  } else if (screen.embed?.type === "StravaRoutePending") {
+    renderStravaRoutePending(screen.embed);
   }
 
   if (screen.type === "Intro") {
@@ -618,6 +623,55 @@ function renderStravaRoute(embed) {
   wrapper.append(placeholder);
   els.content.append(wrapper);
   loadStravaEmbed();
+}
+
+function renderStravaRoutePending(embed) {
+  const card = document.createElement("article");
+  card.className = "strava-pending-card";
+
+  const badge = document.createElement("span");
+  badge.className = "strava-pending-badge";
+  badge.textContent = embed.eyebrow || "STRAVA ROUTE PENDING";
+
+  const title = document.createElement("h2");
+  title.textContent = embed.title || "Candidate Course";
+
+  const location = document.createElement("p");
+  location.className = "strava-pending-location";
+  location.textContent = embed.location || "";
+
+  const details = document.createElement("dl");
+  details.className = "strava-pending-details";
+  [
+    ["Basis", embed.routeNote],
+    ["Distance", embed.distanceNote]
+  ].forEach(([label, value]) => {
+    if (!value) {
+      return;
+    }
+    const item = document.createElement("div");
+    const term = document.createElement("dt");
+    const desc = document.createElement("dd");
+    term.textContent = label;
+    desc.textContent = value;
+    item.append(term, desc);
+    details.append(item);
+  });
+
+  const routeLine = document.createElement("div");
+  routeLine.className = "strava-pending-route";
+  routeLine.setAttribute("aria-hidden", "true");
+  routeLine.innerHTML = "<span></span><i></i><span></span><i></i><span></span>";
+
+  const link = document.createElement("a");
+  link.className = "strava-pending-link";
+  link.href = embed.stravaUrl || "https://www.strava.com/routes/new";
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = "Open Strava Route Builder";
+
+  card.append(badge, title, location, details, routeLine, link);
+  els.content.append(card);
 }
 
 function loadStravaEmbed() {
