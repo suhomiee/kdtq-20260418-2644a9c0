@@ -326,9 +326,9 @@ textarea {
 }
 
 .survey-image-frame.is-foot-entry {
-  width: min(19%, 74px);
-  min-height: clamp(28px, 5svh, 44px);
-  margin-bottom: 8px;
+  width: min(34%, 132px);
+  min-height: clamp(54px, 8svh, 82px);
+  margin-bottom: 10px;
 }
 
 .start-panel {
@@ -1544,9 +1544,9 @@ textarea.text-answer {
   }
 
   .survey-image-frame.is-foot-entry {
-    width: min(17.5%, 113px);
-    max-width: 113px;
-    min-height: clamp(40px, 6.5svh, 64px);
+    width: min(28%, 188px);
+    max-width: 188px;
+    min-height: clamp(70px, 9.5svh, 108px);
   }
 
   .strava-route-card {
@@ -1637,9 +1637,9 @@ textarea.text-answer {
   }
 
   .survey-image-frame.is-foot-entry {
-    width: min(16.5%, 130px);
-    max-width: 130px;
-    min-height: clamp(44px, 7svh, 70px);
+    width: min(25%, 220px);
+    max-width: 220px;
+    min-height: clamp(78px, 10svh, 120px);
   }
 
   .strava-route-card {
