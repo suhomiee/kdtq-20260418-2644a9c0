@@ -89,8 +89,9 @@ const SURVEY = {
     matrix("r0441f8eeb105498cb4979a0e65354f59", "How do you like the energy return?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/8a7d9c41-fa6d-45c7-9c50-26b486302e0a", ["1", "2", "3", "4", "5"], [["rba7aff53824545938ad3e4f208c0525b", "OPTION A"], ["r0d1d4ef37ba04642b582b0862d69f580", "OPTION B"]], "How do you like the responsiveness?"),
     matrix("r9ed97752500a4c1fb1fe2895a59b1f18", "How do you feel about the stability at ground contact?", null, "./assets/question-images/23.png", ["Very Unstable", "Moderately Unstable", "Somewhat Unstable", "Somewhat Stable", "Moderately Stable", "Very Stable"], [["rc2b4c0008806493f801b12756d894925", "OPTION A"], ["r1c7ca7ffb61545c3b81d8f561fa805db", "OPTION B"]], null, SCALE_TONE_QUALITY),
     matrix("r5da4c7fd9702401ab5bebad50f5b78ff", "How do you like the stability?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/a36f43b1-6c3a-4c5e-b077-c8a650ac645a", ["1", "2", "3", "4", "5"], [["r7f4ae99bcc904d8caf5e8b6baf90c865", "OPTION A"], ["r36c7094964a944db81a5b042ad54a4b2", "OPTION B"]]),
-    matrix("rb4ea1f79459140ec97027ad889f0ad28", "How do you feel about the underfoot protection when running on uneven terrain?", null, "./assets/question-images/25.png", ["Very Unprotective", "Moderately Unprotective", "Somewhat Unprotective", "Somewhat Protective", "Moderately Protective", "Very Protective"], [["r5cf7e6603c21479d9be3857b55ff9ab4", "OPTION A"], ["rb556f313b0eb4fffa3cc5ff6e5b99dcd", "OPTION B"]], null, SCALE_TONE_QUALITY),
+    matrix("r4f0c2b1e7a934d5aa58e3c6a4b8d9f12", "How smooth is the transition from heel to toe?", null, "./assets/question-images/24.png", ["Very Slappy", "Moderately Slappy", "Somewhat Slappy", "Somewhat Smooth", "Moderately Smooth", "Very Smooth"], [["r8b1b8a2e0b7a4fb0a4ec2da2f0eab1a0", "OPTION A"], ["re0b2d1f5a7c24bc7984f3c5d2a11ef90", "OPTION B"]], null, SCALE_TONE_QUALITY),
     matrix("r6f49a0fd33294fb6b28d0c08ff099ab1", "How do you feel about the outsole's traction on uneven terrain?", null, "./assets/question-images/26.png", ["Very Slippery", "Moderately Slippery", "Somewhat Slippery", "Somewhat Grippy", "Moderately Grippy", "Very Grippy"], [["r36596c6ea4d841b6acb81b297c08a51f", "OPTION A"], ["r25a05d7025c947d5abced137cdd997a7", "OPTION B"]], null, SCALE_TONE_QUALITY),
+    matrix("rb4ea1f79459140ec97027ad889f0ad28", "How do you feel about the underfoot protection when running on uneven terrain?", null, "./assets/question-images/25.png", ["Very Unprotective", "Moderately Unprotective", "Somewhat Unprotective", "Somewhat Protective", "Moderately Protective", "Very Protective"], [["r5cf7e6603c21479d9be3857b55ff9ab4", "OPTION A"], ["rb556f313b0eb4fffa3cc5ff6e5b99dcd", "OPTION B"]], null, SCALE_TONE_QUALITY),
     matrix("r5d4f3001bcd54a539e77baa293db2874", "How do you like the underfoot protection?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/0423aee4-7dd6-4b91-9532-887a19b75c95", ["1", "2", "3", "4", "5"], [["r2c8b417145544ee6b17696ba92b1aa38", "OPTION A"], ["r64941770173a4147a9659e2d55153870", "OPTION B"]]),
     { id: "r10ff47a33eec45f0a524c2b66cf3e4b1", type: "Question.TextField", title: "Please share your thoughts about the most impressive aspects of underfoot or areas that need improvement.", subtitle: null, image: null, choices: [] },
     { id: "submit", type: "Submit", title: "Submit Response", subtitle: null, image: null, choices: [] }
@@ -216,11 +217,14 @@ const KO_COPY = {
     title: "안정감의 만족도는 어떤가요?",
     subtitle: "*1점부터 5점까지의 척도로 만족도를 평가해 주세요."
   },
-  rb4ea1f79459140ec97027ad889f0ad28: {
-    title: "불규칙한 지형을 달릴 때 발을 보호해 주는 느낌은 어떤가요?"
+  r4f0c2b1e7a934d5aa58e3c6a4b8d9f12: {
+    title: "발의 뒤에서 앞으로의 움직임이 자연스럽게 연결되나요?"
   },
   r6f49a0fd33294fb6b28d0c08ff099ab1: {
     title: "불규칙한 지형에서 아웃솔 접지력은 어떤가요?"
+  },
+  rb4ea1f79459140ec97027ad889f0ad28: {
+    title: "불규칙한 지형을 달릴 때 발을 보호해 주는 느낌은 어떤가요?"
   },
   r5d4f3001bcd54a539e77baa293db2874: {
     title: "언더풋 보호감의 만족도는 어떤가요?",
@@ -296,6 +300,12 @@ const KO_CHOICES = {
   "Somewhat Stable": "약간 안정적",
   "Moderately Stable": "다소 안정적",
   "Very Stable": "매우 안정적",
+  "Very Slappy": "매우 툭 떨어짐",
+  "Moderately Slappy": "다소 툭 떨어짐",
+  "Somewhat Slappy": "약간 툭 떨어짐",
+  "Somewhat Smooth": "약간 매끄러움",
+  "Moderately Smooth": "다소 매끄러움",
+  "Very Smooth": "매우 매끄러움",
   "Very Unprotective": "전혀 보호해주지 않음",
   "Moderately Unprotective": "거의 보호해주지 않음",
   "Somewhat Unprotective": "보호가 약간 부족함",
@@ -1384,7 +1394,7 @@ function buildPayload() {
   });
 
   return {
-    schemaVersion: "2026-04-18.1",
+    schemaVersion: "2026-04-27.2",
     responseId,
     submittedAt,
     submittedAtUtc,
