@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Korea Dynamic Test Questionnaire</title>
+    <title>Korea Dynamic Test Questionnaire - Option 231</title>
     <link rel="preload" href="./assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="./styles.css?v=20260427-three-qr-pages">
   </head>
-  <body>
+  <body data-survey-mode="option231">
     <main class="stage" aria-live="polite">
       <section class="phone" aria-label="Korea Dynamic Test Questionnaire">
         <button class="profile-button" id="settingsButton" type="button" aria-label="Settings" hidden>
@@ -17,15 +17,12 @@
             <path d="M8 22h8"></path>
           </svg>
         </button>
-
         <section class="masthead">
           <p class="kicker" id="kicker">Korea Dynamic Test Questionnaire</p>
           <h1 id="screenTitle"></h1>
           <p class="screen-meta" id="screenMeta" hidden></p>
         </section>
-
         <section class="content" id="content"></section>
-
         <footer class="bottom-nav">
           <div class="footer-progress" aria-label="Survey progress">
             <span class="progress-count" id="progressCount">1/29</span>
@@ -35,20 +32,15 @@
           </div>
           <div class="nav-actions">
             <button class="fab secondary" id="backButton" type="button" aria-label="Previous">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M15 6l-6 6 6 6"></path>
-              </svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
             </button>
             <button class="fab" id="nextButton" type="button" aria-label="Next">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M9 6l6 6-6 6"></path>
-              </svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
             </button>
           </div>
         </footer>
       </section>
     </main>
-
     <dialog class="settings" id="settingsDialog" hidden>
       <form method="dialog" class="settings-form">
         <h2>Submission</h2>
@@ -61,7 +53,6 @@
         </menu>
       </form>
     </dialog>
-
     <script src="./app.js?v=20260427-three-qr-pages"></script>
   </body>
 </html>

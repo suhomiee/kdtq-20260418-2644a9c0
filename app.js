@@ -466,6 +466,19 @@ const KO_ROWS = {
   "Option 429": "옵션 429"
 };
 
+const SURVEY_MODES = {
+  FULL: "full",
+  OPTION_231: "option231",
+  OPTION_429: "option429",
+  FINAL_PREFERENCE: "finalPreference"
+};
+const FULL_SURVEY_SCREENS = SURVEY.screens;
+const SURVEY_MODE = getSurveyMode();
+const MODE_ANSWER_STORAGE_KEY = SURVEY_MODE === SURVEY_MODES.FULL
+  ? ANSWER_STORAGE_KEY
+  : `${ANSWER_STORAGE_KEY}-${SURVEY_MODE}`;
+SURVEY.screens = buildScreensForMode(SURVEY_MODE);
+
 const state = {
   index: 0,
   answers: loadAnswers(),
@@ -541,6 +554,72 @@ els.saveSettings.addEventListener("click", () => {
 
 function currentScreen() {
   return SURVEY.screens[state.index];
+}
+
+function getSurveyMode() {
+  const bodyMode = typeof document !== "undefined"
+    ? document.body?.dataset?.surveyMode
+    : "";
+  if (bodyMode && Object.values(SURVEY_MODES).includes(bodyMode)) {
+    return bodyMode;
+  }
+
+  const path = typeof location !== "undefined" ? location.pathname.toLowerCase() : "";
+  if (path.includes("option-231")) {
+    return SURVEY_MODES.OPTION_231;
+  }
+  if (path.includes("option-429")) {
+    return SURVEY_MODES.OPTION_429;
+  }
+  if (path.includes("final-preference")) {
+    return SURVEY_MODES.FINAL_PREFERENCE;
+  }
+
+  const queryMode = typeof location !== "undefined"
+    ? new URLSearchParams(location.search).get("mode")
+    : "";
+  if (queryMode && Object.values(SURVEY_MODES).includes(queryMode)) {
+    return queryMode;
+  }
+
+  return SURVEY_MODES.FULL;
+}
+
+function buildScreensForMode(mode) {
+  const submit = FULL_SURVEY_SCREENS.find((screen) => screen.id === "submit");
+  const setup = [
+    "start",
+    "agreement",
+    "r33e4738100594b8286086c8a7fafa1f9",
+    "r6054912e5d1e4572a039c018e3bd6a9a",
+    "ref10a028774947e4b02ebad4c50c8406",
+    "r8cd399d5613b4743866237999b83cbc8",
+    "r59ead437294c42b49564b9eedb65d6d7"
+  ].map((id) => FULL_SURVEY_SCREENS.find((screen) => screen.id === id)).filter(Boolean);
+  const firstImpression = sliceScreens("r3d10b34d304b4cad916178bf6f6ac709", "rab281cb9c61242179a1b6a77c7b1f813");
+  const finalPreference = FULL_SURVEY_SCREENS.find((screen) => screen.id === "final_preference");
+  const option231 = FULL_SURVEY_SCREENS.filter((screen) => screen.optionCode === OPTION_231);
+  const option429 = FULL_SURVEY_SCREENS.filter((screen) => screen.optionCode === OPTION_429);
+
+  if (mode === SURVEY_MODES.OPTION_231) {
+    return [...setup, ...option231, submit].filter(Boolean);
+  }
+  if (mode === SURVEY_MODES.OPTION_429) {
+    return [...setup, ...option429, submit].filter(Boolean);
+  }
+  if (mode === SURVEY_MODES.FINAL_PREFERENCE) {
+    return [...setup, ...firstImpression, finalPreference, submit].filter(Boolean);
+  }
+  return FULL_SURVEY_SCREENS;
+}
+
+function sliceScreens(startId, endId) {
+  const start = FULL_SURVEY_SCREENS.findIndex((screen) => screen.id === startId);
+  const end = FULL_SURVEY_SCREENS.findIndex((screen) => screen.id === endId);
+  if (start < 0 || end < start) {
+    return [];
+  }
+  return FULL_SURVEY_SCREENS.slice(start, end + 1);
 }
 
 function getLocalizedScreen(screen) {
@@ -1428,7 +1507,7 @@ async function submitSurvey() {
       state.submitted = true;
       state.submitMessage = "응답이 제출되었습니다. 감사합니다.\nYour response has been submitted. Thank you.";
     }
-    localStorage.removeItem(ANSWER_STORAGE_KEY);
+    localStorage.removeItem(MODE_ANSWER_STORAGE_KEY);
   } catch (error) {
     const endpoint = getEndpoint();
     const sent = endpoint && navigator.sendBeacon
@@ -1437,7 +1516,7 @@ async function submitSurvey() {
     if (sent) {
       state.submitted = true;
       state.submitMessage = "응답이 제출되었습니다. 감사합니다.\nYour response has been submitted. Thank you.";
-      localStorage.removeItem(ANSWER_STORAGE_KEY);
+      localStorage.removeItem(MODE_ANSWER_STORAGE_KEY);
     } else {
       state.submitError = true;
       state.submitMessage = `제출을 완료하지 못했습니다. 다시 시도해 주세요.\nSubmission could not be completed. Please try again. (${error.message})`;
@@ -1639,12 +1718,15 @@ function buildPayload() {
   });
 
   const workbookRows = buildWorkbookRows(responseId, submittedAt);
+  const targetWorkbookSheet = getTargetWorkbookSheet();
 
   return {
-    schemaVersion: "2026-04-27.4",
+    schemaVersion: "2026-04-27.5",
     responseId,
     submittedAt,
     submittedAtUtc,
+    pageKind: SURVEY_MODE,
+    targetWorkbookSheet,
     formTitle: SURVEY.title,
     sourceFormUrl: SOURCE_FORM_URL,
     answerRowCount: flatRows.length,
@@ -1729,7 +1811,30 @@ function buildWorkbookRows(responseId, submittedAt) {
     }
   });
 
+  if (SURVEY_MODE === SURVEY_MODES.OPTION_231) {
+    return { Option231: rows.Option231 };
+  }
+  if (SURVEY_MODE === SURVEY_MODES.OPTION_429) {
+    return { Option429: rows.Option429 };
+  }
+  if (SURVEY_MODE === SURVEY_MODES.FINAL_PREFERENCE) {
+    return { FinalPreference: rows.FinalPreference };
+  }
+
   return rows;
+}
+
+function getTargetWorkbookSheet() {
+  if (SURVEY_MODE === SURVEY_MODES.OPTION_231) {
+    return "Option231";
+  }
+  if (SURVEY_MODE === SURVEY_MODES.OPTION_429) {
+    return "Option429";
+  }
+  if (SURVEY_MODE === SURVEY_MODES.FINAL_PREFERENCE) {
+    return "FinalPreference";
+  }
+  return "FullSurvey";
 }
 
 function formatKoreaTimestamp(date) {
@@ -1811,12 +1916,12 @@ function syncSettingsVisibility() {
 
 function loadAnswers() {
   try {
-    return JSON.parse(localStorage.getItem(ANSWER_STORAGE_KEY) || "{}");
+    return JSON.parse(localStorage.getItem(MODE_ANSWER_STORAGE_KEY) || "{}");
   } catch {
     return {};
   }
 }
 
 function saveAnswers() {
-  localStorage.setItem(ANSWER_STORAGE_KEY, JSON.stringify(state.answers));
+  localStorage.setItem(MODE_ANSWER_STORAGE_KEY, JSON.stringify(state.answers));
 }
