@@ -331,6 +331,12 @@ textarea {
   margin-bottom: 10px;
 }
 
+.survey-image-frame.is-lace-secure {
+  width: min(44%, 172px);
+  min-height: clamp(64px, 10svh, 100px);
+  margin-bottom: 10px;
+}
+
 .start-panel {
   display: grid;
   justify-items: center;
@@ -635,6 +641,10 @@ textarea {
 .matrix {
   display: grid;
   gap: 22px;
+}
+
+.matrix.is-single-response {
+  gap: 14px;
 }
 
 .matrix-row {
@@ -1549,6 +1559,12 @@ textarea.text-answer {
     min-height: clamp(70px, 9.5svh, 108px);
   }
 
+  .survey-image-frame.is-lace-secure {
+    width: min(38%, 250px);
+    max-width: 250px;
+    min-height: clamp(92px, 14svh, 146px);
+  }
+
   .strava-route-card {
     min-height: clamp(460px, 56svh, 640px);
   }
@@ -1640,6 +1656,12 @@ textarea.text-answer {
     width: min(25%, 220px);
     max-width: 220px;
     min-height: clamp(78px, 10svh, 120px);
+  }
+
+  .survey-image-frame.is-lace-secure {
+    width: min(34%, 280px);
+    max-width: 280px;
+    min-height: clamp(104px, 15svh, 158px);
   }
 
   .strava-route-card {

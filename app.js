@@ -65,13 +65,13 @@ const SURVEY = {
       image: null,
       choices: []
     },
-    matrix("r16976ac35d7f49d99d8b0132ab661fd0", "Is the foot entry easy on and off without tugging?", null, "./assets/tugging.png", ["Very Difficult", "Moderately Difficult", "Somewhat Difficult", "Somewhat Easy", "Moderately Easy", "Very Easy"], [["r8f2a5c8845ce4fdda8e19cc52c7db96d", "OPTION A"], ["rce49158180f14ca78e86a27f128ee43a", "OPTION B"]], null, SCALE_TONE_QUALITY),
-    matrix("r2744e21e248e4dccb3c4c2b5fca61579", "How securely does the lace stay tied?", null, "./assets/question-images/9.png", ["Very Insecure", "Moderately Insecure", "Somewhat Insecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], [["ra83ab2913b2d4e65b3f02e84e5827d23", "OPTION A"], ["ra001992c51a14744ba59903010a402ab", "OPTION B"]], "Does the lace stay tied securely?", SCALE_TONE_QUALITY),
-    matrix("r1e7b3f177eda44de86224bb54e973a40", "How do you feel about the shoe length?", null, "./assets/question-images/10.png", ["Very Short", "Moderately Short", "Somewhat Short", "Just Right", "Somewhat Long", "Moderately Long", "Very Long"], [["r8899cd5a7b2d42478ded61fa6c3055c4", "OPTION A"], ["r584ce29342424e6694710ec887da8d94", "OPTION B"]], null, SCALE_TONE_IDEAL_CENTER),
-    matrix("r013287f922ba4e429bd5fe5b1c218304", "How do you feel about the upper comfort?", null, "./assets/question-images/11.png", ["Very Uncomfortable", "Moderately Uncomfortable", "Somewhat Uncomfortable", "Somewhat Comfortable", "Moderately Comfortable", "Very Comfortable"], [["re54897cc451c495ea72fa31cbeac7e20", "OPTION A"], ["ra952f436ea6b4a2792cb2812d9f12c38", "OPTION B"]], "Does the upper provide a right comfort without any irritation, discomfort or stiffness?", SCALE_TONE_QUALITY),
-    matrix("r29dc41bb1b964699a1b8851c47d0cb17", "How do you feel about the upper breathability for your running purpose?", null, "./assets/question-images/12.png", ["Not Breathable", "Moderately Not Breathable", "Somewhat Not Breathable", "Somewhat Breathable", "Moderately Breathable", "Very Breathable"], [["r5707237fe19c4abcba536fa92fe94fdc", "OPTION A"], ["r86f2ab1c530a4f43a29b677e63d44f77", "OPTION B"]], "Does the upper provide a right breathability to meet your running purpose?", SCALE_TONE_QUALITY),
-    matrix("r461f5e8e86af4f15839b89eb92655a42", "How do you feel about the upper security?", null, "./assets/question-images/13.png", ["Very Insecure", "Moderately Insecure", "Somewhat Insecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], [["r68443dfa5b4848e6bf1269293c5de1b2", "OPTION A"], ["r8fe377c38e7a4996ae327a6c20b1afc7", "OPTION B"]], "Does the upper hug your foot securely without being too tight or loose?", SCALE_TONE_QUALITY),
-    matrix("rd10683a1626d4f49bca7fe8d39fa1fc9", "How do you feel about the shoe weight?", null, "./assets/question-images/14.png", ["Very Heavy", "Moderately Heavy", "Somewhat Heavy", "Somewhat Light", "Moderately Light", "Very Light"], [["r9925678be167492c9a604fb1ff5c8b23", "OPTION A"], ["r91c84aa60c304e33bd7fac67363fbef6", "OPTION B"]], "Does the shoe have a right weight to meet your running purpose?", SCALE_TONE_QUALITY),
+    singleMatrix("r16976ac35d7f49d99d8b0132ab661fd0", "Is the foot entry easy on and off without tugging?", null, "./assets/tugging.png", ["Very Difficult", "Moderately Difficult", "Somewhat Difficult", "Somewhat Easy", "Moderately Easy", "Very Easy"], null, SCALE_TONE_QUALITY),
+    singleMatrix("r2744e21e248e4dccb3c4c2b5fca61579", "How securely does the lace stay tied?", null, "./assets/question-images/9.png", ["Very Insecure", "Moderately Insecure", "Somewhat Insecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], "Does the lace stay tied securely?", SCALE_TONE_QUALITY),
+    singleMatrix("r1e7b3f177eda44de86224bb54e973a40", "How do you feel about the shoe length?", null, "./assets/question-images/10.png", ["Very Short", "Moderately Short", "Somewhat Short", "Just Right", "Somewhat Long", "Moderately Long", "Very Long"], null, SCALE_TONE_IDEAL_CENTER),
+    singleMatrix("r013287f922ba4e429bd5fe5b1c218304", "How do you feel about the upper comfort?", null, "./assets/question-images/11.png", ["Very Uncomfortable", "Moderately Uncomfortable", "Somewhat Uncomfortable", "Somewhat Comfortable", "Moderately Comfortable", "Very Comfortable"], "Does the upper provide a right comfort without any irritation, discomfort or stiffness?", SCALE_TONE_QUALITY),
+    singleMatrix("r29dc41bb1b964699a1b8851c47d0cb17", "How do you feel about the upper breathability for your running purpose?", null, "./assets/question-images/12.png", ["Not Breathable", "Moderately Not Breathable", "Somewhat Not Breathable", "Somewhat Breathable", "Moderately Breathable", "Very Breathable"], "Does the upper provide a right breathability to meet your running purpose?", SCALE_TONE_QUALITY),
+    singleMatrix("r461f5e8e86af4f15839b89eb92655a42", "How do you feel about the upper security?", null, "./assets/question-images/13.png", ["Very Insecure", "Moderately Insecure", "Somewhat Insecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], "Does the upper hug your foot securely without being too tight or loose?", SCALE_TONE_QUALITY),
+    singleMatrix("rd10683a1626d4f49bca7fe8d39fa1fc9", "How do you feel about the shoe weight?", null, "./assets/question-images/14.png", ["Very Heavy", "Moderately Heavy", "Somewhat Heavy", "Somewhat Light", "Moderately Light", "Very Light"], "Does the shoe have a right weight to meet your running purpose?", SCALE_TONE_QUALITY),
     { id: "rab281cb9c61242179a1b6a77c7b1f813", type: "Question.TextField", title: "Please share your thoughts about the most impressive aspects of initial step-in feel or areas that need improvement.", subtitle: null, image: null, choices: [] },
     {
       id: "r406205423cb14e10b0f46ceebebb7517",
@@ -109,6 +109,12 @@ function matrix(id, title, subtitle, image, choices, rows, legacyTitle = null, s
     scaleTone,
     rows: rows.map(([rowId, rowTitle]) => ({ id: rowId, title: rowTitle }))
   };
+}
+
+function singleMatrix(id, title, subtitle, image, choices, legacyTitle = null, scaleTone = "neutral") {
+  const screen = matrix(id, title, subtitle, image, choices, [[id, ""]], legacyTitle, scaleTone);
+  screen.singleResponse = true;
+  return screen;
 }
 
 function scaleChoice(id, title, choices, scaleTone = "neutral") {
@@ -180,20 +186,20 @@ const KO_COPY = {
   },
   r406205423cb14e10b0f46ceebebb7517: {
     title: "언더풋",
-    subtitle: "초기 착화 후 해당 지형에서 1.5-2마일(약 2.4-3.2km)을 달린 뒤, 두 가지 신발 조건을 비교한 경험을 확인하고자 합니다.\n\n각 옵션에 대해 언더풋 쿠셔닝(뒤꿈치 및 앞발), 에너지 리턴, 보호감, 안정성에 대한 자세한 의견을 남겨 주세요."
+    subtitle: "초기 착화 후 해당 지형에서 1.5-2마일(약 2.4-3.2km)을 달린 뒤, 두 가지 신발 조건을 비교한 경험을 확인하고자 합니다.\n\n각 옵션에 대해 언더풋 쿠셔닝(힐 및 포풋), 에너지 리턴, 보호감, 안정성에 대한 자세한 의견을 남겨 주세요."
   },
   rae32dae17f8a478b8f720824f85d8da9: {
     title: "힐 쿠셔닝에 대해 어떻게 생각하시나요?"
   },
   rf533f683c7fb4104b012d5d01cb3640d: {
-    title: "뒤꿈치 쿠셔닝의 만족도는 어떤가요?",
+    title: "힐 쿠셔닝의 만족도는 어떤가요?",
     subtitle: "*1점부터 5점까지의 척도로 만족도를 평가해 주세요."
   },
   rcfabeb2948a044c58c7786b542b4c9f4: {
     title: "포풋 쿠셔닝에 대해 어떻게 생각하시나요?"
   },
   r0a748c7cc2bd4162afc5705d7a969ccb: {
-    title: "앞발 쿠셔닝의 만족도는 어떤가요?",
+    title: "포풋 쿠셔닝의 만족도는 어떤가요?",
     subtitle: "*1점부터 5점까지의 척도로 만족도를 평가해 주세요."
   },
   rad0549bcfd794b02ad2d92ac7d105434: {
@@ -571,6 +577,9 @@ function renderSurveyImage(screen) {
   if (screen.id === "r16976ac35d7f49d99d8b0132ab661fd0") {
     frame.classList.add("is-foot-entry");
   }
+  if (screen.id === "r2744e21e248e4dccb3c4c2b5fca61579") {
+    frame.classList.add("is-lace-secure");
+  }
 
   const skeleton = document.createElement("div");
   skeleton.className = "image-skeleton";
@@ -727,7 +736,7 @@ function renderMatrix(screen) {
   }
 
   const wrapper = document.createElement("div");
-  wrapper.className = "matrix";
+  wrapper.className = `matrix${screen.singleResponse ? " is-single-response" : ""}`;
   const rating = isRatingScaleScreen(screen);
 
   const rowEls = [];
@@ -748,7 +757,10 @@ function renderMatrix(screen) {
       ? createLikingScale(screen, row, rowIndex, rowEls)
       : createMarkerScale(screen, row, rowIndex, rowEls);
 
-    rowEl.append(rowTitle, options);
+    if (row.title) {
+      rowEl.append(rowTitle);
+    }
+    rowEl.append(options);
     wrapper.append(rowEl);
     rowEls.push(rowEl);
   });
@@ -774,7 +786,10 @@ function createLikingScale(screen, row, rowIndex, rowEls) {
   range.type = "range";
   range.min = "0";
   range.max = String(screen.choices.length - 1);
-  range.setAttribute("aria-label", `${getRowTitleKo(row.title)} / ${row.title} liking answer`);
+  const accessibleRowLabel = row.title
+    ? `${getRowTitleKo(row.title)} / ${row.title}`
+    : getAccessibleScreenLabel(screen);
+  range.setAttribute("aria-label", `${accessibleRowLabel} liking answer`);
 
   const slider = document.createElement("div");
   slider.className = "face-slider";
@@ -865,7 +880,10 @@ function createMarkerScale(screen, row, rowIndex, rowEls) {
   rail.className = "marker-rail";
   rail.style.setProperty("--count", String(screen.choices.length));
   rail.setAttribute("role", "radiogroup");
-  rail.setAttribute("aria-label", `${getRowTitleKo(row.title)} / ${row.title} answer`);
+  const accessibleRowLabel = row.title
+    ? `${getRowTitleKo(row.title)} / ${row.title}`
+    : getAccessibleScreenLabel(screen);
+  rail.setAttribute("aria-label", `${accessibleRowLabel} answer`);
 
   screen.choices.forEach((choice, choiceIndex) => {
     const button = document.createElement("button");
