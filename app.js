@@ -11,6 +11,14 @@ const START_SCREEN_TITLE = "Korea Dynamic Test Questionnaire";
 const START_SCREEN_DATE = "Test Date : May 10th, 2026";
 const SCALE_TONE_QUALITY = "quality";
 const SCALE_TONE_IDEAL_CENTER = "ideal-center";
+const OPTION_231 = "231";
+const OPTION_429 = "429";
+const OPTION_LABELS = {
+  [OPTION_231]: "Option 231",
+  [OPTION_429]: "Option 429"
+};
+const FINAL_PREFERENCE_CHOICE_ID = "final_preference_choice";
+const FINAL_PREFERENCE_REASON_ID = "final_preference_reason";
 
 const SURVEY = {
   title: START_SCREEN_TITLE,
@@ -34,13 +42,13 @@ const SURVEY = {
       id: "r33e4738100594b8286086c8a7fafa1f9",
       type: "Question.ColumnGroup",
       title: "Route & Elevation",
-      subtitle: "Seongjigok Reservoir, 295 Saessak-ro, Busanjin-gu, Busan, South Korea\n\nDetailed final route, slope, and elevation information will be updated and may change.",
+      subtitle: "Seongjigok Reservoir, 295 Saessak-ro, Busanjin-gu, Busan, South Korea\n\nDetailed final route, slope, and elevation information may still be adjusted.",
       image: null,
       embed: {
         type: "StravaRoute",
-        id: "3482620893647463620",
-        token: "BC7jbUjYnVN0xBLuVGwmcQoo--4W-lug8u4A5ki1O2s",
-        mapHash: "14.5/35.18681/129.04291",
+        id: "3483020635321308764",
+        token: "0e83Vnb2awromeLr3A5sJOT2h3PtSjv7WDNJCi3_QZc",
+        mapHash: "14.01/35.18622/129.04297",
         style: "standard",
         fromEmbed: "true"
       },
@@ -73,27 +81,9 @@ const SURVEY = {
     singleMatrix("r461f5e8e86af4f15839b89eb92655a42", "How do you feel about the upper security?", null, "./assets/question-images/13.png", ["Very Insecure", "Moderately Insecure", "Somewhat Insecure", "Somewhat Secure", "Moderately Secure", "Very Secure"], "Does the upper hug your foot securely without being too tight or loose?", SCALE_TONE_QUALITY),
     singleMatrix("rd10683a1626d4f49bca7fe8d39fa1fc9", "How do you feel about the shoe weight?", null, "./assets/question-images/14.png", ["Very Heavy", "Moderately Heavy", "Somewhat Heavy", "Somewhat Light", "Moderately Light", "Very Light"], "Does the shoe have a right weight to meet your running purpose?", SCALE_TONE_QUALITY),
     { id: "rab281cb9c61242179a1b6a77c7b1f813", type: "Question.TextField", title: "Please share your thoughts about the most impressive aspects of initial step-in feel or areas that need improvement.", subtitle: null, image: null, choices: [] },
-    {
-      id: "r406205423cb14e10b0f46ceebebb7517",
-      type: "Question.ColumnGroup",
-      title: "Underfoot",
-      subtitle: "We would like to understand your experience comparing the two shoe conditions after the initial step-in and a 1.5–2 mile run on this terrain.\n\nPlease provide detailed feedback on underfoot cushioning (heel & forefoot), energy return, protection and stability for each option.",
-      image: null,
-      choices: []
-    },
-    matrix("rae32dae17f8a478b8f720824f85d8da9", "How do you feel about the heel cushioning?", null, "./assets/question-images/17.png", ["Very Soft", "Moderately Soft", "Somewhat Soft", "Somewhat Firm", "Moderately Firm", "Very Firm"], [["rf7e4c5a6dae447be8d53dd14f9bd5ca6", "OPTION A"], ["r89f60ea45e704c338e504ba001a12d69", "OPTION B"]], "Does the heel provide a right cushioning without being too soft or firm?"),
-    matrix("rf533f683c7fb4104b012d5d01cb3640d", "How do you like the heel cushioning?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/122f725f-40a2-4187-8ee0-922439c6366f", ["1", "2", "3", "4", "5"], [["r8a737a1f08ef4b009b13d746ef069de1", "OPTION A"], ["r425e5142dfbb423faec6173d2670ee09", "OPTION B"]]),
-    matrix("rcfabeb2948a044c58c7786b542b4c9f4", "How do you feel about the forefoot cushioning?", null, "./assets/question-images/19.png", ["Very Soft", "Moderately Soft", "Somewhat Soft", "Somewhat Firm", "Moderately Firm", "Very Firm"], [["ra612c6af5d72492280ddc1a6ef39133d", "OPTION A"], ["r2a014b0a1d504d4e801c862ca6fdd1b3", "OPTION B"]], "Does the forefoot provide a right cushioning without being too soft or firm?"),
-    matrix("r0a748c7cc2bd4162afc5705d7a969ccb", "How do you like the forefoot cushioning?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/fb983e99-9032-4413-aeb5-72847996fedc", ["1", "2", "3", "4", "5"], [["r2f0e9f3c7c974e8d830964ce8ca86c1e", "OPTION A"], ["r8df4825c475542d1ad4d15260869b928", "OPTION B"]]),
-    matrix("rad0549bcfd794b02ad2d92ac7d105434", "How do you feel about the shoe's energy return?", null, "./assets/question-images/21.png", ["Very Dead", "Moderately Dead", "Somewhat Dead", "Somewhat Springy", "Moderately Springy", "Very Springy"], [["r7562e76f90e54ae7bfad32be55d9a20c", "OPTION A"], ["rc2dadc72b56243e0b8fa9bf3fc144a95", "OPTION B"]], "Does the midsole provide a right responsiveness without being flat and dead?", SCALE_TONE_QUALITY),
-    matrix("r0441f8eeb105498cb4979a0e65354f59", "How do you like the energy return?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/8a7d9c41-fa6d-45c7-9c50-26b486302e0a", ["1", "2", "3", "4", "5"], [["rba7aff53824545938ad3e4f208c0525b", "OPTION A"], ["r0d1d4ef37ba04642b582b0862d69f580", "OPTION B"]], "How do you like the responsiveness?"),
-    matrix("r9ed97752500a4c1fb1fe2895a59b1f18", "How do you feel about the stability at ground contact?", null, "./assets/question-images/23.png", ["Very Unstable", "Moderately Unstable", "Somewhat Unstable", "Somewhat Stable", "Moderately Stable", "Very Stable"], [["rc2b4c0008806493f801b12756d894925", "OPTION A"], ["r1c7ca7ffb61545c3b81d8f561fa805db", "OPTION B"]], null, SCALE_TONE_QUALITY),
-    matrix("r5da4c7fd9702401ab5bebad50f5b78ff", "How do you like the stability?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/a36f43b1-6c3a-4c5e-b077-c8a650ac645a", ["1", "2", "3", "4", "5"], [["r7f4ae99bcc904d8caf5e8b6baf90c865", "OPTION A"], ["r36c7094964a944db81a5b042ad54a4b2", "OPTION B"]]),
-    matrix("r4f0c2b1e7a934d5aa58e3c6a4b8d9f12", "How smooth is the transition from heel to toe?", null, "./assets/question-images/24.png", ["Very Slappy", "Moderately Slappy", "Somewhat Slappy", "Somewhat Smooth", "Moderately Smooth", "Very Smooth"], [["r8b1b8a2e0b7a4fb0a4ec2da2f0eab1a0", "OPTION A"], ["re0b2d1f5a7c24bc7984f3c5d2a11ef90", "OPTION B"]], null, SCALE_TONE_QUALITY),
-    matrix("r6f49a0fd33294fb6b28d0c08ff099ab1", "How do you feel about the outsole's traction on uneven terrain?", null, "./assets/question-images/26.png", ["Very Slippery", "Moderately Slippery", "Somewhat Slippery", "Somewhat Grippy", "Moderately Grippy", "Very Grippy"], [["r36596c6ea4d841b6acb81b297c08a51f", "OPTION A"], ["r25a05d7025c947d5abced137cdd997a7", "OPTION B"]], null, SCALE_TONE_QUALITY),
-    matrix("rb4ea1f79459140ec97027ad889f0ad28", "How do you feel about the underfoot protection when running on uneven terrain?", null, "./assets/question-images/25.png", ["Very Unprotective", "Moderately Unprotective", "Somewhat Unprotective", "Somewhat Protective", "Moderately Protective", "Very Protective"], [["r5cf7e6603c21479d9be3857b55ff9ab4", "OPTION A"], ["rb556f313b0eb4fffa3cc5ff6e5b99dcd", "OPTION B"]], null, SCALE_TONE_QUALITY),
-    matrix("r5d4f3001bcd54a539e77baa293db2874", "How do you like the underfoot protection?", "*Please rate your level of liking on a scale of 1 to 5.", "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/0423aee4-7dd6-4b91-9532-887a19b75c95", ["1", "2", "3", "4", "5"], [["r2c8b417145544ee6b17696ba92b1aa38", "OPTION A"], ["r64941770173a4147a9659e2d55153870", "OPTION B"]]),
-    { id: "r10ff47a33eec45f0a524c2b66cf3e4b1", type: "Question.TextField", title: "Please share your thoughts about the most impressive aspects of underfoot or areas that need improvement.", subtitle: null, image: null, choices: [] },
+    ...underfootOptionScreens(OPTION_231),
+    ...underfootOptionScreens(OPTION_429),
+    finalPreference("final_preference", "Final Preference", "Please choose the option you prefer overall after completing both option tests.", FINAL_PREFERENCE_CHOICE_ID, FINAL_PREFERENCE_REASON_ID, [OPTION_LABELS[OPTION_231], OPTION_LABELS[OPTION_429]]),
     { id: "submit", type: "Submit", title: "Submit Response", subtitle: null, image: null, choices: [] }
   ]
 };
@@ -130,6 +120,148 @@ function scaleChoice(id, title, choices, scaleTone = "neutral") {
   };
 }
 
+function optionSection(optionCode) {
+  return {
+    id: `option_${optionCode}_section`,
+    type: "Question.ColumnGroup",
+    title: `${OPTION_LABELS[optionCode]} Test`,
+    subtitle: `Please complete the following questions for ${OPTION_LABELS[optionCode]} only. You will answer the same set of questions again for the other option afterward.`,
+    image: null,
+    optionCode,
+    choices: []
+  };
+}
+
+function finalPreference(id, title, subtitle, choiceId, reasonId, choices) {
+  return {
+    id,
+    type: "Question.FinalPreference",
+    title,
+    subtitle,
+    choiceId,
+    reasonId,
+    choices
+  };
+}
+
+function underfootOptionScreens(optionCode) {
+  const optionIndex = optionCode === OPTION_231 ? 0 : 1;
+  const legacyRowTitle = optionCode === OPTION_231 ? "OPTION A" : "OPTION B";
+  const optionLabel = OPTION_LABELS[optionCode];
+  const definitions = [
+    {
+      id: "rae32dae17f8a478b8f720824f85d8da9",
+      title: "How do you feel about the heel cushioning?",
+      image: "./assets/question-images/17.png",
+      choices: ["Very Soft", "Moderately Soft", "Somewhat Soft", "Somewhat Firm", "Moderately Firm", "Very Firm"],
+      rows: ["rf7e4c5a6dae447be8d53dd14f9bd5ca6", "r89f60ea45e704c338e504ba001a12d69"],
+      legacyTitle: "Does the heel provide a right cushioning without being too soft or firm?"
+    },
+    {
+      id: "rf533f683c7fb4104b012d5d01cb3640d",
+      title: "How do you like the heel cushioning?",
+      subtitle: "*Please rate your level of liking on a scale of 1 to 5.",
+      image: "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/122f725f-40a2-4187-8ee0-922439c6366f",
+      choices: ["1", "2", "3", "4", "5"],
+      rows: ["r8a737a1f08ef4b009b13d746ef069de1", "r425e5142dfbb423faec6173d2670ee09"]
+    },
+    {
+      id: "rcfabeb2948a044c58c7786b542b4c9f4",
+      title: "How do you feel about the forefoot cushioning?",
+      image: "./assets/question-images/19.png",
+      choices: ["Very Soft", "Moderately Soft", "Somewhat Soft", "Somewhat Firm", "Moderately Firm", "Very Firm"],
+      rows: ["ra612c6af5d72492280ddc1a6ef39133d", "r2a014b0a1d504d4e801c862ca6fdd1b3"],
+      legacyTitle: "Does the forefoot provide a right cushioning without being too soft or firm?"
+    },
+    {
+      id: "r0a748c7cc2bd4162afc5705d7a969ccb",
+      title: "How do you like the forefoot cushioning?",
+      subtitle: "*Please rate your level of liking on a scale of 1 to 5.",
+      image: "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/fb983e99-9032-4413-aeb5-72847996fedc",
+      choices: ["1", "2", "3", "4", "5"],
+      rows: ["r2f0e9f3c7c974e8d830964ce8ca86c1e", "r8df4825c475542d1ad4d15260869b928"]
+    },
+    {
+      id: "rad0549bcfd794b02ad2d92ac7d105434",
+      title: "How do you feel about the shoe's energy return?",
+      image: "./assets/question-images/21.png",
+      choices: ["Very Dead", "Moderately Dead", "Somewhat Dead", "Somewhat Springy", "Moderately Springy", "Very Springy"],
+      rows: ["r7562e76f90e54ae7bfad32be55d9a20c", "rc2dadc72b56243e0b8fa9bf3fc144a95"],
+      legacyTitle: "Does the midsole provide a right responsiveness without being flat and dead?",
+      scaleTone: SCALE_TONE_QUALITY
+    },
+    {
+      id: "r0441f8eeb105498cb4979a0e65354f59",
+      title: "How do you like the energy return?",
+      subtitle: "*Please rate your level of liking on a scale of 1 to 5.",
+      image: "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/8a7d9c41-fa6d-45c7-9c50-26b486302e0a",
+      choices: ["1", "2", "3", "4", "5"],
+      rows: ["rba7aff53824545938ad3e4f208c0525b", "r0d1d4ef37ba04642b582b0862d69f580"],
+      legacyTitle: "How do you like the responsiveness?"
+    },
+    {
+      id: "r9ed97752500a4c1fb1fe2895a59b1f18",
+      title: "How do you feel about the stability at ground contact?",
+      image: "./assets/question-images/23.png",
+      choices: ["Very Unstable", "Moderately Unstable", "Somewhat Unstable", "Somewhat Stable", "Moderately Stable", "Very Stable"],
+      rows: ["rc2b4c0008806493f801b12756d894925", "r1c7ca7ffb61545c3b81d8f561fa805db"],
+      scaleTone: SCALE_TONE_QUALITY
+    },
+    {
+      id: "r5da4c7fd9702401ab5bebad50f5b78ff",
+      title: "How do you like the stability?",
+      subtitle: "*Please rate your level of liking on a scale of 1 to 5.",
+      image: "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/a36f43b1-6c3a-4c5e-b077-c8a650ac645a",
+      choices: ["1", "2", "3", "4", "5"],
+      rows: ["r7f4ae99bcc904d8caf5e8b6baf90c865", "r36c7094964a944db81a5b042ad54a4b2"]
+    },
+    {
+      id: "r4f0c2b1e7a934d5aa58e3c6a4b8d9f12",
+      title: "How smooth is the transition from heel to toe?",
+      image: "./assets/question-images/24.png",
+      choices: ["Very Slappy", "Moderately Slappy", "Somewhat Slappy", "Somewhat Smooth", "Moderately Smooth", "Very Smooth"],
+      rows: ["r8b1b8a2e0b7a4fb0a4ec2da2f0eab1a0", "re0b2d1f5a7c24bc7984f3c5d2a11ef90"],
+      scaleTone: SCALE_TONE_QUALITY
+    },
+    {
+      id: "r6f49a0fd33294fb6b28d0c08ff099ab1",
+      title: "How do you feel about the outsole's traction on uneven terrain?",
+      image: "./assets/question-images/26.png",
+      choices: ["Very Slippery", "Moderately Slippery", "Somewhat Slippery", "Somewhat Grippy", "Moderately Grippy", "Very Grippy"],
+      rows: ["r36596c6ea4d841b6acb81b297c08a51f", "r25a05d7025c947d5abced137cdd997a7"],
+      scaleTone: SCALE_TONE_QUALITY
+    },
+    {
+      id: "rb4ea1f79459140ec97027ad889f0ad28",
+      title: "How do you feel about the underfoot protection when running on uneven terrain?",
+      image: "./assets/question-images/25.png",
+      choices: ["Very Unprotective", "Moderately Unprotective", "Somewhat Unprotective", "Somewhat Protective", "Moderately Protective", "Very Protective"],
+      rows: ["r5cf7e6603c21479d9be3857b55ff9ab4", "rb556f313b0eb4fffa3cc5ff6e5b99dcd"],
+      scaleTone: SCALE_TONE_QUALITY
+    },
+    {
+      id: "r5d4f3001bcd54a539e77baa293db2874",
+      title: "How do you like the underfoot protection?",
+      subtitle: "*Please rate your level of liking on a scale of 1 to 5.",
+      image: "https://hive.forms.usercontent.microsoft/images/1445a1df-842f-4a65-95a2-9237bdf735c9/fb8110f8-bbc0-451d-8b01-a3599e66edbd/TCPGC70FHWI40OA89A2VTOPGWU/0423aee4-7dd6-4b91-9532-887a19b75c95",
+      choices: ["1", "2", "3", "4", "5"],
+      rows: ["r2c8b417145544ee6b17696ba92b1aa38", "r64941770173a4147a9659e2d55153870"]
+    }
+  ];
+
+  return [
+    optionSection(optionCode),
+    ...definitions.map((definition) => {
+      const screen = matrix(`${definition.id}_${optionCode}`, definition.title, definition.subtitle || null, definition.image || null, definition.choices, [[definition.rows[optionIndex], optionLabel]], definition.legacyTitle || null, definition.scaleTone || "neutral");
+      screen.sourceQuestionId = definition.id;
+      screen.optionCode = optionCode;
+      screen.optionLabel = optionLabel;
+      screen.rows[0].legacyTitle = legacyRowTitle;
+      return screen;
+    })
+  ];
+}
+
 const KO_COPY = {
   start: {
     title: "",
@@ -142,7 +274,7 @@ const KO_COPY = {
   },
   r33e4738100594b8286086c8a7fafa1f9: {
     title: "코스 및 고도",
-    subtitle: "성지곡수원지, 부산광역시 부산진구 새싹로 295 (초읍동)\n\n세부적인 최종 루트와 경사, 고도 정보는 추후 변경될 예정입니다."
+    subtitle: "성지곡수원지, 부산광역시 부산진구 새싹로 295 (초읍동)\n\n세부적인 최종 루트와 경사, 고도 정보는 추후 조정될 수 있습니다."
   },
   r6054912e5d1e4572a039c018e3bd6a9a: {
     title: "테스터 정보",
@@ -185,9 +317,13 @@ const KO_COPY = {
   rab281cb9c61242179a1b6a77c7b1f813: {
     title: "초기 착화감에서 가장 인상적이었던 점이나 개선이 필요한 부분을 적어 주세요."
   },
-  r406205423cb14e10b0f46ceebebb7517: {
-    title: "언더풋",
-    subtitle: "초기 착화 후 해당 지형에서 1.5-2마일(약 2.4-3.2km)을 달린 뒤, 두 가지 신발 조건을 비교한 경험을 확인하고자 합니다.\n\n각 옵션에 대해 언더풋 쿠셔닝(힐 및 포풋), 에너지 리턴, 보호감, 안정성에 대한 자세한 의견을 남겨 주세요."
+  option_231_section: {
+    title: "옵션 231",
+    subtitle: "이제 옵션 231에 대한 응답만 입력해 주세요. 이후 동일한 질문 세트를 옵션 429에 대해 한 번 더 진행합니다."
+  },
+  option_429_section: {
+    title: "옵션 429",
+    subtitle: "이제 옵션 429에 대한 응답만 입력해 주세요. 앞서 입력한 옵션 231과 비교하면서 느낀 그대로 선택해 주세요."
   },
   rae32dae17f8a478b8f720824f85d8da9: {
     title: "힐 쿠셔닝에 대해 어떻게 생각하시나요?"
@@ -230,8 +366,11 @@ const KO_COPY = {
     title: "언더풋 보호감의 만족도는 어떤가요?",
     subtitle: "*1점부터 5점까지의 척도로 만족도를 평가해 주세요."
   },
-  r10ff47a33eec45f0a524c2b66cf3e4b1: {
-    title: "언더풋에서 가장 인상적이었던 점이나 개선이 필요한 부분을 적어 주세요."
+  final_preference: {
+    title: "최종 선호도",
+    subtitle: "두 옵션을 모두 테스트한 뒤, 최종적으로 더 선호하는 옵션과 그 이유를 남겨 주세요.",
+    choiceTitle: "두 옵션 중 어느 옵션을 최종적으로 더 선호하시나요?",
+    reasonTitle: "선택한 옵션을 선호하는 이유에 대해 구체적으로 기재해 주세요."
   },
   submit: {
     title: "응답 제출",
@@ -245,6 +384,8 @@ const KO_CHOICES = {
   "10-15 km": "10-15km",
   "15-20 km": "15-20km",
   "20 km or more": "20km 이상",
+  "Option 231": "옵션 231",
+  "Option 429": "옵션 429",
   "Very Difficult": "매우 어려움",
   "Moderately Difficult": "다소 어려움",
   "Somewhat Difficult": "약간 어려움",
@@ -321,8 +462,8 @@ const KO_CHOICES = {
 };
 
 const KO_ROWS = {
-  "OPTION A": "옵션 A",
-  "OPTION B": "옵션 B"
+  "Option 231": "옵션 231",
+  "Option 429": "옵션 429"
 };
 
 const state = {
@@ -403,7 +544,7 @@ function currentScreen() {
 }
 
 function getLocalizedScreen(screen) {
-  return KO_COPY[screen?.id] || {};
+  return KO_COPY[screen?.id] || KO_COPY[screen?.sourceQuestionId] || {};
 }
 
 function getScreenTitleKo(screen) {
@@ -530,6 +671,8 @@ function render() {
     renderScaleChoice(screen);
   } else if (screen.type === "Question.MatrixChoiceGroup") {
     renderMatrix(screen);
+  } else if (screen.type === "Question.FinalPreference") {
+    renderFinalPreference(screen);
   } else if (screen.type === "Submit") {
     renderSubmit();
   }
@@ -624,6 +767,7 @@ function usesBackgroundArt(screen) {
   return screen.type === "Start"
     || screen.type === "Intro"
     || screen.type === "Question.ColumnGroup"
+    || screen.type === "Question.FinalPreference"
     || screen.type === "Submit";
 }
 
@@ -727,6 +871,71 @@ function renderTextField(screen) {
     saveAnswers();
   });
   els.content.append(field);
+}
+
+function renderFinalPreference(screen) {
+  if (screen.subtitle) {
+    els.content.append(renderLocalizedText(screen, "question-copy intro final-preference-copy"));
+  }
+
+  const panel = document.createElement("section");
+  panel.className = "final-preference-panel";
+
+  const choiceGroup = document.createElement("div");
+  choiceGroup.className = "preference-block";
+  const choiceTitle = document.createElement("h2");
+  choiceTitle.className = "preference-question";
+  setBilingualContent(choiceTitle, getLocalizedScreen(screen).choiceTitle, "Which option do you prefer overall?", {
+    koClass: "preference-question-ko",
+    enClass: "preference-question-en"
+  });
+
+  const choices = document.createElement("div");
+  choices.className = "preference-choice-grid";
+  choices.setAttribute("role", "radiogroup");
+  choices.setAttribute("aria-label", getLocalizedScreen(screen).choiceTitle || screen.title);
+
+  screen.choices.forEach((choice) => {
+    const selected = state.answers[screen.choiceId] === choice;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `preference-card${selected ? " is-selected" : ""}`;
+    button.setAttribute("role", "radio");
+    button.setAttribute("aria-checked", selected ? "true" : "false");
+    setBilingualContent(button, getChoiceKo(choice), choice, {
+      koClass: "preference-card-ko",
+      enClass: "preference-card-en"
+    });
+    button.addEventListener("click", () => {
+      state.answers[screen.choiceId] = choice;
+      saveAnswers();
+      render();
+    });
+    choices.append(button);
+  });
+
+  choiceGroup.append(choiceTitle, choices);
+
+  const reasonGroup = document.createElement("label");
+  reasonGroup.className = "preference-block";
+  const reasonTitle = document.createElement("span");
+  reasonTitle.className = "preference-question";
+  setBilingualContent(reasonTitle, getLocalizedScreen(screen).reasonTitle, "Please describe why you prefer the selected option.", {
+    koClass: "preference-question-ko",
+    enClass: "preference-question-en"
+  });
+  const reason = document.createElement("textarea");
+  reason.className = "text-answer preference-reason";
+  reason.value = state.answers[screen.reasonId] || "";
+  reason.setAttribute("aria-label", getLocalizedScreen(screen).reasonTitle || "Preference reason");
+  reason.addEventListener("input", () => {
+    state.answers[screen.reasonId] = reason.value;
+    saveAnswers();
+  });
+  reasonGroup.append(reasonTitle, reason);
+
+  panel.append(choiceGroup, reasonGroup);
+  els.content.append(panel);
 }
 
 function renderScaleChoice(screen) {
@@ -1324,19 +1533,20 @@ function buildPayload() {
   let answerColumnIndex = 0;
 
   SURVEY.screens.forEach((screen) => {
+    const questionId = getQuestionId(screen);
     if (screen.type === "Question.TextField") {
       const answer = state.answers[screen.id] || "";
       answerColumnIndex += 1;
       surveyDbRow[columnHeader(answerColumnIndex, screen.title)] = answer;
       answersByQuestion[screen.id] = {
-        questionId: screen.id,
+        questionId,
         questionTitle: screen.title,
         answer
       };
       flatRows.push({
         responseId,
         submittedAt,
-        questionId: screen.id,
+        questionId,
         questionTitle: screen.title,
         rowId: "",
         rowTitle: "",
@@ -1349,14 +1559,14 @@ function buildPayload() {
       answerColumnIndex += 1;
       surveyDbRow[columnHeader(answerColumnIndex, screen.title)] = answer;
       answersByQuestion[screen.id] = {
-        questionId: screen.id,
+        questionId,
         questionTitle: screen.title,
         answer
       };
       flatRows.push({
         responseId,
         submittedAt,
-        questionId: screen.id,
+        questionId,
         questionTitle: screen.title,
         rowId: "",
         rowTitle: "",
@@ -1366,35 +1576,72 @@ function buildPayload() {
 
     if (screen.type === "Question.MatrixChoiceGroup") {
       const storageTitle = screen.legacyTitle || screen.title;
-      answersByQuestion[screen.id] = {
-        questionId: screen.id,
+      const answerGroup = answersByQuestion[questionId] || {
+        questionId,
         questionTitle: screen.title,
         rows: {}
       };
+      answersByQuestion[questionId] = answerGroup;
       screen.rows.forEach((row) => {
         const answer = getStoredChoiceAnswer(screen, row.id);
         answerColumnIndex += 1;
-        surveyDbRow[columnHeader(answerColumnIndex, storageTitle, row.title)] = answer;
-        answersByQuestion[screen.id].rows[row.id] = {
+        surveyDbRow[columnHeader(answerColumnIndex, storageTitle, row.legacyTitle || row.title)] = answer;
+        answerGroup.rows[row.id] = {
           rowId: row.id,
           rowTitle: row.title,
+          legacyRowTitle: row.legacyTitle || "",
+          optionCode: screen.optionCode || "",
           answer
         };
         flatRows.push({
           responseId,
           submittedAt,
-          questionId: screen.id,
+          questionId,
           questionTitle: screen.title,
           rowId: row.id,
           rowTitle: row.title,
+          legacyRowTitle: row.legacyTitle || "",
+          optionCode: screen.optionCode || "",
           answer
         });
       });
     }
+
+    if (screen.type === "Question.FinalPreference") {
+      const preferredOption = state.answers[screen.choiceId] || "";
+      const reason = state.answers[screen.reasonId] || "";
+      const localized = getLocalizedScreen(screen);
+      const preferenceQuestion = localized.choiceTitle || "Which option do you prefer overall?";
+      const reasonQuestion = localized.reasonTitle || "Please describe why you prefer the selected option.";
+      [
+        { id: screen.choiceId, title: preferenceQuestion, answer: preferredOption },
+        { id: screen.reasonId, title: reasonQuestion, answer: reason }
+      ].forEach((item) => {
+        answerColumnIndex += 1;
+        surveyDbRow[columnHeader(answerColumnIndex, item.title)] = item.answer;
+        flatRows.push({
+          responseId,
+          submittedAt,
+          questionId: item.id,
+          questionTitle: item.title,
+          rowId: "",
+          rowTitle: "",
+          answer: item.answer
+        });
+      });
+      answersByQuestion[screen.id] = {
+        questionId: screen.id,
+        questionTitle: screen.title,
+        preferredOption,
+        reason
+      };
+    }
   });
 
+  const workbookRows = buildWorkbookRows(responseId, submittedAt);
+
   return {
-    schemaVersion: "2026-04-27.2",
+    schemaVersion: "2026-04-27.4",
     responseId,
     submittedAt,
     submittedAtUtc,
@@ -1409,12 +1656,80 @@ function buildPayload() {
     },
     answers: answersByQuestion,
     flatRows,
-    surveyDbRow
+    surveyDbRow,
+    workbookRows
   };
 }
 
 function getScreenById(id) {
   return SURVEY.screens.find((screen) => screen.id === id);
+}
+
+function getQuestionId(screen) {
+  return screen.sourceQuestionId || screen.id;
+}
+
+function getWorkbookQuestionTitle(screen) {
+  const localizedTitle = getLocalizedScreen(screen).title;
+  return localizedTitle ? `${localizedTitle} / ${screen.title}` : screen.title;
+}
+
+function buildWorkbookRows(responseId, submittedAt) {
+  const base = {
+    ResponseId: responseId,
+    SubmittedAt: submittedAt,
+    TesterName: state.answers.ref10a028774947e4b02ebad4c50c8406 || "",
+    NormalTrailShoe: state.answers.r8cd399d5613b4743866237999b83cbc8 || "",
+    TypicalDistance: getStoredChoiceAnswer(getScreenById("r59ead437294c42b49564b9eedb65d6d7"), "r59ead437294c42b49564b9eedb65d6d7")
+  };
+  const rows = {
+    Option231: { ...base, Option: OPTION_LABELS[OPTION_231] },
+    Option429: { ...base, Option: OPTION_LABELS[OPTION_429] },
+    FinalPreference: { ...base }
+  };
+  const indexes = {
+    Option231: 0,
+    Option429: 0,
+    FinalPreference: 0
+  };
+
+  const appendValue = (sheetName, title, answer) => {
+    indexes[sheetName] += 1;
+    rows[sheetName][columnHeader(indexes[sheetName], title)] = answer;
+  };
+
+  SURVEY.screens.forEach((screen) => {
+    if (screen.id === "ref10a028774947e4b02ebad4c50c8406" || screen.id === "r8cd399d5613b4743866237999b83cbc8" || screen.id === "r59ead437294c42b49564b9eedb65d6d7") {
+      return;
+    }
+    if (screen.type === "Question.TextField") {
+      appendValue("FinalPreference", getWorkbookQuestionTitle(screen), state.answers[screen.id] || "");
+    }
+    if (screen.type === "Question.MatrixChoiceGroup") {
+      const sheetName = screen.optionCode === OPTION_231
+        ? "Option231"
+        : screen.optionCode === OPTION_429
+          ? "Option429"
+          : "FinalPreference";
+      const title = getWorkbookQuestionTitle(screen);
+      screen.rows.forEach((row) => {
+        appendValue(sheetName, title, getStoredChoiceAnswer(screen, row.id));
+      });
+    }
+    if (screen.type === "Question.FinalPreference") {
+      const localized = getLocalizedScreen(screen);
+      const choiceTitle = localized.choiceTitle
+        ? `${localized.choiceTitle} / Which option do you prefer overall?`
+        : "Which option do you prefer overall?";
+      const reasonTitle = localized.reasonTitle
+        ? `${localized.reasonTitle} / Please describe why you prefer the selected option.`
+        : "Please describe why you prefer the selected option.";
+      appendValue("FinalPreference", choiceTitle, state.answers[screen.choiceId] || "");
+      appendValue("FinalPreference", reasonTitle, state.answers[screen.reasonId] || "");
+    }
+  });
+
+  return rows;
 }
 
 function formatKoreaTimestamp(date) {

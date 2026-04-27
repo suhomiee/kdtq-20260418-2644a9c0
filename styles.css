@@ -1200,6 +1200,95 @@ textarea.text-answer {
   min-height: 156px;
 }
 
+.final-preference-panel {
+  display: grid;
+  gap: 22px;
+}
+
+.final-preference-copy {
+  margin-bottom: 4px;
+}
+
+.preference-block {
+  display: grid;
+  gap: 12px;
+}
+
+.preference-question {
+  display: block;
+  margin: 0;
+  color: #3f3f3f;
+  font-size: 16px;
+  font-weight: 860;
+  line-height: 1.22;
+}
+
+.preference-question-en {
+  margin-top: 4px;
+  color: #8a8a8a;
+  font-size: 0.78em;
+  font-weight: 760;
+}
+
+.preference-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.preference-card {
+  min-height: 82px;
+  border: 2px solid #d4d4d4;
+  border-radius: 14px;
+  padding: 16px 12px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #4a4a4a;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.preference-card:hover,
+.preference-card:focus-visible {
+  border-color: var(--accent);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.preference-card:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.preference-card.is-selected {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.preference-card-ko {
+  font-size: 17px;
+  font-weight: 890;
+  line-height: 1.05;
+}
+
+.preference-card-en {
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 760;
+  line-height: 1.1;
+  opacity: 0.84;
+}
+
+.preference-reason {
+  min-height: 148px;
+}
+
 .submit-copy {
   margin: 0 0 18px;
   color: #666666;
