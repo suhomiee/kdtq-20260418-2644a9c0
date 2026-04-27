@@ -1223,7 +1223,14 @@ textarea.text-answer {
   line-height: 1.22;
 }
 
+.preference-question-ko {
+  display: block;
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+
 .preference-question-en {
+  display: block;
   margin-top: 4px;
   color: #8a8a8a;
   font-size: 0.78em;
@@ -1272,12 +1279,16 @@ textarea.text-answer {
 }
 
 .preference-card-ko {
+  display: block;
   font-size: 17px;
   font-weight: 890;
   line-height: 1.05;
+  overflow-wrap: normal;
+  word-break: keep-all;
 }
 
 .preference-card-en {
+  display: block;
   margin-top: 6px;
   font-size: 12px;
   font-weight: 760;
