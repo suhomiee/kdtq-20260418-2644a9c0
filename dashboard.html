@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>T2 Running & ACG Korea Dynamic Test Dashboard</title>
+    <link rel="icon" href="data:,">
+    <link rel="preload" href="./assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="./dashboard.css?v=20260428-dashboard-2">
+  </head>
+  <body>
+    <main class="dashboard-shell">
+      <header class="dashboard-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">May 10th, 2026</p>
+          <h1>
+            <span>T2 Running &amp; ACG 코리아 다이나믹 테스트 대시보드</span>
+            <small>T2 Running &amp; ACG Korea Dynamic Test Dashboard</small>
+          </h1>
+          <p class="hero-note">
+            <span>옵션 231, 옵션 429, 첫 인상 및 최종 선호도 응답을 현장에서 바로 확인합니다.</span>
+            <small>Review Option 231, Option 429, first impression, and final preference results in the field.</small>
+          </p>
+        </div>
+        <div class="sync-card" aria-live="polite">
+          <span class="sync-dot"></span>
+          <div>
+            <strong id="sourceLabel">
+              <span>Excel Online 데이터 모델 준비됨</span>
+              <small>Excel Online data model ready</small>
+            </strong>
+            <span id="sourceDetail">
+              <span>실시간 응답 엔드포인트 연결 대기 중</span>
+              <small>Waiting for live response endpoint</small>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <section class="kpi-grid" id="kpiGrid" aria-label="Response overview"></section>
+
+      <section class="dashboard-grid">
+        <article class="panel panel-radar">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label"><span>옵션 비교</span><small>Option comparison</small></p>
+              <h2><span>옵션 비교 레이더</span><small>Option Comparison Radar</small></h2>
+            </div>
+            <div class="legend" id="optionLegend"></div>
+          </div>
+          <div class="radar-wrap" id="radarChart"></div>
+          <div class="option-summary" id="optionSummary"></div>
+        </article>
+
+        <article class="panel panel-heatmap">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label"><span>옵션 문항 분포</span><small>Option response distribution</small></p>
+              <h2><span>옵션 응답 히트맵</span><small>Option Response Heatmap</small></h2>
+            </div>
+            <span class="muted"><span>설문지 색상 로직 반영</span><small>Survey color logic</small></span>
+          </div>
+          <div id="heatmap"></div>
+        </article>
+
+        <article class="panel panel-preference">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label"><span>최종 선택</span><small>Final selection</small></p>
+              <h2><span>최종 선호도</span><small>Final Preference</small></h2>
+            </div>
+          </div>
+          <div id="preferencePanel"></div>
+          <div class="reason-block">
+            <div>
+              <p class="section-label"><span>주관식 요약</span><small>Open-text summary</small></p>
+              <h3><span>선호 이유 키워드</span><small>Why They Preferred</small></h3>
+            </div>
+            <div id="reasonSignals"></div>
+          </div>
+        </article>
+
+        <article class="panel panel-first">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label"><span>첫 인상</span><small>First impression</small></p>
+              <h2><span>첫 인상 응답 히트맵</span><small>First Impression Heatmap</small></h2>
+            </div>
+          </div>
+          <div class="first-impression-list" id="firstImpression"></div>
+        </article>
+
+        <article class="panel panel-context">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label"><span>테스터 정보</span><small>Tester context</small></p>
+              <h2><span>테스터 맥락</span><small>Tester Context</small></h2>
+            </div>
+          </div>
+          <div id="testerContext"></div>
+        </article>
+      </section>
+    </main>
+
+    <script src="./dashboard.js?v=20260428-dashboard-2"></script>
+  </body>
+</html>
