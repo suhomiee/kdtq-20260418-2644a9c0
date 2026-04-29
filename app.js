@@ -39,22 +39,6 @@ const SURVEY = {
       subtitle: "Product Testing Confidentiality Agreement\nFOR PRODUCT TESTERS\n\n I hereby agree to comply with the following terms regarding product testing for TKG Taekwang and Nike (hereinafter referred to as \"the Company\").\nAs part of my responsibilities as a product tester, I will soon receive confidential information and company-owned products related to the product. I acknowledge that all information and products related to the test are owned by the Company and are considered confidential.\n\nAll information related to the product that I receive (including technical or other information, UI, and other product photos and images) must always be treated as confidential. I am prohibited from disclosing this information to unauthorized third parties or in any other form, and failure to return the products or information constitutes a breach of the confidentiality agreement with the Company. This applies even if the materials are not explicitly marked as \"confidential.\"\n\nBy reading and signing this agreement, I confirm that I understand the information and products related to the test are confidential to the Company. I also acknowledge that unauthorized disclosure could cause irreparable harm to the Company and its business. I pledge to this confidentiality agreement and understand that any breach may result in civil and criminal liability under relevant laws, including the Unfair Competition Prevention and Trade Secret Protection Act."
     },
     {
-      id: "r33e4738100594b8286086c8a7fafa1f9",
-      type: "Question.ColumnGroup",
-      title: "Route & Elevation",
-      subtitle: "Seongjigok Reservoir, 295 Saessak-ro, Busanjin-gu, Busan, South Korea\n\nThe detailed route will be guided by on-site staff on the test day.",
-      image: null,
-      embed: {
-        type: "StravaRoute",
-        id: "3482620893647463620",
-        token: "BC7jbUjYnVN0xBLuVGwmcQoo--4W-lug8u4A5ki1O2s",
-        mapHash: "14.31/35.18697/129.04248",
-        style: "standard",
-        fromEmbed: "true"
-      },
-      choices: []
-    },
-    {
       id: "r6054912e5d1e4572a039c018e3bd6a9a",
       type: "Question.ColumnGroup",
       title: "Tester's Information",
@@ -225,7 +209,8 @@ function underfootOptionScreens(optionCode) {
     },
     {
       id: "r6f49a0fd33294fb6b28d0c08ff099ab1",
-      title: "How do you feel about the outsole's traction on uneven terrain?",
+      title: "How do you feel about the outsole's traction?",
+      workbookTitle: "How do you feel about the outsole's traction on uneven terrain?",
       image: "./assets/question-images/26.png",
       choices: ["Very Slippery", "Moderately Slippery", "Somewhat Slippery", "Somewhat Grippy", "Moderately Grippy", "Very Grippy"],
       rows: ["r36596c6ea4d841b6acb81b297c08a51f", "r25a05d7025c947d5abced137cdd997a7"],
@@ -271,10 +256,6 @@ const KO_COPY = {
   agreement: {
     title: "제품 테스트 비밀유지 동의서",
     subtitle: "제품 테스트 비밀유지 동의서\n제품 테스트 참가자용\n\n본인은 TKG태광 및 Nike(이하 \"회사\")의 제품 테스트와 관련하여 아래 비밀유지 조건을 준수하는 데 동의합니다.\n제품 테스터로서 본인은 제품과 관련된 회사의 기밀 정보 및 회사 소유 제품을 제공받을 수 있습니다. 본인은 테스트와 관련된 모든 정보와 제품이 회사의 소유이며 비밀 정보로 취급되어야 함을 인정합니다.\n\n본인이 제공받는 제품 관련 모든 정보(기술 정보, UI, 제품 사진 및 이미지 등)는 항상 비밀로 취급되어야 합니다. 본인은 이 정보를 승인되지 않은 제3자에게 공개하거나 어떠한 형태로도 유출해서는 안 되며, 제품 또는 정보를 반환하지 않거나 본 비밀유지 의무를 위반하는 행위는 회사와의 비밀유지 계약 위반에 해당합니다. 이는 해당 자료에 \"confidential\" 표시가 명시되어 있지 않은 경우에도 동일하게 적용됩니다.\n\n본 동의서를 읽고 동의함으로써, 본인은 테스트 관련 정보와 제품이 회사의 비밀 정보임을 이해했음을 확인합니다. 또한 무단 공개가 회사와 회사의 사업에 회복하기 어려운 손해를 초래할 수 있음을 인정하며, 본 비밀유지 의무를 준수할 것을 확약합니다. 위반 시 부정경쟁방지 및 영업비밀보호에 관한 법률 등 관련 법령에 따라 민형사상 책임이 발생할 수 있음을 이해합니다."
-  },
-  r33e4738100594b8286086c8a7fafa1f9: {
-    title: "코스 및 고도",
-    subtitle: "성지곡수원지, 부산광역시 부산진구 새싹로 295 (초읍동)\n\n세부 경로는 테스트 당일 현장에서 직원들의 가이드에 따라 안내될 예정입니다."
   },
   r6054912e5d1e4572a039c018e3bd6a9a: {
     title: "테스터 정보",
@@ -326,24 +307,24 @@ const KO_COPY = {
     subtitle: "이 페이지에서는 옵션 429에 대한 응답만 입력해 주세요. 전체 테스트는 옵션 231, 옵션 429, 최종 선호도까지 총 3건의 QR 응답으로 구성되어 있으며, 진행 순서는 무작위가 될 수 있습니다."
   },
   rae32dae17f8a478b8f720824f85d8da9: {
-    title: "힐 쿠셔닝에 대해 어떻게 생각하시나요?"
+    title: "힐(뒤꿈치) 쿠셔닝에 대해 어떻게 생각하시나요?"
   },
   rf533f683c7fb4104b012d5d01cb3640d: {
-    title: "힐 쿠셔닝의 만족도는 어떤가요?",
+    title: "힐(뒤꿈치) 쿠셔닝의 만족도는 어떤가요?",
     subtitle: "*1점부터 5점까지의 척도로 만족도를 평가해 주세요."
   },
   rcfabeb2948a044c58c7786b542b4c9f4: {
-    title: "포풋 쿠셔닝에 대해 어떻게 생각하시나요?"
+    title: "포풋(전족부) 쿠셔닝에 대해 어떻게 생각하시나요?"
   },
   r0a748c7cc2bd4162afc5705d7a969ccb: {
-    title: "포풋 쿠셔닝의 만족도는 어떤가요?",
+    title: "포풋(전족부) 쿠셔닝의 만족도는 어떤가요?",
     subtitle: "*1점부터 5점까지의 척도로 만족도를 평가해 주세요."
   },
   rad0549bcfd794b02ad2d92ac7d105434: {
-    title: "신발의 에너지리턴(반발감)은 어떻게 생각하시나요?"
+    title: "신발의 에너지리턴(반발탄성)은 어떻게 생각하시나요?"
   },
   r0441f8eeb105498cb4979a0e65354f59: {
-    title: "에너지 리턴의 만족도는 어떤가요?",
+    title: "에너지리턴(반발탄성)의 만족도는 어떤가요?",
     subtitle: "*1점부터 5점까지의 척도로 만족도를 평가해 주세요."
   },
   r9ed97752500a4c1fb1fe2895a59b1f18: {
@@ -357,7 +338,7 @@ const KO_COPY = {
     title: "발의 뒤에서 앞으로의 움직임이 자연스럽게 연결되나요?"
   },
   r6f49a0fd33294fb6b28d0c08ff099ab1: {
-    title: "불규칙한 지형에서 아웃솔 접지력은 어떤가요?"
+    title: "아웃솔 접지력은 어떤가요?"
   },
   rb4ea1f79459140ec97027ad889f0ad28: {
     title: "불규칙한 지형을 달릴 때 발을 보호해 주는 느낌은 어떤가요?"
@@ -387,65 +368,65 @@ const KO_CHOICES = {
   "Option 231": "옵션 231",
   "Option 429": "옵션 429",
   "Very Difficult": "매우 어려움",
-  "Moderately Difficult": "다소 어려움",
+  "Moderately Difficult": "어려움",
   "Somewhat Difficult": "약간 어려움",
   "Somewhat Easy": "약간 쉬움",
-  "Moderately Easy": "다소 쉬움",
+  "Moderately Easy": "쉬움",
   "Very Easy": "매우 쉬움",
   "Very Insecure": "매우 불안정",
-  "Moderately Insecure": "다소 불안정",
+  "Moderately Insecure": "불안정",
   "Somewhat Insecure": "약간 불안정",
   "Somewhat Secure": "약간 안정적",
-  "Moderately Secure": "다소 안정적",
+  "Moderately Secure": "안정적",
   "Very Secure": "매우 안정적",
   "Very Short": "매우 짧음",
-  "Moderately Short": "다소 짧음",
+  "Moderately Short": "짧음",
   "Somewhat Short": "약간 짧음",
   "Just Right": "적당함",
   "Somewhat Long": "약간 김",
-  "Moderately Long": "다소 김",
+  "Moderately Long": "김",
   "Very Long": "매우 김",
   "Very Uncomfortable": "매우 불편함",
-  "Moderately Uncomfortable": "다소 불편함",
+  "Moderately Uncomfortable": "불편함",
   "Somewhat Uncomfortable": "약간 불편함",
   "Somewhat Comfortable": "약간 편안함",
-  "Moderately Comfortable": "다소 편안함",
+  "Moderately Comfortable": "편안함",
   "Very Comfortable": "매우 편안함",
   "Not Breathable": "통기성 부족",
-  "Moderately Not Breathable": "다소 답답함",
+  "Moderately Not Breathable": "답답함",
   "Somewhat Not Breathable": "약간 답답함",
   "Somewhat Breathable": "약간 통기성 있음",
-  "Moderately Breathable": "다소 통기성 좋음",
+  "Moderately Breathable": "통기성 좋음",
   "Very Breathable": "매우 통기성 좋음",
   "Very Heavy": "매우 무거움",
-  "Moderately Heavy": "다소 무거움",
+  "Moderately Heavy": "무거움",
   "Somewhat Heavy": "약간 무거움",
   "Somewhat Light": "약간 가벼움",
-  "Moderately Light": "다소 가벼움",
+  "Moderately Light": "가벼움",
   "Very Light": "매우 가벼움",
   "Very Soft": "매우 소프트함",
-  "Moderately Soft": "다소 소프트함",
+  "Moderately Soft": "소프트함",
   "Somewhat Soft": "약간 소프트함",
   "Somewhat Firm": "약간 단단함",
-  "Moderately Firm": "다소 단단함",
+  "Moderately Firm": "단단함",
   "Very Firm": "매우 단단함",
   "Very Dead": "매우 둔함",
-  "Moderately Dead": "다소 둔함",
+  "Moderately Dead": "둔함",
   "Somewhat Dead": "약간 둔함",
   "Somewhat Springy": "약간 탄성 있음",
-  "Moderately Springy": "다소 탄성 있음",
+  "Moderately Springy": "탄성 있음",
   "Very Springy": "매우 탄성 있음",
   "Very Unstable": "매우 불안정",
-  "Moderately Unstable": "다소 불안정",
+  "Moderately Unstable": "불안정",
   "Somewhat Unstable": "약간 불안정",
   "Somewhat Stable": "약간 안정적",
-  "Moderately Stable": "다소 안정적",
+  "Moderately Stable": "안정적",
   "Very Stable": "매우 안정적",
   "Very Slappy": "매우 툭 떨어짐",
-  "Moderately Slappy": "다소 툭 떨어짐",
+  "Moderately Slappy": "툭 떨어짐",
   "Somewhat Slappy": "약간 툭 떨어짐",
   "Somewhat Smooth": "약간 매끄러움",
-  "Moderately Smooth": "다소 매끄러움",
+  "Moderately Smooth": "매끄러움",
   "Very Smooth": "매우 매끄러움",
   "Very Unprotective": "전혀 보호해주지 않음",
   "Moderately Unprotective": "거의 보호해주지 않음",
@@ -454,10 +435,10 @@ const KO_CHOICES = {
   "Moderately Protective": "잘 보호해줌",
   "Very Protective": "매우 잘 보호해줌",
   "Very Slippery": "매우 미끄러움",
-  "Moderately Slippery": "다소 미끄러움",
+  "Moderately Slippery": "미끄러움",
   "Somewhat Slippery": "약간 미끄러움",
   "Somewhat Grippy": "약간 접지됨",
-  "Moderately Grippy": "다소 접지력 좋음",
+  "Moderately Grippy": "접지력 좋음",
   "Very Grippy": "매우 접지력 좋음"
 };
 
@@ -587,12 +568,13 @@ function getSurveyMode() {
 
 function buildScreensForMode(mode) {
   const submit = FULL_SURVEY_SCREENS.find((screen) => screen.id === "submit");
-  const setup = [
+  const sharedSetup = [
     "start",
     "agreement",
-    "r33e4738100594b8286086c8a7fafa1f9",
     "r6054912e5d1e4572a039c018e3bd6a9a",
-    "ref10a028774947e4b02ebad4c50c8406",
+    "ref10a028774947e4b02ebad4c50c8406"
+  ].map((id) => FULL_SURVEY_SCREENS.find((screen) => screen.id === id)).filter(Boolean);
+  const testerContext = [
     "r8cd399d5613b4743866237999b83cbc8",
     "r59ead437294c42b49564b9eedb65d6d7"
   ].map((id) => FULL_SURVEY_SCREENS.find((screen) => screen.id === id)).filter(Boolean);
@@ -602,13 +584,13 @@ function buildScreensForMode(mode) {
   const option429 = FULL_SURVEY_SCREENS.filter((screen) => screen.optionCode === OPTION_429);
 
   if (mode === SURVEY_MODES.OPTION_231) {
-    return [...setup, ...option231, submit].filter(Boolean);
+    return [...sharedSetup, ...option231, submit].filter(Boolean);
   }
   if (mode === SURVEY_MODES.OPTION_429) {
-    return [...setup, ...option429, submit].filter(Boolean);
+    return [...sharedSetup, ...option429, submit].filter(Boolean);
   }
   if (mode === SURVEY_MODES.FINAL_PREFERENCE) {
-    return [...setup, ...firstImpression, finalPreference, submit].filter(Boolean);
+    return [...sharedSetup, ...testerContext, ...firstImpression, finalPreference, submit].filter(Boolean);
   }
   return FULL_SURVEY_SCREENS;
 }
@@ -1752,21 +1734,23 @@ function getQuestionId(screen) {
 }
 
 function getWorkbookQuestionTitle(screen) {
-  return screen.title;
+  return screen.workbookTitle || screen.title;
 }
 
 function buildWorkbookRows(responseId, submittedAt) {
   const base = {
     ResponseId: responseId,
     SubmittedAt: submittedAt,
-    TesterName: state.answers.ref10a028774947e4b02ebad4c50c8406 || "",
+    TesterName: state.answers.ref10a028774947e4b02ebad4c50c8406 || ""
+  };
+  const testerContext = {
     NormalTrailShoe: state.answers.r8cd399d5613b4743866237999b83cbc8 || "",
     TypicalDistance: getStoredChoiceAnswer(getScreenById("r59ead437294c42b49564b9eedb65d6d7"), "r59ead437294c42b49564b9eedb65d6d7")
   };
   const rows = {
     Option231: { ...base, Option: OPTION_LABELS[OPTION_231] },
     Option429: { ...base, Option: OPTION_LABELS[OPTION_429] },
-    FinalPreference: { ...base }
+    FinalPreference: { ...base, ...testerContext }
   };
   const indexes = {
     Option231: 0,

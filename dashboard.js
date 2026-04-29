@@ -63,12 +63,12 @@ const DISTANCE_LABELS_KO = {
 };
 
 const OPTION_QUESTIONS = [
-  { key: "heelFeel", ko: "힐 쿠셔닝", en: "Heel cushioning", scale: SCALES.softFirm, tone: "neutral", match: ["heel cushioning", "feel about"] },
-  { key: "heelLike", ko: "힐 만족도", en: "Heel liking", scale: SCALES.liking, tone: "liking", match: ["like the heel cushioning"] },
-  { key: "forefootFeel", ko: "포풋 쿠셔닝", en: "Forefoot cushioning", scale: SCALES.softFirm, tone: "neutral", match: ["forefoot cushioning", "feel about"] },
-  { key: "forefootLike", ko: "포풋 만족도", en: "Forefoot liking", scale: SCALES.liking, tone: "liking", match: ["like the forefoot cushioning"] },
-  { key: "energyFeel", ko: "에너지리턴", en: "Energy return", scale: SCALES.energy, tone: "quality", match: ["energy return", "feel about"] },
-  { key: "energyLike", ko: "반발감 만족도", en: "Energy liking", scale: SCALES.liking, tone: "liking", match: ["like the energy return"] },
+  { key: "heelFeel", ko: "힐(뒤꿈치) 쿠셔닝", en: "Heel cushioning", scale: SCALES.softFirm, tone: "neutral", match: ["heel cushioning", "feel about"] },
+  { key: "heelLike", ko: "힐(뒤꿈치) 만족도", en: "Heel liking", scale: SCALES.liking, tone: "liking", match: ["like the heel cushioning"] },
+  { key: "forefootFeel", ko: "포풋(전족부) 쿠셔닝", en: "Forefoot cushioning", scale: SCALES.softFirm, tone: "neutral", match: ["forefoot cushioning", "feel about"] },
+  { key: "forefootLike", ko: "포풋(전족부) 만족도", en: "Forefoot liking", scale: SCALES.liking, tone: "liking", match: ["like the forefoot cushioning"] },
+  { key: "energyFeel", ko: "에너지리턴(반발탄성)", en: "Energy return", scale: SCALES.energy, tone: "quality", match: ["energy return", "feel about"] },
+  { key: "energyLike", ko: "에너지리턴(반발탄성) 만족도", en: "Energy liking", scale: SCALES.liking, tone: "liking", match: ["like the energy return"] },
   { key: "stabilityFeel", ko: "지면 안정성", en: "Ground contact stability", scale: SCALES.stability, tone: "quality", match: ["stability at ground contact"] },
   { key: "stabilityLike", ko: "안정감 만족도", en: "Stability liking", scale: SCALES.liking, tone: "liking", match: ["like the", "stability"] },
   { key: "transitionFeel", ko: "전환감", en: "Heel-to-toe transition", scale: SCALES.transition, tone: "quality", match: ["transition from heel to toe"] },
@@ -285,8 +285,8 @@ function buildModel(data) {
     },
     firstStats: summarizeFirstImpression(finalPreference),
     preferences: summarizePreference(finalPreference),
-    distances: summarizeDistribution([...option231, ...option429, ...finalPreference], "typicalDistance", SCALES.distance, ["typical distance"]),
-    shoeChips: topTextValues([...option231, ...option429, ...finalPreference], "NormalTrailShoe", ["normaltrailshoe", "normal trail shoe"], 8),
+    distances: summarizeDistribution(finalPreference, "typicalDistance", SCALES.distance, ["typical distance"]),
+    shoeChips: topTextValues(finalPreference, "NormalTrailShoe", ["normaltrailshoe", "normal trail shoe"], 8),
     reasons: summarizeReasons(finalPreference)
   };
 }
@@ -375,7 +375,7 @@ function summarizeReasons(rows) {
   const reasons = rows.map((row) => readField(row, "reason", ["why you prefer", "선호하는 이유"])).filter(Boolean);
   const dictionary = [
     ["접지력", "traction", /접지|grip|traction/i],
-    ["반발감", "energy return", /반발|energy|spring/i],
+    ["반발탄성", "energy return", /반발|energy|spring/i],
     ["안정성", "stability", /안정|stable|stability/i],
     ["쿠셔닝", "cushioning", /쿠션|cushion/i],
     ["가벼움", "lightweight", /가볍|light/i],
