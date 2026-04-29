@@ -139,13 +139,13 @@ function resolveDataEndpoint() {
 async function loadDashboardData(endpoint = resolveDataEndpoint()) {
   if (!endpoint) {
     return {
-      data: sampleDashboardData(),
-      usingSample: true,
+      data: emptyDashboardData(),
+      usingSample: false,
       detail: {
-        labelKo: "샘플 데이터 미리보기",
-        labelEn: "Preview sample data",
-        noteKo: "Excel 읽기 엔드포인트 연결 전 샘플 데이터입니다.",
-        noteEn: "Sample preview until the Excel read endpoint is connected."
+        labelKo: "라이브 응답 대기 중",
+        labelEn: "Waiting for live responses",
+        noteKo: "Excel Online 읽기 엔드포인트가 설정되면 실제 응답만 표시됩니다.",
+        noteEn: "Only real Excel Online responses will appear once the endpoint is configured."
       }
     };
   }
@@ -166,16 +166,24 @@ async function loadDashboardData(endpoint = resolveDataEndpoint()) {
   } catch (error) {
     console.error(error);
     return {
-      data: sampleDashboardData(),
-      usingSample: true,
+      data: emptyDashboardData(),
+      usingSample: false,
       detail: {
-        labelKo: "샘플 데이터 미리보기",
-        labelEn: "Preview sample data",
-        noteKo: `엔드포인트 오류로 샘플을 표시합니다. (${error.message})`,
-        noteEn: `Endpoint fallback preview. (${error.message})`
+        labelKo: "라이브 연결 확인 필요",
+        labelEn: "Live connection needs attention",
+        noteKo: `대체 데이터 없이 실제 응답만 표시합니다. 엔드포인트 응답 오류: ${error.message}`,
+        noteEn: `No sample fallback. Showing live data only. Endpoint error: ${error.message}`
       }
     };
   }
+}
+
+function emptyDashboardData() {
+  return {
+    Option231: [],
+    Option429: [],
+    FinalPreference: []
+  };
 }
 
 function dashboardRequestInit(endpoint) {
@@ -372,23 +380,83 @@ function topTextValues(rows, directKey, terms, limit) {
 }
 
 function summarizeReasons(rows) {
-  const reasons = rows.map((row) => readField(row, "reason", ["why you prefer", "선호하는 이유"])).filter(Boolean);
-  const dictionary = [
-    ["접지력", "traction", /접지|grip|traction/i],
-    ["반발탄성", "energy return", /반발|energy|spring/i],
-    ["안정성", "stability", /안정|stable|stability/i],
-    ["쿠셔닝", "cushioning", /쿠션|cushion/i],
-    ["가벼움", "lightweight", /가볍|light/i],
-    ["보호감", "protection", /보호|protect/i]
-  ];
-  const chips = dictionary
+  const entries = rows.map((row) => ({
+    tester: readTesterName(row),
+    option: normalizeOption(readField(row, "preferredOption", ["prefer overall", "final preference", "최종적으로 더 선호"])),
+    text: readField(row, "reason", ["why you prefer", "선호하는 이유"])
+  })).filter((entry) => entry.text);
+  const reasons = entries.map((entry) => entry.text);
+  const dictionary = reasonDictionary();
+  const dictionaryChips = dictionary
     .map(([ko, en, regex]) => ({ ko, en, count: reasons.filter((reason) => regex.test(reason)).length }))
-    .filter((item) => item.count > 0)
-    .sort((a, b) => b.count - a.count);
+    .filter((item) => item.count > 0);
+  const extractedChips = extractReasonKeywords(reasons);
+  const chips = mergeReasonChips(dictionaryChips, extractedChips).slice(0, 10);
+  const samples = entries
+    .slice()
+    .sort((a, b) => b.text.length - a.text.length)
+    .slice(0, 4);
   return {
-    chips: chips.length ? chips : dictionary.slice(0, 4).map(([ko, en]) => ({ ko, en, count: 0 })),
-    samples: reasons.slice(0, 3)
+    total: reasons.length,
+    chips,
+    samples,
+    summaryKo: reasons.length
+      ? `총 ${reasons.length}개의 선호도 사유에서 반복되는 표현을 자동으로 묶었습니다.`
+      : "선호도 사유 응답이 들어오면 키워드와 대표 문장이 표시됩니다.",
+    summaryEn: reasons.length
+      ? `Auto-grouped recurring terms from ${reasons.length} preference reasons.`
+      : "Keyword signals and representative comments will appear when preference reasons arrive."
   };
+}
+
+function reasonDictionary() {
+  return [
+    ["접지력", "traction", /접지|그립|grip|traction|grippy/i],
+    ["반발탄성", "energy return", /반발|탄성|energy|spring|springy|responsive/i],
+    ["안정성", "stability", /안정|stable|stability|secure/i],
+    ["쿠셔닝", "cushioning", /쿠션|쿠셔닝|cushion|cushioning/i],
+    ["소프트함", "softness", /소프트|부드|soft/i],
+    ["단단함", "firmness", /단단|firm/i],
+    ["가벼움", "lightweight", /가볍|무게|light|weight/i],
+    ["보호감", "protection", /보호|protect|protection/i],
+    ["전환감", "transition", /전환|연결|transition|smooth|slappy/i],
+    ["착화감", "step-in feel", /착화|신기|entry|step-in/i],
+    ["편안함", "comfort", /편안|불편|comfort|comfortable/i],
+    ["통기성", "breathability", /통기|breath/i]
+  ];
+}
+
+function extractReasonKeywords(reasons) {
+  const stop = new Set([
+    "option", "because", "about", "with", "from", "that", "this", "feel", "felt", "shoe", "shoes", "more", "very", "really", "overall",
+    "옵션", "느낌", "생각", "부분", "정도", "보다", "더", "잘", "좋", "좋고", "좋았", "있는", "없는", "같습니다", "같아요", "합니다"
+  ]);
+  const counts = new Map();
+  reasons.forEach((reason) => {
+    const compact = String(reason || "").replace(/\u00a0/g, " ");
+    const korean = compact.match(/[가-힣]{2,}/g) || [];
+    const english = compact.toLowerCase().match(/[a-z][a-z-]{3,}/g) || [];
+    [...korean, ...english].forEach((raw) => {
+      const token = raw.replace(/^[\s.,!?;:()[\]{}"']+|[\s.,!?;:()[\]{}"']+$/g, "");
+      if (!token || stop.has(token) || token.length < 2) return;
+      counts.set(token, (counts.get(token) || 0) + 1);
+    });
+  });
+  return [...counts.entries()]
+    .filter(([, count]) => count > 1)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, 8)
+    .map(([keyword, count]) => ({ ko: keyword, en: "extracted keyword", count, extracted: true }));
+}
+
+function mergeReasonChips(dictionaryChips, extractedChips) {
+  const merged = new Map();
+  [...dictionaryChips, ...extractedChips].forEach((chip) => {
+    const key = normalizeCompact(chip.ko);
+    const current = merged.get(key);
+    if (!current || chip.count > current.count) merged.set(key, chip);
+  });
+  return [...merged.values()].sort((a, b) => b.count - a.count || Number(!!a.extracted) - Number(!!b.extracted));
 }
 
 function renderDashboard(model, usingSample, detail) {
@@ -566,8 +634,29 @@ function renderTesterContext(distanceCounts, shoeChips) {
 }
 
 function renderReasons(reasons) {
-  const chips = reasons.chips.map((chip) => `<span class="chip">${escapeHtml(chip.ko)} / ${escapeHtml(chip.en)}${chip.count ? ` · ${chip.count}` : ""}</span>`).join("");
-  els.reasonSignals.innerHTML = `<div class="chips">${chips}</div>`;
+  if (!reasons.total) {
+    els.reasonSignals.innerHTML = emptyState(dualLineText(reasons.summaryKo, reasons.summaryEn));
+    return;
+  }
+  const chips = reasons.chips.length
+    ? reasons.chips.map((chip) => `
+      <span class="chip reason-chip">
+        <span>${escapeHtml(chip.ko)}<small>${escapeHtml(chip.en)}</small></span>
+        <strong>${chip.count}</strong>
+      </span>
+    `).join("")
+    : `<span class="chip">${dualLine("키워드 분석 대기", "Waiting for stronger keyword signals")}</span>`;
+  const samples = reasons.samples.map((sample) => `
+    <li class="reason-item">
+      <p>${escapeHtml(sample.text)}</p>
+      <span>${escapeHtml(sample.tester || "Anonymous")} · ${escapeHtml(sample.option || "Final preference")}</span>
+    </li>
+  `).join("");
+  els.reasonSignals.innerHTML = `
+    <div class="reason-summary">${dualLine(reasons.summaryKo, reasons.summaryEn)}</div>
+    <div class="chips">${chips}</div>
+    <ul class="reason-list">${samples}</ul>
+  `;
 }
 
 function heatmapGroup({ question, stat231, stat429 }) {
@@ -725,6 +814,10 @@ function dualLine(ko, en) {
   return `<span>${escapeHtml(ko)}</span><small>${escapeHtml(en)}</small>`;
 }
 
+function dualLineText(ko, en) {
+  return `${ko}\n${en}`;
+}
+
 function formatKstTime(date) {
   return new Intl.DateTimeFormat("ko-KR", {
     timeZone: "Asia/Seoul",
@@ -737,89 +830,4 @@ function formatKstTime(date) {
 
 function emptyState(message) {
   return `<div class="empty-state">${escapeHtml(message)}</div>`;
-}
-
-function sampleDashboardData() {
-  const testers = [
-    ["JH Kim", "Nike Zegama 2", "5-10 km"],
-    ["Min Park", "Pegasus Trail 5", "10-15 km"],
-    ["Soyeon Lee", "Hoka Speedgoat", "5-10 km"],
-    ["DY Choi", "Salomon Genesis", "10-15 km"],
-    ["Hana Jung", "Nike Ultrafly", "15-20 km"],
-    ["Leo Park", "Nnormal Tomir", "5 km or less"],
-    ["YJ Han", "Nike Zegama 2", "5-10 km"],
-    ["Seung Woo", "Saucony Xodus Ultra", "10-15 km"],
-    ["Ara Moon", "Nike Pegasus Trail 5", "15-20 km"],
-    ["KS Lim", "Hoka Mafate Speed", "20 km or more"]
-  ];
-  const option231Answers = [
-    ["Somewhat Firm", "4", "Somewhat Soft", "4", "Moderately Springy", "5", "Moderately Stable", "4", "Moderately Smooth", "Very Grippy", "Moderately Protective", "4"],
-    ["Somewhat Firm", "4", "Somewhat Firm", "4", "Very Springy", "5", "Somewhat Stable", "4", "Very Smooth", "Moderately Grippy", "Moderately Protective", "4"],
-    ["Moderately Soft", "3", "Somewhat Soft", "3", "Somewhat Springy", "4", "Moderately Stable", "4", "Moderately Smooth", "Moderately Grippy", "Somewhat Protective", "3"],
-    ["Somewhat Firm", "4", "Somewhat Firm", "5", "Moderately Springy", "4", "Very Stable", "5", "Somewhat Smooth", "Very Grippy", "Very Protective", "5"],
-    ["Moderately Firm", "3", "Somewhat Firm", "3", "Moderately Springy", "4", "Moderately Stable", "4", "Moderately Smooth", "Moderately Grippy", "Moderately Protective", "4"],
-    ["Somewhat Soft", "4", "Somewhat Soft", "4", "Somewhat Springy", "4", "Somewhat Stable", "3", "Somewhat Smooth", "Somewhat Grippy", "Somewhat Protective", "3"],
-    ["Somewhat Firm", "5", "Somewhat Firm", "4", "Very Springy", "5", "Moderately Stable", "4", "Very Smooth", "Very Grippy", "Very Protective", "5"],
-    ["Very Firm", "3", "Moderately Firm", "3", "Moderately Springy", "4", "Somewhat Stable", "3", "Moderately Smooth", "Moderately Grippy", "Moderately Protective", "4"],
-    ["Moderately Soft", "4", "Somewhat Soft", "4", "Somewhat Springy", "4", "Moderately Stable", "4", "Moderately Smooth", "Somewhat Grippy", "Somewhat Protective", "4"],
-    ["Somewhat Firm", "4", "Somewhat Firm", "4", "Moderately Springy", "4", "Very Stable", "5", "Very Smooth", "Very Grippy", "Very Protective", "5"]
-  ];
-  const option429Answers = [
-    ["Somewhat Soft", "4", "Moderately Soft", "4", "Somewhat Springy", "4", "Somewhat Stable", "4", "Somewhat Smooth", "Moderately Grippy", "Somewhat Protective", "4"],
-    ["Moderately Soft", "3", "Somewhat Soft", "3", "Somewhat Dead", "3", "Moderately Stable", "4", "Somewhat Slappy", "Somewhat Grippy", "Moderately Protective", "4"],
-    ["Somewhat Soft", "4", "Somewhat Soft", "4", "Moderately Springy", "4", "Somewhat Stable", "3", "Somewhat Smooth", "Moderately Grippy", "Somewhat Protective", "3"],
-    ["Somewhat Firm", "5", "Somewhat Firm", "5", "Moderately Springy", "5", "Very Stable", "5", "Moderately Smooth", "Very Grippy", "Moderately Protective", "5"],
-    ["Moderately Soft", "4", "Somewhat Soft", "3", "Somewhat Springy", "4", "Moderately Stable", "4", "Somewhat Smooth", "Somewhat Grippy", "Somewhat Protective", "4"],
-    ["Very Soft", "3", "Moderately Soft", "3", "Somewhat Dead", "3", "Somewhat Unstable", "2", "Somewhat Slappy", "Somewhat Slippery", "Somewhat Unprotective", "2"],
-    ["Somewhat Soft", "4", "Somewhat Soft", "4", "Moderately Springy", "4", "Moderately Stable", "4", "Moderately Smooth", "Moderately Grippy", "Moderately Protective", "4"],
-    ["Somewhat Firm", "4", "Somewhat Firm", "4", "Somewhat Springy", "4", "Somewhat Stable", "3", "Somewhat Smooth", "Moderately Grippy", "Somewhat Protective", "3"],
-    ["Moderately Soft", "4", "Somewhat Soft", "4", "Moderately Springy", "4", "Moderately Stable", "4", "Moderately Smooth", "Very Grippy", "Moderately Protective", "4"]
-  ];
-  return {
-    Option231: option231Answers.map((answers, index) => optionRow(testers[index], "Option 231", answers, index)),
-    Option429: option429Answers.map((answers, index) => optionRow(testers[index], "Option 429", answers, index)),
-    FinalPreference: testers.slice(0, 8).map((tester, index) => finalRow(tester, index))
-  };
-}
-
-function optionRow(tester, option, answers, index) {
-  const row = {
-    ResponseId: `sample-${option}-${index + 1}`,
-    SubmittedAt: `2026-05-10 1${index % 4}:${String(12 + index * 3).padStart(2, "0")}:24 KST`,
-    TesterName: tester[0],
-    NormalTrailShoe: tester[1],
-    TypicalDistance: tester[2],
-    Option: option
-  };
-  OPTION_QUESTIONS.forEach((question, questionIndex) => {
-    row[question.key] = answers[questionIndex];
-  });
-  return row;
-}
-
-function finalRow(tester, index) {
-  const firstAnswers = [
-    ["Moderately Easy", "Very Secure", "Just Right", "Moderately Comfortable", "Somewhat Breathable", "Moderately Secure", "Somewhat Light"],
-    ["Somewhat Easy", "Moderately Secure", "Just Right", "Somewhat Comfortable", "Moderately Breathable", "Somewhat Secure", "Moderately Light"],
-    ["Very Easy", "Moderately Secure", "Somewhat Long", "Moderately Comfortable", "Somewhat Breathable", "Moderately Secure", "Somewhat Light"],
-    ["Moderately Easy", "Very Secure", "Just Right", "Very Comfortable", "Moderately Breathable", "Very Secure", "Moderately Light"]
-  ][index % 4];
-  const row = {
-    ResponseId: `sample-final-${index + 1}`,
-    SubmittedAt: `2026-05-10 14:${String(21 + index * 4).padStart(2, "0")}:38 KST`,
-    TesterName: tester[0],
-    NormalTrailShoe: tester[1],
-    TypicalDistance: tester[2],
-    preferredOption: index % 3 === 1 ? "Option 429" : "Option 231",
-    reason: [
-      "옵션 231이 지면 접지력과 전환감이 더 자연스럽고 안정적이었습니다.",
-      "옵션 429는 어퍼가 편하고 착화감이 좋지만, 빠른 내리막에서는 옵션 231이 더 믿음직했습니다.",
-      "반발감과 보호감은 옵션 231이 더 좋았고 장거리에서도 피로가 적을 것 같습니다.",
-      "옵션 429의 부드러운 쿠셔닝이 마음에 들었고 발등 압박이 적었습니다."
-    ][index % 4]
-  };
-  FIRST_IMPRESSION.forEach((question, questionIndex) => {
-    row[question.key] = firstAnswers[questionIndex];
-  });
-  return row;
 }

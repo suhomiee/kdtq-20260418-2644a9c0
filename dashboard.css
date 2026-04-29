@@ -547,6 +547,58 @@ h3 small {
   border-radius: 11px;
 }
 
+.reason-summary {
+  margin-bottom: 10px;
+  color: #58625f;
+  font-size: 12px;
+  font-weight: 760;
+  line-height: 1.38;
+}
+
+.reason-summary span,
+.reason-summary small {
+  display: block;
+}
+
+.reason-summary small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 720;
+}
+
+.reason-chip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  width: 100%;
+}
+
+.reason-chip span,
+.reason-chip small {
+  display: block;
+}
+
+.reason-chip small {
+  margin-top: 2px;
+  color: rgba(36, 84, 81, 0.72);
+  font-size: 10px;
+  line-height: 1.05;
+  font-weight: 760;
+}
+
+.reason-chip strong {
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 900;
+}
+
 .reason-block .reason-list {
   margin-top: 12px;
 }
@@ -591,6 +643,7 @@ h3 small {
 }
 
 .reason-item {
+  list-style: none;
   padding: 12px;
   border-left: 3px solid var(--accent);
   border-radius: 8px;
@@ -599,6 +652,18 @@ h3 small {
   font-size: 12px;
   font-weight: 680;
   line-height: 1.45;
+}
+
+.reason-item p {
+  margin: 0;
+}
+
+.reason-item span {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 820;
 }
 
 .heatmap {
@@ -754,6 +819,7 @@ h3 small {
   border-radius: 12px;
   color: #68716e;
   text-align: center;
+  white-space: pre-line;
   font-size: 13px;
   font-weight: 750;
   background: rgba(255,255,255,0.46);
