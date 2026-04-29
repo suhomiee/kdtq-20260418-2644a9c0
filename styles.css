@@ -1301,11 +1301,52 @@ textarea.text-answer {
 }
 
 .submit-copy {
-  margin: 0 0 18px;
+  margin: 0 0 12px;
   color: #666666;
   font-size: 14px;
   font-weight: 700;
   line-height: 1.45;
+}
+
+.submit-guidance,
+.submit-reminder {
+  margin: 0 0 14px;
+  padding: 13px 14px;
+  border: 1px solid rgba(0, 112, 112, 0.14);
+  border-radius: 12px;
+  background: rgba(0, 112, 112, 0.07);
+  color: #47514f;
+  font-size: 13px;
+  font-weight: 720;
+  line-height: 1.42;
+}
+
+.submit-reminder {
+  margin-top: 14px;
+  margin-bottom: 0;
+  background: rgba(255, 255, 255, 0.64);
+}
+
+.submit-reminder.is-active {
+  border-color: rgba(0, 112, 112, 0.24);
+  background: rgba(0, 112, 112, 0.08);
+}
+
+.submit-guidance .copy-en,
+.submit-reminder .copy-en {
+  margin-top: 7px;
+  color: #7d8582;
+  font-size: 0.86em;
+  font-weight: 650;
+}
+
+.submit-guidance a,
+.submit-reminder a,
+.submit-status a {
+  color: var(--accent);
+  font-weight: 850;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 112, 112, 0.28);
 }
 
 .submit-button {

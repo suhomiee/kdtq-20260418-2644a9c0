@@ -9,6 +9,7 @@ const RATING_SCALE_VALUES = ["1", "2", "3", "4", "5"];
 const KOREA_TIME_ZONE = "Asia/Seoul";
 const START_SCREEN_TITLE = "T2 Fit & Comfort Questionnaire";
 const START_SCREEN_DATE = "Test Date : May 10th, 2026";
+const SURVEY_HUB_URL = "https://bit.ly/m/t2-fpt";
 const SCALE_TONE_QUALITY = "quality";
 const SCALE_TONE_IDEAL_CENTER = "ideal-center";
 const OPTION_231 = "231";
@@ -1414,6 +1415,18 @@ function renderSubmit() {
     enClass: "copy-en"
   });
 
+  const waitNotice = document.createElement("div");
+  waitNotice.className = "submit-guidance";
+  setBilingualContent(
+    waitNotice,
+    "제출 버튼을 누른 뒤, 화면에 '응답이 제출되었습니다'가 표시될 때까지 잠시 기다려 주세요. 제출 중에는 창을 닫거나 버튼을 다시 누르지 마세요.",
+    "After tapping Submit, please wait until the screen says your response has been submitted. Do not close the page or tap the button again while it is submitting.",
+    {
+      koClass: "copy-ko",
+      enClass: "copy-en"
+    }
+  );
+
   const button = document.createElement("button");
   button.type = "button";
   button.className = `submit-button${state.submitting ? " is-submitting" : ""}${state.submitted ? " is-submitted" : ""}`;
@@ -1433,9 +1446,21 @@ function renderSubmit() {
   status.className = `submit-status${state.submitError ? " error" : ""}`;
   status.id = "submitStatus";
   status.setAttribute("aria-live", "polite");
-  status.textContent = state.submitMessage;
+  appendLinkedText(status, state.submitMessage);
 
-  els.content.append(copy, button, status);
+  const reminder = document.createElement("div");
+  reminder.className = `submit-reminder${state.submitted ? " is-active" : ""}`;
+  setBilingualContent(
+    reminder,
+    `전체 테스트는 옵션 231, 옵션 429, 어퍼 & 최종 선호도 설문까지 총 3건의 응답으로 구성됩니다. 아직 완료하지 않은 응답이 있다면 ${SURVEY_HUB_URL} 에서 이어서 진행해 주세요.`,
+    `The full test includes three responses: Option 231, Option 429, and the Upper & Final Preference survey. If you have not completed one yet, please continue at ${SURVEY_HUB_URL}.`,
+    {
+      koClass: "copy-ko",
+      enClass: "copy-en"
+    }
+  );
+
+  els.content.append(copy, waitNotice, button, status, reminder);
 }
 
 function renderText(text, className) {
@@ -1483,11 +1508,11 @@ async function submitSurvey() {
     if (canUseSharePointBackend()) {
       await submitToSharePoint(payload);
       state.submitted = true;
-      state.submitMessage = "응답이 제출되었습니다. 감사합니다.\nYour response has been submitted. Thank you.";
+      state.submitMessage = `응답이 제출되었습니다. 감사합니다.\n아직 완료하지 않은 설문이 있다면 ${SURVEY_HUB_URL} 에서 이어서 진행해 주세요.\nYour response has been submitted. Thank you.\nIf you have not completed the other survey responses yet, please continue at ${SURVEY_HUB_URL}.`;
     } else {
       await submitToPowerAutomate(body);
       state.submitted = true;
-      state.submitMessage = "응답이 제출되었습니다. 감사합니다.\nYour response has been submitted. Thank you.";
+      state.submitMessage = `응답이 제출되었습니다. 감사합니다.\n아직 완료하지 않은 설문이 있다면 ${SURVEY_HUB_URL} 에서 이어서 진행해 주세요.\nYour response has been submitted. Thank you.\nIf you have not completed the other survey responses yet, please continue at ${SURVEY_HUB_URL}.`;
     }
     localStorage.removeItem(MODE_ANSWER_STORAGE_KEY);
   } catch (error) {
@@ -1497,7 +1522,7 @@ async function submitSurvey() {
       : false;
     if (sent) {
       state.submitted = true;
-      state.submitMessage = "응답이 제출되었습니다. 감사합니다.\nYour response has been submitted. Thank you.";
+      state.submitMessage = `응답이 제출되었습니다. 감사합니다.\n아직 완료하지 않은 설문이 있다면 ${SURVEY_HUB_URL} 에서 이어서 진행해 주세요.\nYour response has been submitted. Thank you.\nIf you have not completed the other survey responses yet, please continue at ${SURVEY_HUB_URL}.`;
       localStorage.removeItem(MODE_ANSWER_STORAGE_KEY);
     } else {
       state.submitError = true;
