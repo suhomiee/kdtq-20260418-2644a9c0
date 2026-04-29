@@ -1752,8 +1752,7 @@ function getQuestionId(screen) {
 }
 
 function getWorkbookQuestionTitle(screen) {
-  const localizedTitle = getLocalizedScreen(screen).title;
-  return localizedTitle ? `${localizedTitle} / ${screen.title}` : screen.title;
+  return screen.title;
 }
 
 function buildWorkbookRows(responseId, submittedAt) {
@@ -1801,10 +1800,10 @@ function buildWorkbookRows(responseId, submittedAt) {
     if (screen.type === "Question.FinalPreference") {
       const localized = getLocalizedScreen(screen);
       const choiceTitle = localized.choiceTitle
-        ? `${localized.choiceTitle} / Which option do you prefer overall?`
+        ? "Which option do you prefer overall?"
         : "Which option do you prefer overall?";
       const reasonTitle = localized.reasonTitle
-        ? `${localized.reasonTitle} / Please describe why you prefer the selected option.`
+        ? "Please describe why you prefer the selected option."
         : "Please describe why you prefer the selected option.";
       appendValue("FinalPreference", choiceTitle, state.answers[screen.choiceId] || "");
       appendValue("FinalPreference", reasonTitle, state.answers[screen.reasonId] || "");

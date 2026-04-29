@@ -1,4 +1,5 @@
 const DATA_ENDPOINT_STORAGE_KEY = "kdtq-dashboard-data-url";
+const DASHBOARD_DATA_ENDPOINT = "https://default1445a1df842f4a6595a29237bdf735.c9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/34e219f4726f4c679b11cffb903c4420/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=NLraKrvx7AAEDwRrM5nTTlVNKDabbFnSvPBMVJzZT6o";
 const AUTO_REFRESH_MS = 30000;
 let dashboardRefreshTimer = 0;
 
@@ -132,7 +133,7 @@ async function initDashboard() {
 
 function resolveDataEndpoint() {
   const params = new URLSearchParams(location.search);
-  return params.get("data") || localStorage.getItem(DATA_ENDPOINT_STORAGE_KEY) || "";
+  return params.get("data") || localStorage.getItem(DATA_ENDPOINT_STORAGE_KEY) || DASHBOARD_DATA_ENDPOINT;
 }
 
 async function loadDashboardData(endpoint = resolveDataEndpoint()) {
@@ -149,7 +150,7 @@ async function loadDashboardData(endpoint = resolveDataEndpoint()) {
     };
   }
   try {
-    const response = await fetch(endpoint, { cache: "no-store", headers: { Accept: "application/json" } });
+    const response = await fetch(endpoint, dashboardRequestInit(endpoint));
     if (!response.ok) throw new Error(`${response.status}`);
     const raw = await response.json();
     return {
@@ -177,6 +178,24 @@ async function loadDashboardData(endpoint = resolveDataEndpoint()) {
   }
 }
 
+function dashboardRequestInit(endpoint) {
+  if (/powerautomate|workflows/i.test(endpoint)) {
+    return {
+      method: "POST",
+      cache: "no-store",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        mode: "dashboard",
+        requestedAtUtc: new Date().toISOString()
+      })
+    };
+  }
+  return { cache: "no-store", headers: { Accept: "application/json" } };
+}
+
 function setupAutoRefresh(endpoint) {
   if (dashboardRefreshTimer) window.clearInterval(dashboardRefreshTimer);
   if (!endpoint) return;
@@ -188,16 +207,67 @@ function setupAutoRefresh(endpoint) {
 
 function normalizePayload(raw) {
   const sheets = raw.sheets || raw.workbookRows || raw;
+  const surveyDbRows = toRows(sheets.SurveyDB || sheets.SurveyResponseDB || sheets.surveyDb || []);
+  const splitSurveyDb = splitSurveyDbRows(surveyDbRows);
   return {
-    Option231: toRows(sheets.Option231 || sheets.Option231Responses || sheets.option231 || []),
-    Option429: toRows(sheets.Option429 || sheets.Option429Responses || sheets.option429 || []),
-    FinalPreference: toRows(sheets.FinalPreference || sheets.FinalPreferenceResponses || sheets.finalPreference || [])
+    Option231: [...toRows(sheets.Option231 || sheets.Option231Responses || sheets.option231 || []), ...splitSurveyDb.Option231],
+    Option429: [...toRows(sheets.Option429 || sheets.Option429Responses || sheets.option429 || []), ...splitSurveyDb.Option429],
+    FinalPreference: [...toRows(sheets.FinalPreference || sheets.FinalPreferenceResponses || sheets.finalPreference || []), ...splitSurveyDb.FinalPreference]
   };
 }
 
 function toRows(value) {
   if (!Array.isArray(value)) return [];
-  return value.filter((row) => row && Object.values(row).some((cell) => String(cell || "").trim()));
+  return value.filter((row) => row && Object.entries(row).some(([key, cell]) => {
+    if (/^@odata/i.test(key) || key === "ItemInternalId") return false;
+    return String(cell || "").trim();
+  }));
+}
+
+function splitSurveyDbRows(rows) {
+  const result = { Option231: [], Option429: [], FinalPreference: [] };
+  rows.forEach((row) => {
+    const base = {
+      ResponseId: row.ResponseId || "",
+      SubmittedAt: row.SubmittedAt || "",
+      TesterName: readField(row, "TesterName", ["enter your name", "tester name", "이름"]),
+      NormalTrailShoe: readField(row, "NormalTrailShoe", ["trail shoe", "normal trail shoe", "평소 사용하는"]),
+      TypicalDistance: readField(row, "TypicalDistance", ["typical distance", "주로 어느 정도"])
+    };
+    const option231 = { ...base, Option: "Option 231" };
+    const option429 = { ...base, Option: "Option 429" };
+    const finalPreference = { ...base };
+    let has231 = false;
+    let has429 = false;
+    let hasFinal = false;
+
+    Object.entries(row).forEach(([key, value]) => {
+      const text = String(value || "").trim();
+      if (!text) return;
+      if (/OPTION A/i.test(key)) {
+        option231[genericSurveyDbQuestionKey(key, "OPTION A")] = text;
+        has231 = true;
+      } else if (/OPTION B/i.test(key)) {
+        option429[genericSurveyDbQuestionKey(key, "OPTION B")] = text;
+        has429 = true;
+      } else if (!/^(ResponseId|SubmittedAt)$/i.test(key)) {
+        finalPreference[key] = text;
+        hasFinal = true;
+      }
+    });
+
+    if (has231) result.Option231.push(option231);
+    if (has429) result.Option429.push(option429);
+    if (hasFinal) result.FinalPreference.push(finalPreference);
+  });
+  return result;
+}
+
+function genericSurveyDbQuestionKey(key, optionLabel) {
+  return key
+    .replace(new RegExp(`\\b${optionLabel}\\s*-\\s*`, "i"), "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function buildModel(data) {
