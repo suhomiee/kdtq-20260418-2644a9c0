@@ -42,13 +42,13 @@ const SURVEY = {
       id: "r33e4738100594b8286086c8a7fafa1f9",
       type: "Question.ColumnGroup",
       title: "Route & Elevation",
-      subtitle: "Seongjigok Reservoir, 295 Saessak-ro, Busanjin-gu, Busan, South Korea\n\nDetailed final route, slope, and elevation information may still be adjusted.",
+      subtitle: "Seongjigok Reservoir, 295 Saessak-ro, Busanjin-gu, Busan, South Korea\n\nThe detailed route will be guided by on-site staff on the test day.",
       image: null,
       embed: {
         type: "StravaRoute",
-        id: "3483020635321308764",
-        token: "0e83Vnb2awromeLr3A5sJOT2h3PtSjv7WDNJCi3_QZc",
-        mapHash: "14.01/35.18622/129.04297",
+        id: "3482620893647463620",
+        token: "BC7jbUjYnVN0xBLuVGwmcQoo--4W-lug8u4A5ki1O2s",
+        mapHash: "14.31/35.18697/129.04248",
         style: "standard",
         fromEmbed: "true"
       },
@@ -274,7 +274,7 @@ const KO_COPY = {
   },
   r33e4738100594b8286086c8a7fafa1f9: {
     title: "코스 및 고도",
-    subtitle: "성지곡수원지, 부산광역시 부산진구 새싹로 295 (초읍동)\n\n세부적인 최종 루트와 경사, 고도 정보는 추후 조정될 수 있습니다."
+    subtitle: "성지곡수원지, 부산광역시 부산진구 새싹로 295 (초읍동)\n\n세부 경로는 테스트 당일 현장에서 직원들의 가이드에 따라 안내될 예정입니다."
   },
   r6054912e5d1e4572a039c018e3bd6a9a: {
     title: "테스터 정보",
