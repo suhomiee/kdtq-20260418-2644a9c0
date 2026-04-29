@@ -109,7 +109,7 @@ function optionSection(optionCode) {
     id: `option_${optionCode}_section`,
     type: "Question.ColumnGroup",
     title: `${OPTION_LABELS[optionCode]} Test`,
-    subtitle: `Please complete the questions for ${OPTION_LABELS[optionCode]} only. This test uses three separate QR responses in total: Option 231, Option 429, and Final Preference. The order may be randomized.`,
+    subtitle: `Please complete the questions for ${OPTION_LABELS[optionCode]} only. This test uses three separate responses in total: Option 231, Option 429, and Final Preference. The order may be randomized.`,
     image: null,
     optionCode,
     choices: []
@@ -300,11 +300,11 @@ const KO_COPY = {
   },
   option_231_section: {
     title: "옵션 231",
-    subtitle: "이 페이지에서는 옵션 231에 대한 응답만 입력해 주세요. 전체 테스트는 옵션 231, 옵션 429, 최종 선호도까지 총 3건의 QR 응답으로 구성되어 있으며, 진행 순서는 무작위가 될 수 있습니다."
+    subtitle: "이 페이지에서는 옵션 231에 대한 응답만 입력해 주세요. 전체 테스트는 옵션 231, 옵션 429, 최종 선호도까지 총 3건의 응답으로 구성되어 있으며, 진행 순서는 무작위가 될 수 있습니다."
   },
   option_429_section: {
     title: "옵션 429",
-    subtitle: "이 페이지에서는 옵션 429에 대한 응답만 입력해 주세요. 전체 테스트는 옵션 231, 옵션 429, 최종 선호도까지 총 3건의 QR 응답으로 구성되어 있으며, 진행 순서는 무작위가 될 수 있습니다."
+    subtitle: "이 페이지에서는 옵션 429에 대한 응답만 입력해 주세요. 전체 테스트는 옵션 231, 옵션 429, 최종 선호도까지 총 3건의 응답으로 구성되어 있으며, 진행 순서는 무작위가 될 수 있습니다."
   },
   rae32dae17f8a478b8f720824f85d8da9: {
     title: "힐(뒤꿈치) 쿠셔닝에 대해 어떻게 생각하시나요?"
