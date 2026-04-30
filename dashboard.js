@@ -116,7 +116,6 @@ const els = {
   optionSummary: document.getElementById("optionSummary"),
   preferencePanel: document.getElementById("preferencePanel"),
   heatmap: document.getElementById("heatmap"),
-  firstImpression: document.getElementById("firstImpression"),
   testerContext: document.getElementById("testerContext"),
   reasonSignals: document.getElementById("reasonSignals")
 };
@@ -467,8 +466,7 @@ function renderDashboard(model, usingSample, detail) {
   renderRadar(model.optionStats);
   renderOptionSummary(model.optionStats);
   renderPreference(model.preferences);
-  renderHeatmap(model.optionStats);
-  renderFirstImpression(model.firstStats);
+  renderHeatmap(model.optionStats, model.firstStats);
   renderTesterContext(model.distances, model.shoeChips);
   renderReasons(model.reasons);
 }
@@ -593,18 +591,31 @@ function renderPreference(preferences) {
   `;
 }
 
-function renderHeatmap(optionStats) {
-  const rows = HEATMAP_QUESTIONS.map((key) => OPTION_QUESTIONS.find((question) => question.key === key)).map((question) => ({
+function renderHeatmap(optionStats, firstStats) {
+  const upperRows = FIRST_IMPRESSION.map((question) => firstHeatmapGroup(firstStats[question.key])).join("");
+  const underfootRows = HEATMAP_QUESTIONS.map((key) => OPTION_QUESTIONS.find((question) => question.key === key)).map((question) => ({
     question,
     stat231: optionStats["Option 231"].byQuestion[question.key],
     stat429: optionStats["Option 429"].byQuestion[question.key]
-  }));
-  els.heatmap.innerHTML = `<div class="heatmap">${rows.map(heatmapGroup).join("")}</div>`;
-}
-
-function renderFirstImpression(firstStats) {
-  const rows = FIRST_IMPRESSION.map((question) => firstHeatmapGroup(firstStats[question.key])).join("");
-  els.firstImpression.innerHTML = `<div class="heatmap first-heatmap">${rows}</div>`;
+  })).map(heatmapGroup).join("");
+  els.heatmap.innerHTML = `
+    <div class="merged-heatmap">
+      <section class="heatmap-section">
+        <div class="heatmap-section-heading">
+          <strong>어퍼 & 첫 인상</strong>
+          <span>Upper & First Impression</span>
+        </div>
+        <div class="heatmap first-heatmap">${upperRows}</div>
+      </section>
+      <section class="heatmap-section">
+        <div class="heatmap-section-heading">
+          <strong>언더풋</strong>
+          <span>Underfoot</span>
+        </div>
+        <div class="heatmap">${underfootRows}</div>
+      </section>
+    </div>
+  `;
 }
 
 function renderTesterContext(distanceCounts, shoeChips) {

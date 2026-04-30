@@ -267,7 +267,7 @@ h3 small {
   grid-template-columns: minmax(320px, 0.95fr) minmax(420px, 1.22fr) minmax(330px, 0.95fr);
   grid-template-areas:
     "radar heatmap preference"
-    "first first context";
+    "context heatmap preference";
   gap: 12px;
   align-items: start;
 }
@@ -295,18 +295,17 @@ h3 small {
   grid-area: preference;
 }
 
-.panel-first {
-  grid-area: first;
-}
-
 .panel-context {
   grid-area: context;
 }
 
 .panel-radar,
-.panel-heatmap,
 .panel-preference {
   min-height: 474px;
+}
+
+.panel-heatmap {
+  min-height: 680px;
 }
 
 .panel-heading {
@@ -671,6 +670,40 @@ h3 small {
   gap: 8px;
 }
 
+.merged-heatmap {
+  display: grid;
+  gap: 14px;
+}
+
+.heatmap-section {
+  display: grid;
+  gap: 8px;
+}
+
+.heatmap-section + .heatmap-section {
+  padding-top: 12px;
+  border-top: 1px solid rgba(35, 45, 43, 0.1);
+}
+
+.heatmap-section-heading {
+  display: inline-flex;
+  width: fit-content;
+  align-items: baseline;
+  gap: 8px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(0, 112, 112, 0.08);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.heatmap-section-heading span {
+  color: rgba(0, 112, 112, 0.68);
+  font-size: 9.5px;
+  font-weight: 780;
+}
+
 .heatmap-group {
   display: grid;
   grid-template-columns: minmax(132px, 0.32fr) minmax(230px, 1fr);
@@ -853,7 +886,7 @@ h3 small {
     grid-template-areas:
       "radar preference"
       "heatmap heatmap"
-      "first context";
+      "context context";
   }
 
   .radar-wrap {
@@ -894,7 +927,6 @@ h3 small {
       "radar"
       "preference"
       "heatmap"
-      "first"
       "context";
   }
 
