@@ -62,6 +62,84 @@ const DISTANCE_LABELS_KO = {
   "20 km or more": "20km 이상"
 };
 
+const CHOICE_KO = {
+  "Option 231": "옵션 231",
+  "Option 429": "옵션 429",
+  "Very Difficult": "매우 어려움",
+  "Moderately Difficult": "어려움",
+  "Somewhat Difficult": "약간 어려움",
+  "Somewhat Easy": "약간 쉬움",
+  "Moderately Easy": "쉬움",
+  "Very Easy": "매우 쉬움",
+  "Very Insecure": "매우 불안정",
+  "Moderately Insecure": "불안정",
+  "Somewhat Insecure": "약간 불안정",
+  "Somewhat Secure": "약간 안정적",
+  "Moderately Secure": "안정적",
+  "Very Secure": "매우 안정적",
+  "Very Short": "매우 짧음",
+  "Moderately Short": "짧음",
+  "Somewhat Short": "약간 짧음",
+  "Just Right": "적당함",
+  "Somewhat Long": "약간 김",
+  "Moderately Long": "김",
+  "Very Long": "매우 김",
+  "Very Uncomfortable": "매우 불편함",
+  "Moderately Uncomfortable": "불편함",
+  "Somewhat Uncomfortable": "약간 불편함",
+  "Somewhat Comfortable": "약간 편안함",
+  "Moderately Comfortable": "편안함",
+  "Very Comfortable": "매우 편안함",
+  "Not Breathable": "통기성 부족",
+  "Moderately Not Breathable": "답답함",
+  "Somewhat Not Breathable": "약간 답답함",
+  "Somewhat Breathable": "약간 통기성 있음",
+  "Moderately Breathable": "통기성 좋음",
+  "Very Breathable": "매우 통기성 좋음",
+  "Very Heavy": "매우 무거움",
+  "Moderately Heavy": "무거움",
+  "Somewhat Heavy": "약간 무거움",
+  "Somewhat Light": "약간 가벼움",
+  "Moderately Light": "가벼움",
+  "Very Light": "매우 가벼움",
+  "Very Soft": "매우 소프트함",
+  "Moderately Soft": "소프트함",
+  "Somewhat Soft": "약간 소프트함",
+  "Somewhat Firm": "약간 단단함",
+  "Moderately Firm": "단단함",
+  "Very Firm": "매우 단단함",
+  "Very Dead": "매우 둔함",
+  "Moderately Dead": "둔함",
+  "Somewhat Dead": "약간 둔함",
+  "Somewhat Springy": "약간 탄성 있음",
+  "Moderately Springy": "탄성 있음",
+  "Very Springy": "매우 탄성 있음",
+  "Very Unstable": "매우 불안정",
+  "Moderately Unstable": "불안정",
+  "Somewhat Unstable": "약간 불안정",
+  "Somewhat Stable": "약간 안정적",
+  "Moderately Stable": "안정적",
+  "Very Stable": "매우 안정적",
+  "Very Slappy": "매우 툭 떨어짐",
+  "Moderately Slappy": "툭 떨어짐",
+  "Somewhat Slappy": "약간 툭 떨어짐",
+  "Somewhat Smooth": "약간 매끄러움",
+  "Moderately Smooth": "매끄러움",
+  "Very Smooth": "매우 매끄러움",
+  "Very Slippery": "매우 미끄러움",
+  "Moderately Slippery": "미끄러움",
+  "Somewhat Slippery": "약간 미끄러움",
+  "Somewhat Grippy": "약간 접지됨",
+  "Moderately Grippy": "접지력 좋음",
+  "Very Grippy": "매우 접지력 좋음",
+  "Very Unprotective": "전혀 보호해주지 않음",
+  "Moderately Unprotective": "거의 보호해주지 않음",
+  "Somewhat Unprotective": "보호가 약간 부족함",
+  "Somewhat Protective": "약간 보호해줌",
+  "Moderately Protective": "잘 보호해줌",
+  "Very Protective": "매우 잘 보호해줌"
+};
+
 const OPTION_QUESTIONS = [
   { key: "heelFeel", ko: "힐(뒤꿈치) 쿠셔닝", en: "Heel cushioning", scale: SCALES.softFirm, tone: "neutral", match: ["heel cushioning", "feel about"] },
   { key: "heelLike", ko: "힐(뒤꿈치) 만족도", en: "Heel liking", scale: SCALES.liking, tone: "liking", match: ["like the heel cushioning"] },
@@ -115,6 +193,7 @@ const els = {
   radarChart: document.getElementById("radarChart"),
   optionSummary: document.getElementById("optionSummary"),
   preferencePanel: document.getElementById("preferencePanel"),
+  questionInsights: document.getElementById("questionInsights"),
   heatmap: document.getElementById("heatmap"),
   testerContext: document.getElementById("testerContext"),
   reasonSignals: document.getElementById("reasonSignals")
@@ -466,6 +545,7 @@ function renderDashboard(model, usingSample, detail) {
   renderRadar(model.optionStats);
   renderOptionSummary(model.optionStats);
   renderPreference(model.preferences);
+  renderQuestionInsights(model.optionStats, model.firstStats, model.preferences, model.reasons);
   renderHeatmap(model.optionStats, model.firstStats);
   renderTesterContext(model.distances, model.shoeChips);
   renderReasons(model.reasons);
@@ -588,6 +668,131 @@ function renderPreference(preferences) {
         <small>${option429}명<br>responses</small>
       </div>
     </div>
+  `;
+}
+
+function renderQuestionInsights(optionStats, firstStats, preferences, reasons) {
+  const sections = [
+    {
+      number: "1",
+      ko: "첫 인상",
+      en: "First impression",
+      accent: COLORS.neutral,
+      items: FIRST_IMPRESSION.map((question, index) => insightFromScale(`1-${index + 1}`, firstStats[question.key]))
+    },
+    {
+      number: "2",
+      ko: "옵션 231 언더풋",
+      en: "Option 231 underfoot",
+      accent: COLORS.option231,
+      items: OPTION_QUESTIONS.map((question, index) => insightFromScale(`2-${index + 1}`, optionStats["Option 231"].byQuestion[question.key]))
+    },
+    {
+      number: "3",
+      ko: "옵션 429 언더풋",
+      en: "Option 429 underfoot",
+      accent: COLORS.option429,
+      items: OPTION_QUESTIONS.map((question, index) => insightFromScale(`3-${index + 1}`, optionStats["Option 429"].byQuestion[question.key]))
+    },
+    {
+      number: "4",
+      ko: "최종 선호도",
+      en: "Final preference",
+      accent: COLORS.option231,
+      items: [
+        insightFromPreference("4-1", preferences),
+        insightFromReasons("4-2", reasons)
+      ]
+    }
+  ];
+  els.questionInsights.innerHTML = sections.map(renderQuestionInsightSection).join("");
+}
+
+function renderQuestionInsightSection(section) {
+  return `
+    <article class="question-insight-section" style="--section-accent:${section.accent}">
+      <div class="question-insight-section-head">
+        <span>${escapeHtml(section.number)}</span>
+        <strong>${escapeHtml(section.ko)}</strong>
+        <small>${escapeHtml(section.en)}</small>
+      </div>
+      <div class="question-insight-list">
+        ${section.items.map((item) => renderQuestionInsightCard(item, section.accent)).join("")}
+      </div>
+    </article>
+  `;
+}
+
+function insightFromScale(code, stat) {
+  const topCount = Math.max(...stat.counts, 0);
+  const topIndex = topCount ? stat.counts.indexOf(topCount) : -1;
+  const tone = topIndex >= 0 ? colorForTone(stat.tone, topIndex, stat.scale.length) : { color: COLORS.neutral };
+  const position = stat.total ? Math.round(clamp(stat.normalized, 0, 1) * 100) : 0;
+  return {
+    code,
+    ko: stat.ko,
+    en: stat.en,
+    topKo: topIndex >= 0 ? (CHOICE_KO[stat.scale[topIndex]] || stat.scale[topIndex]) : "응답 없음",
+    topEn: topIndex >= 0 ? stat.scale[topIndex] : "No data",
+    total: stat.total,
+    topCount,
+    percent: stat.total ? (topCount / stat.total) * 100 : 0,
+    position,
+    marker: tone.color
+  };
+}
+
+function insightFromPreference(code, preferences) {
+  const option231 = preferences.counts["Option 231"];
+  const option429 = preferences.counts["Option 429"];
+  const topOption = option231 >= option429 ? "Option 231" : "Option 429";
+  const topCount = Math.max(option231, option429);
+  const total = preferences.total;
+  return {
+    code,
+    ko: "최종 선호 옵션",
+    en: "Final preferred option",
+    topKo: total ? CHOICE_KO[topOption] : "응답 없음",
+    topEn: total ? topOption : "No data",
+    total,
+    topCount,
+    percent: total ? (topCount / total) * 100 : 0,
+    position: total ? (topOption === "Option 231" ? 30 : 70) : 0,
+    marker: topOption === "Option 231" ? COLORS.option231 : COLORS.option429
+  };
+}
+
+function insightFromReasons(code, reasons) {
+  return {
+    code,
+    ko: "선호 사유 작성",
+    en: "Preference reason entries",
+    topKo: reasons.total ? "주관식 응답 있음" : "응답 없음",
+    topEn: reasons.total ? "Reasons submitted" : "No data",
+    total: reasons.total,
+    topCount: reasons.total,
+    percent: reasons.total ? 100 : 0,
+    position: reasons.total ? 100 : 0,
+    marker: COLORS.option231
+  };
+}
+
+function renderQuestionInsightCard(item, fallbackColor) {
+  const isEmpty = !item.total;
+  return `
+    <section class="question-insight-card${isEmpty ? " is-empty" : ""}" style="--marker:${item.marker || fallbackColor};--pos:${item.position}%">
+      <div class="question-insight-meta">
+        <span>Q${escapeHtml(item.code)}</span>
+        <strong>${isEmpty ? "0명" : formatPercent(item.percent)}</strong>
+      </div>
+      <h3>${dualLine(item.ko, item.en)}</h3>
+      <div class="question-insight-answer">
+        <span>${dualLine("대표 응답", "Top answer")}</span>
+        <b>${dualLine(item.topKo, item.topEn)}</b>
+      </div>
+      <div class="question-insight-rail" aria-hidden="true"><i></i></div>
+      <p>${isEmpty ? dualLine("아직 응답 없음", "No response data yet") : dualLine(`${item.total}명 응답 중 ${item.topCount}명 선택`, `${item.topCount} of ${item.total} answered selected this`)}</p>
+    </section>
   `;
 }
 
@@ -827,6 +1032,10 @@ function dualLine(ko, en) {
 
 function dualLineText(ko, en) {
   return `${ko}\n${en}`;
+}
+
+function formatPercent(value) {
+  return `${(Number(value) || 0).toFixed(1)}%`;
 }
 
 function formatKstTime(date) {
