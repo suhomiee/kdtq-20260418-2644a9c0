@@ -6,7 +6,7 @@
     <title>T2 Running & ACG Korea Dynamic Test Dashboard</title>
     <link rel="icon" href="data:,">
     <link rel="preload" href="./assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./dashboard.css?v=20260503-summary-first">
+    <link rel="stylesheet" href="./dashboard.css?v=20260503-charts-first">
   </head>
   <body>
     <main class="dashboard-shell">
@@ -36,18 +36,6 @@
           </div>
         </div>
       </header>
-
-      <section class="question-insights-panel" aria-label="Question insight summary">
-        <div class="panel-heading">
-          <div>
-            <p class="section-label"><span>문항별 핵심 요약</span><small>Question insight summary</small></p>
-            <h2><span>질문별로 바로 읽는 결과</span><small>Quick result cards by question</small></h2>
-          </div>
-        </div>
-        <div id="questionInsights" class="question-insight-grid"></div>
-      </section>
-
-      <section class="kpi-grid" id="kpiGrid" aria-label="Response overview"></section>
 
       <section class="dashboard-grid">
         <article class="panel panel-radar">
@@ -100,8 +88,20 @@
           <div id="testerContext"></div>
         </article>
       </section>
+
+      <section class="question-insights-panel" aria-label="Question insight summary">
+        <div class="panel-heading">
+          <div>
+            <p class="section-label"><span>문항별 결과</span><small>Question-by-question results</small></p>
+            <h2><span>질문별로 길게 훑어보는 결과</span><small>Detailed result cards by question</small></h2>
+          </div>
+        </div>
+        <div id="questionInsights" class="question-insight-grid"></div>
+      </section>
+
+      <section class="kpi-grid" id="kpiGrid" aria-label="Response overview"></section>
     </main>
 
-    <script src="./dashboard.js?v=20260503-summary-first"></script>
+    <script src="./dashboard.js?v=20260503-charts-first"></script>
   </body>
 </html>
