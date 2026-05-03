@@ -76,6 +76,9 @@ outputs/plan-b-replay-logs/
 
 ## 현장 운영 체크
 
+- 2026-05-10 일요일 새벽 05:00 KST: 실제 링크로 1회 스모크 제출
+- 스모크 제출 직후: 대시보드와 Excel Online 적재 상태 확인
+- 이상 없음 확인 후: 스모크 응답 데이터를 비워 고라이브용 빈 상태로 준비
 - 테스트 시작 30분 전: 라이브 GitHub Pages, Power Automate, Excel Online 대시보드 확인
 - 테스트 시작 15분 전: `./run-plan-b-server.command`를 켜서 로컬 백업 경로도 대기
 - 테스트 중: 대시보드 카운트와 `/api/health` 중 하나라도 계속 증가하는지 확인
