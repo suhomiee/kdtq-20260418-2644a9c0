@@ -73,6 +73,7 @@ server.listen(port, "0.0.0.0", () => {
 });
 
 async function saveSubmission(payload, request) {
+  await fs.mkdir(outputDir, { recursive: true });
   const savedAt = new Date();
   const day = savedAt.toISOString().slice(0, 10).replace(/-/g, "");
   const filePath = path.join(outputDir, `${day}-submissions.jsonl`);

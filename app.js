@@ -1569,23 +1569,18 @@ async function submitSurvey() {
     localStorage.removeItem(MODE_ANSWER_STORAGE_KEY);
   } catch (error) {
     const endpoint = getEndpoint();
-    const sent = endpoint && navigator.sendBeacon
+    const beaconQueued = endpoint && navigator.sendBeacon
       ? navigator.sendBeacon(endpoint, new Blob([body], { type: "text/plain;charset=UTF-8" }))
       : false;
-    if (sent) {
-      markSubmissionCompleted();
+    const backupResult = await saveSubmitBackup(payload, body, error, beaconQueued);
+    state.submitted = true;
+    state.backupSaved = true;
+    state.backupKind = backupResult.kind;
+    state.backupPayload = payload;
+    state.submitError = backupResult.kind !== "server";
+    state.submitMessage = backupResult.message;
+    if (backupResult.kind === "server") {
       localStorage.removeItem(MODE_ANSWER_STORAGE_KEY);
-    } else {
-      const backupResult = await saveSubmitBackup(payload, body, error);
-      state.submitted = true;
-      state.backupSaved = true;
-      state.backupKind = backupResult.kind;
-      state.backupPayload = payload;
-      state.submitError = backupResult.kind !== "server";
-      state.submitMessage = backupResult.message;
-      if (backupResult.kind === "server") {
-        localStorage.removeItem(MODE_ANSWER_STORAGE_KEY);
-      }
     }
   } finally {
     state.submitting = false;
@@ -1602,19 +1597,19 @@ function markSubmissionCompleted() {
   state.submitMessage = `응답이 제출되었습니다. 감사합니다.\n아직 완료하지 않은 설문이 있다면 ${SURVEY_HUB_URL} 에서 이어서 진행해 주세요.\nYour response has been submitted. Thank you.\nIf you have not completed the other survey responses yet, please continue at ${SURVEY_HUB_URL}.`;
 }
 
-async function saveSubmitBackup(payload, body, originalError) {
+async function saveSubmitBackup(payload, body, originalError, beaconQueued = false) {
   const serverResult = await submitToLocalBackup(body);
   if (serverResult.ok) {
     return {
       kind: "server",
-      message: `엑셀 연결이 잠시 불안정하여 응답을 현장 백업 저장소에 먼저 저장했습니다. 담당자가 테스트 종료 후 엑셀로 재업로드합니다.\nYour response was saved to the staff backup system because the live Excel connection was unstable. Staff will replay it to Excel after the test.`
+      message: `엑셀 연결이 잠시 불안정하여 응답을 현장 백업 저장소에 먼저 저장했습니다. 담당자가 테스트 종료 후 엑셀로 재업로드합니다.${beaconQueued ? "\n백그라운드 재전송도 함께 시도했습니다." : ""}\nYour response was saved to the staff backup system because the live Excel connection was unstable. Staff will replay it to Excel after the test.${beaconQueued ? "\nA background resend was also attempted." : ""}`
     };
   }
 
-  saveOfflineOutbox(payload, originalError, serverResult.error);
+  saveOfflineOutbox(payload, originalError, serverResult.error, beaconQueued);
   return {
     kind: "device",
-    message: `현재 네트워크 또는 엑셀 연결이 불안정합니다. 응답은 이 기기에 백업되었습니다. 현장 담당자에게 백업 파일 저장 버튼을 보여 주세요.\nThe network or Excel connection is unstable. Your response has been backed up on this device. Please show the backup file button to staff. (${originalError.message})`
+    message: `현재 네트워크 또는 엑셀 연결이 불안정합니다. 응답은 이 기기에 백업되었습니다. 현장 담당자에게 백업 파일 저장 버튼을 보여 주세요.${beaconQueued ? "\n백그라운드 재전송도 함께 시도했습니다." : ""}\nThe network or Excel connection is unstable. Your response has been backed up on this device. Please show the backup file button to staff.${beaconQueued ? "\nA background resend was also attempted." : ""} (${originalError.message})`
   };
 }
 
@@ -1634,12 +1629,13 @@ async function submitToLocalBackup(body) {
   }
 }
 
-function saveOfflineOutbox(payload, originalError, backupError) {
+function saveOfflineOutbox(payload, originalError, backupError, beaconQueued = false) {
   const savedAt = new Date().toISOString();
   const entry = {
     savedAt,
     originalError: originalError ? originalError.message : "",
     backupError: backupError ? backupError.message : "",
+    beaconQueued,
     payload
   };
   const current = readOfflineOutbox();
