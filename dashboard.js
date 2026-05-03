@@ -428,7 +428,7 @@ function summarizeScale(rows, question) {
 function summarizePreference(rows) {
   const counts = { "Option 231": 0, "Option 429": 0 };
   rows.forEach((row) => {
-    const value = normalizeOption(readField(row, "preferredOption", ["prefer overall", "final preference", "최종적으로 더 선호"]));
+    const value = normalizeOption(readAnyField(row, "preferredOption", ["prefer overall", "which option", "final preference", "최종적으로 더 선호", "선호"]));
     if (counts[value] !== undefined) counts[value] += 1;
   });
   const total = counts["Option 231"] + counts["Option 429"];
@@ -460,8 +460,8 @@ function topTextValues(rows, directKey, terms, limit) {
 function summarizeReasons(rows) {
   const entries = rows.map((row) => ({
     tester: readTesterName(row),
-    option: normalizeOption(readField(row, "preferredOption", ["prefer overall", "final preference", "최종적으로 더 선호"])),
-    text: readField(row, "reason", ["why you prefer", "선호하는 이유"])
+    option: normalizeOption(readAnyField(row, "preferredOption", ["prefer overall", "which option", "final preference", "최종적으로 더 선호", "선호"])),
+    text: readAnyField(row, "reason", ["why you prefer", "prefer the selected option", "describe why", "선호하는 이유", "사유"])
   })).filter((entry) => entry.text);
   const reasons = entries.map((entry) => entry.text);
   const dictionary = reasonDictionary();
@@ -507,6 +507,7 @@ function reasonDictionary() {
 function extractReasonKeywords(reasons) {
   const stop = new Set([
     "option", "because", "about", "with", "from", "that", "this", "feel", "felt", "shoe", "shoes", "more", "very", "really", "overall",
+    "prefer", "preferred", "selected", "simulation", "tester", "response", "after", "better", "cushioning",
     "옵션", "느낌", "생각", "부분", "정도", "보다", "더", "잘", "좋", "좋고", "좋았", "있는", "없는", "같습니다", "같아요", "합니다"
   ]);
   const counts = new Map();
@@ -978,6 +979,20 @@ function readField(row, directKey, terms) {
     const normalized = normalizeText(candidate);
     const compact = normalizeCompact(candidate);
     return normalizedTerms.every((term) => normalized.includes(term.spaced) || compact.includes(term.compact));
+  });
+  return key ? String(row[key] || "").trim() : "";
+}
+
+function readAnyField(row, directKey, terms) {
+  if (row[directKey] !== undefined && row[directKey] !== null) return String(row[directKey]).trim();
+  const normalizedTerms = terms.map((term) => ({
+    spaced: normalizeText(term),
+    compact: normalizeCompact(term)
+  }));
+  const key = Object.keys(row).find((candidate) => {
+    const normalized = normalizeText(candidate);
+    const compact = normalizeCompact(candidate);
+    return normalizedTerms.some((term) => normalized.includes(term.spaced) || compact.includes(term.compact));
   });
   return key ? String(row[key] || "").trim() : "";
 }
