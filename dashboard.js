@@ -231,14 +231,15 @@ async function loadDashboardData(endpoint = resolveDataEndpoint()) {
     const response = await fetch(endpoint, dashboardRequestInit(endpoint));
     if (!response.ok) throw new Error(`${response.status}`);
     const raw = await response.json();
+    const isPlanB = /plan-b-local/i.test(String(raw.source || ""));
     return {
       data: normalizePayload(raw),
       usingSample: false,
       detail: {
-        labelKo: "Excel Online 연결됨",
-        labelEn: "Excel Online connected",
-        noteKo: `30초마다 자동 새로고침 · 마지막 동기화 ${formatKstTime(new Date())}`,
-        noteEn: `Auto-refresh every 30 seconds · Last synced ${formatKstTime(new Date())} KST`
+        labelKo: isPlanB ? "Plan B 백업 서버 연결됨" : "Excel Online 연결됨",
+        labelEn: isPlanB ? "Plan B backup server connected" : "Excel Online connected",
+        noteKo: `${isPlanB ? "로컬 백업 응답 표시 중" : "30초마다 자동 새로고침"} · 마지막 동기화 ${formatKstTime(new Date())}`,
+        noteEn: `${isPlanB ? "Showing local backup responses" : "Auto-refresh every 30 seconds"} · Last synced ${formatKstTime(new Date())} KST`
       }
     };
   } catch (error) {

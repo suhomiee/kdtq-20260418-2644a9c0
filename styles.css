@@ -1332,6 +1332,51 @@ textarea.text-answer {
   background: rgba(0, 112, 112, 0.08);
 }
 
+.submit-backup-panel {
+  margin: 12px 0 0;
+  padding: 14px;
+  border: 1px solid rgba(200, 79, 67, 0.24);
+  border-radius: 14px;
+  background: rgba(255, 248, 244, 0.88);
+  color: #5c4945;
+  font-size: 13px;
+  font-weight: 740;
+  line-height: 1.38;
+}
+
+.submit-backup-panel strong {
+  display: block;
+  color: #3f302c;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.submit-backup-panel p {
+  margin: 9px 0 12px;
+}
+
+.submit-backup-panel .copy-en {
+  margin-top: 5px;
+  color: #7f6c66;
+  font-size: 0.86em;
+  font-weight: 650;
+}
+
+.backup-download {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: #007070;
+  color: #ffffff;
+  font-weight: 850;
+  text-decoration: none;
+  box-shadow: 0 12px 22px rgba(0, 112, 112, 0.15);
+}
+
 .submit-guidance .copy-en,
 .submit-reminder .copy-en {
   margin-top: 7px;
@@ -1428,6 +1473,10 @@ textarea.text-answer {
 
 .submit-button.is-submitted {
   background: #007a70;
+}
+
+.submit-button.is-submitted .submit-button-label {
+  color: #ffffff;
 }
 
 .submit-button.is-submitted::before {

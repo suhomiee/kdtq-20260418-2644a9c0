@@ -3,6 +3,8 @@ const POWER_AUTOMATE_URL = "https://default1445a1df842f4a6595a29237bdf735.c9.env
 const ENDPOINT_STORAGE_KEY = "korea-dynamic-test-flow-url";
 const ENDPOINT_LOCKED_STORAGE_KEY = "korea-dynamic-test-flow-url-locked";
 const ANSWER_STORAGE_KEY = "korea-dynamic-test-answers";
+const OFFLINE_OUTBOX_STORAGE_KEY = "kdtq-offline-submit-outbox";
+const LOCAL_BACKUP_ENDPOINT = "/api/backup-submit";
 const SHAREPOINT_LIST_TITLE = "KDTQ Survey Inbox";
 const STRAVA_EMBED_SCRIPT_ID = "strava-embed-script";
 const RATING_SCALE_VALUES = ["1", "2", "3", "4", "5"];
@@ -468,6 +470,9 @@ const state = {
   submitted: false,
   submitMessage: "",
   submitError: false,
+  backupSaved: false,
+  backupKind: "",
+  backupPayload: null,
   renderToken: 0
 };
 
@@ -1436,10 +1441,15 @@ function renderSubmit() {
 
   const buttonLabel = document.createElement("span");
   buttonLabel.className = "submit-button-label";
-  setBilingualContent(buttonLabel, state.submitting ? "제출 중..." : state.submitted ? "제출 완료" : "제출", state.submitting ? "Submitting..." : state.submitted ? "Submitted" : "Submit", {
+  setBilingualContent(
+    buttonLabel,
+    state.submitting ? "제출 중..." : state.backupSaved ? "백업 저장됨" : state.submitted ? "제출 완료" : "제출",
+    state.submitting ? "Submitting..." : state.backupSaved ? "Backup saved" : state.submitted ? "Submitted" : "Submit",
+    {
     koClass: "button-ko",
     enClass: "button-en"
-  });
+    }
+  );
   button.append(buttonLabel);
 
   const status = document.createElement("div");
@@ -1449,7 +1459,7 @@ function renderSubmit() {
   appendLinkedText(status, state.submitMessage);
 
   const reminder = document.createElement("div");
-  reminder.className = `submit-reminder${state.submitted ? " is-active" : ""}`;
+  reminder.className = `submit-reminder${state.submitted || state.backupSaved ? " is-active" : ""}`;
   setBilingualContent(
     reminder,
     `전체 테스트는 옵션 231, 옵션 429, 어퍼 & 최종 선호도 설문까지 총 3건의 응답으로 구성됩니다. 아직 완료하지 않은 응답이 있다면 ${SURVEY_HUB_URL} 에서 이어서 진행해 주세요.`,
@@ -1460,7 +1470,51 @@ function renderSubmit() {
     }
   );
 
-  els.content.append(copy, waitNotice, button, status, reminder);
+  els.content.append(copy, waitNotice, button, status);
+  if (state.backupPayload) {
+    els.content.append(createBackupPanel(state.backupPayload, state.backupKind));
+  }
+  els.content.append(reminder);
+}
+
+function createBackupPanel(payload, backupKind) {
+  const panel = document.createElement("div");
+  panel.className = "submit-backup-panel";
+  const title = document.createElement("strong");
+  setBilingualContent(
+    title,
+    backupKind === "server" ? "현장 백업 저장소에 보관되었습니다." : "이 기기에 백업 파일이 보관되었습니다.",
+    backupKind === "server" ? "Saved to the staff backup server." : "A backup file was saved on this device.",
+    {
+      koClass: "copy-ko",
+      enClass: "copy-en"
+    }
+  );
+  const copy = document.createElement("p");
+  setBilingualContent(
+    copy,
+    backupKind === "server"
+      ? "현장 담당자가 테스트 종료 후 엑셀로 재업로드할 수 있습니다."
+      : "현장 담당자에게 아래 백업 파일을 공유해 주세요. 네트워크 복구 후 엑셀로 재업로드할 수 있습니다.",
+    backupKind === "server"
+      ? "Staff can replay this response to Excel after the test."
+      : "Please share the backup file below with staff. It can be replayed to Excel after the connection is restored.",
+    {
+      koClass: "copy-ko",
+      enClass: "copy-en"
+    }
+  );
+  const link = document.createElement("a");
+  const fileName = `kdtq-backup-${payload.pageKind || "survey"}-${payload.responseId || Date.now()}.json`;
+  link.className = "backup-download";
+  link.href = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" }));
+  link.download = fileName;
+  setBilingualContent(link, "백업 파일 저장", "Save backup file", {
+    koClass: "button-ko",
+    enClass: "button-en"
+  });
+  panel.append(title, copy, link);
+  return panel;
 }
 
 function renderText(text, className) {
@@ -1507,12 +1561,10 @@ async function submitSurvey() {
   try {
     if (canUseSharePointBackend()) {
       await submitToSharePoint(payload);
-      state.submitted = true;
-      state.submitMessage = `응답이 제출되었습니다. 감사합니다.\n아직 완료하지 않은 설문이 있다면 ${SURVEY_HUB_URL} 에서 이어서 진행해 주세요.\nYour response has been submitted. Thank you.\nIf you have not completed the other survey responses yet, please continue at ${SURVEY_HUB_URL}.`;
+      markSubmissionCompleted();
     } else {
       await submitToPowerAutomate(body);
-      state.submitted = true;
-      state.submitMessage = `응답이 제출되었습니다. 감사합니다.\n아직 완료하지 않은 설문이 있다면 ${SURVEY_HUB_URL} 에서 이어서 진행해 주세요.\nYour response has been submitted. Thank you.\nIf you have not completed the other survey responses yet, please continue at ${SURVEY_HUB_URL}.`;
+      markSubmissionCompleted();
     }
     localStorage.removeItem(MODE_ANSWER_STORAGE_KEY);
   } catch (error) {
@@ -1521,16 +1573,93 @@ async function submitSurvey() {
       ? navigator.sendBeacon(endpoint, new Blob([body], { type: "text/plain;charset=UTF-8" }))
       : false;
     if (sent) {
-      state.submitted = true;
-      state.submitMessage = `응답이 제출되었습니다. 감사합니다.\n아직 완료하지 않은 설문이 있다면 ${SURVEY_HUB_URL} 에서 이어서 진행해 주세요.\nYour response has been submitted. Thank you.\nIf you have not completed the other survey responses yet, please continue at ${SURVEY_HUB_URL}.`;
+      markSubmissionCompleted();
       localStorage.removeItem(MODE_ANSWER_STORAGE_KEY);
     } else {
-      state.submitError = true;
-      state.submitMessage = `제출을 완료하지 못했습니다. 다시 시도해 주세요.\nSubmission could not be completed. Please try again. (${error.message})`;
+      const backupResult = await saveSubmitBackup(payload, body, error);
+      state.submitted = true;
+      state.backupSaved = true;
+      state.backupKind = backupResult.kind;
+      state.backupPayload = payload;
+      state.submitError = backupResult.kind !== "server";
+      state.submitMessage = backupResult.message;
+      if (backupResult.kind === "server") {
+        localStorage.removeItem(MODE_ANSWER_STORAGE_KEY);
+      }
     }
   } finally {
     state.submitting = false;
     render();
+  }
+}
+
+function markSubmissionCompleted() {
+  state.submitted = true;
+  state.backupSaved = false;
+  state.backupKind = "";
+  state.backupPayload = null;
+  state.submitError = false;
+  state.submitMessage = `응답이 제출되었습니다. 감사합니다.\n아직 완료하지 않은 설문이 있다면 ${SURVEY_HUB_URL} 에서 이어서 진행해 주세요.\nYour response has been submitted. Thank you.\nIf you have not completed the other survey responses yet, please continue at ${SURVEY_HUB_URL}.`;
+}
+
+async function saveSubmitBackup(payload, body, originalError) {
+  const serverResult = await submitToLocalBackup(body);
+  if (serverResult.ok) {
+    return {
+      kind: "server",
+      message: `엑셀 연결이 잠시 불안정하여 응답을 현장 백업 저장소에 먼저 저장했습니다. 담당자가 테스트 종료 후 엑셀로 재업로드합니다.\nYour response was saved to the staff backup system because the live Excel connection was unstable. Staff will replay it to Excel after the test.`
+    };
+  }
+
+  saveOfflineOutbox(payload, originalError, serverResult.error);
+  return {
+    kind: "device",
+    message: `현재 네트워크 또는 엑셀 연결이 불안정합니다. 응답은 이 기기에 백업되었습니다. 현장 담당자에게 백업 파일 저장 버튼을 보여 주세요.\nThe network or Excel connection is unstable. Your response has been backed up on this device. Please show the backup file button to staff. (${originalError.message})`
+  };
+}
+
+async function submitToLocalBackup(body) {
+  try {
+    const response = await fetch(LOCAL_BACKUP_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body
+    });
+    if (!response.ok) {
+      throw new Error(`local backup HTTP ${response.status}`);
+    }
+    return { ok: true };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
+function saveOfflineOutbox(payload, originalError, backupError) {
+  const savedAt = new Date().toISOString();
+  const entry = {
+    savedAt,
+    originalError: originalError ? originalError.message : "",
+    backupError: backupError ? backupError.message : "",
+    payload
+  };
+  const current = readOfflineOutbox();
+  current.push(entry);
+  const bounded = current.slice(-50);
+  try {
+    localStorage.setItem(OFFLINE_OUTBOX_STORAGE_KEY, JSON.stringify(bounded));
+  } catch (error) {
+    console.error("Could not save offline outbox", error);
+  }
+}
+
+function readOfflineOutbox() {
+  try {
+    const raw = localStorage.getItem(OFFLINE_OUTBOX_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.error("Could not read offline outbox", error);
+    return [];
   }
 }
 
