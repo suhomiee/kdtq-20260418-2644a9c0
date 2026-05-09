@@ -472,18 +472,18 @@ h3 small {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: minmax(320px, 0.95fr) minmax(420px, 1.22fr) minmax(330px, 0.95fr);
+  grid-template-columns: minmax(560px, 1.35fr) minmax(330px, 0.75fr);
   grid-template-areas:
-    "radar heatmap preference"
-    "context heatmap preference";
+    "compare compare"
+    "heatmap preference"
+    "heatmap context";
   gap: 12px;
-  align-items: start;
+  align-items: stretch;
   margin-bottom: 12px;
 }
 
 .panel {
   min-width: 0;
-  align-self: start;
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -492,8 +492,8 @@ h3 small {
   backdrop-filter: blur(18px);
 }
 
-.panel-radar {
-  grid-area: radar;
+.panel-compare {
+  grid-area: compare;
 }
 
 .panel-heatmap {
@@ -508,13 +508,13 @@ h3 small {
   grid-area: context;
 }
 
-.panel-radar,
-.panel-preference {
-  min-height: 474px;
+.panel-heatmap {
+  min-height: 0;
 }
 
-.panel-heatmap {
-  min-height: 680px;
+.panel-preference,
+.panel-context {
+  min-height: 0;
 }
 
 .panel-heading {
@@ -564,40 +564,102 @@ h3 small {
   background: var(--swatch);
 }
 
-.radar-wrap {
+.comparison-wrap {
   display: grid;
-  place-items: center;
-  min-height: 282px;
+  gap: 9px;
 }
 
-.radar-svg {
-  width: 100%;
-  max-width: 370px;
-  height: auto;
+.comparison-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 14px;
+}
+
+.comparison-row {
+  display: grid;
+  grid-template-columns: minmax(132px, 0.36fr) minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid rgba(35, 45, 43, 0.08);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.comparison-label {
+  min-width: 0;
+}
+
+.comparison-label strong,
+.comparison-label span {
   display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.radar-label {
-  fill: #3f4744;
+.comparison-label strong {
+  color: #27302d;
   font-size: 11px;
-  font-weight: 800;
+  line-height: 1.15;
+  font-weight: 900;
 }
 
-.radar-label-en {
-  fill: #727b78;
-  font-size: 8px;
-  font-weight: 720;
+.comparison-label span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.1;
+  font-weight: 760;
 }
 
-.radar-grid-line {
-  fill: none;
-  stroke: rgba(40, 52, 48, 0.13);
-  stroke-width: 1;
+.comparison-bars {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
 }
 
-.radar-axis {
-  stroke: rgba(40, 52, 48, 0.14);
-  stroke-width: 1;
+.comparison-option-row {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 42px;
+  gap: 7px;
+  align-items: center;
+}
+
+.option-pill {
+  display: inline-grid;
+  place-items: center;
+  min-height: 18px;
+  border-radius: 5px;
+  background: var(--option-color);
+  color: #ffffff;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 940;
+}
+
+.comparison-track {
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(40, 52, 48, 0.09);
+  overflow: hidden;
+}
+
+.comparison-track i {
+  display: block;
+  width: var(--score);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--option-color);
+}
+
+.comparison-option-row strong {
+  color: #303936;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 900;
+  text-align: right;
 }
 
 .option-summary {
@@ -1072,19 +1134,15 @@ h3 small {
     width: min(100% - 28px, 980px);
   }
 
-  .radar-wrap {
-    min-height: 300px;
+  .comparison-list {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (min-width: 1280px) {
-  .radar-wrap {
-    min-height: 350px;
-  }
-
   .panel-heatmap .panel-heading,
   .panel-preference .panel-heading,
-  .panel-radar .panel-heading {
+  .panel-compare .panel-heading {
     min-height: 52px;
   }
 }
@@ -1097,20 +1155,12 @@ h3 small {
   .dashboard-grid {
     grid-template-columns: minmax(0, 1fr) minmax(300px, 0.54fr);
     grid-template-areas:
-      "radar preference"
-      "heatmap heatmap"
+      "compare compare"
+      "heatmap preference"
       "context context";
   }
 
-  .radar-wrap {
-    min-height: 300px;
-  }
-
-  .radar-svg {
-    max-width: 430px;
-  }
-
-  .panel-radar,
+  .panel-compare,
   .panel-heatmap,
   .panel-preference {
     min-height: auto;
@@ -1141,7 +1191,7 @@ h3 small {
 
   .dashboard-grid {
     grid-template-areas:
-      "radar"
+      "compare"
       "preference"
       "heatmap"
       "context";
@@ -1151,7 +1201,7 @@ h3 small {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .panel-radar,
+  .panel-compare,
   .panel-heatmap,
   .panel-preference {
     min-height: auto;
@@ -1211,6 +1261,10 @@ h3 small {
   }
 
   .option-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-row {
     grid-template-columns: 1fr;
   }
 

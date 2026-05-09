@@ -190,7 +190,7 @@ const els = {
   sourceDetail: document.getElementById("sourceDetail"),
   kpiGrid: document.getElementById("kpiGrid"),
   optionLegend: document.getElementById("optionLegend"),
-  radarChart: document.getElementById("radarChart"),
+  comparisonChart: document.getElementById("comparisonChart"),
   optionSummary: document.getElementById("optionSummary"),
   preferencePanel: document.getElementById("preferencePanel"),
   questionInsights: document.getElementById("questionInsights"),
@@ -544,13 +544,14 @@ function renderDashboard(model, usingSample, detail) {
   els.sourceDetail.innerHTML = dualLine(detail.noteKo, detail.noteEn);
   renderKpis(model.metrics);
   renderLegend();
-  renderRadar(model.optionStats);
+  renderComparison(model.optionStats);
   renderOptionSummary(model.optionStats);
   renderPreference(model.preferences);
   renderQuestionInsights(model.optionStats, model.firstStats, model.preferences, model.reasons);
   renderHeatmap(model.optionStats, model.firstStats);
   renderTesterContext(model.distances, model.shoeChips);
   renderReasons(model.reasons);
+  window.KDTQ_DASHBOARD_MODEL = model;
 }
 
 function renderKpis(metrics) {
@@ -586,42 +587,45 @@ function renderLegend() {
   `).join("");
 }
 
-function renderRadar(optionStats) {
+function renderComparison(optionStats) {
   const axes = RADAR_QUESTIONS.map((key) => OPTION_QUESTIONS.find((question) => question.key === key));
-  const values231 = axes.map((question) => optionStats["Option 231"].byQuestion[question.key]?.normalized || 0);
-  const values429 = axes.map((question) => optionStats["Option 429"].byQuestion[question.key]?.normalized || 0);
-  const size = 520;
-  const cx = size / 2;
-  const cy = size / 2;
-  const radius = 185;
-  const grid = [0.25, 0.5, 0.75, 1].map((level) => polygonPoints(axes.length, radius * level, cx, cy));
-  const points231 = radarPoints(values231, radius, cx, cy);
-  const points429 = radarPoints(values429, radius, cx, cy);
-  const labels = axes.map((axis, index) => {
-    const angle = -Math.PI / 2 + (Math.PI * 2 * index) / axes.length;
-    const x = cx + Math.cos(angle) * (radius + 52);
-    const y = cy + Math.sin(angle) * (radius + 52);
+  els.comparisonChart.innerHTML = `
+    <div class="comparison-list" role="list" aria-label="Option score comparison">
+      ${axes.map((axis) => {
+        const stat231 = optionStats["Option 231"].byQuestion[axis.key];
+        const stat429 = optionStats["Option 429"].byQuestion[axis.key];
+        return renderComparisonRow(axis, stat231, stat429);
+      }).join("")}
+    </div>
+  `;
+}
+
+function renderComparisonRow(axis, stat231, stat429) {
+  const rows = [
+    ["231", "Option 231", COLORS.option231, stat231],
+    ["429", "Option 429", COLORS.option429, stat429]
+  ].map(([shortLabel, label, color, stat]) => {
+    const normalized = clamp(stat?.normalized || 0, 0, 1);
+    const score = stat?.total ? comparisonScore(normalized) : "-";
+    const value = Math.round(normalized * 100);
     return `
-      <text class="radar-label" x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle">
-        <tspan x="${x}" dy="-4">${escapeHtml(axis.ko)}</tspan>
-        <tspan class="radar-label-en" x="${x}" dy="13">${escapeHtml(axis.en)}</tspan>
-      </text>
+      <div class="comparison-option-row" style="--option-color:${color};--score:${value}%">
+        <span class="option-pill">${shortLabel}</span>
+        <div class="comparison-track" aria-label="${escapeHtml(label)} ${escapeHtml(axis.en)} score ${escapeHtml(score)} out of 6">
+          <i></i>
+        </div>
+        <strong>${escapeHtml(score)}</strong>
+      </div>
     `;
   }).join("");
-
-  els.radarChart.innerHTML = `
-    <svg class="radar-svg" viewBox="0 0 ${size} ${size}" role="img" aria-label="Option comparison radar chart">
-      ${grid.map((points) => `<polygon class="radar-grid-line" points="${points}"></polygon>`).join("")}
-      ${axes.map((_, index) => {
-        const angle = -Math.PI / 2 + (Math.PI * 2 * index) / axes.length;
-        const x = cx + Math.cos(angle) * radius;
-        const y = cy + Math.sin(angle) * radius;
-        return `<line class="radar-axis" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"></line>`;
-      }).join("")}
-      <polygon points="${points429}" fill="rgba(83, 102, 111, 0.18)" stroke="${COLORS.option429}" stroke-width="3"></polygon>
-      <polygon points="${points231}" fill="rgba(0, 112, 112, 0.2)" stroke="${COLORS.option231}" stroke-width="3"></polygon>
-      ${labels}
-    </svg>
+  return `
+    <section class="comparison-row" role="listitem">
+      <div class="comparison-label">
+        <strong>${escapeHtml(axis.ko)}</strong>
+        <span>${escapeHtml(axis.en)}</span>
+      </div>
+      <div class="comparison-bars">${rows}</div>
+    </section>
   `;
 }
 
@@ -629,7 +633,7 @@ function renderOptionSummary(optionStats) {
   els.optionSummary.innerHTML = ["Option 231", "Option 429"].map((option) => {
     const stat = optionStats[option];
     const score = clamp(stat.overall, 0, 1);
-    const scoreText = (1 + score * 5).toFixed(2);
+    const scoreText = comparisonScore(score);
     const optionClass = option.includes("231") ? "option-231" : "option-429";
     return `
       <section class="option-average ${optionClass}">
@@ -951,19 +955,8 @@ function paletteColor(palette, index, count) {
   return { color, shadow };
 }
 
-function radarPoints(values, radius, cx, cy) {
-  return values.map((value, index) => {
-    const angle = -Math.PI / 2 + (Math.PI * 2 * index) / values.length;
-    const r = radius * clamp(value, 0, 1);
-    return `${cx + Math.cos(angle) * r},${cy + Math.sin(angle) * r}`;
-  }).join(" ");
-}
-
-function polygonPoints(count, radius, cx, cy) {
-  return Array.from({ length: count }, (_, index) => {
-    const angle = -Math.PI / 2 + (Math.PI * 2 * index) / count;
-    return `${cx + Math.cos(angle) * radius},${cy + Math.sin(angle) * radius}`;
-  }).join(" ");
+function comparisonScore(value) {
+  return (1 + clamp(value, 0, 1) * 5).toFixed(2);
 }
 
 function readAnswer(row, question) {

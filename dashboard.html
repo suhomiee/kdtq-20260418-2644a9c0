@@ -6,7 +6,7 @@
     <title>T2 Running & ACG Korea Dynamic Test Dashboard</title>
     <link rel="icon" href="data:,">
     <link rel="preload" href="./assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./dashboard.css?v=20260503-plan-b2">
+    <link rel="stylesheet" href="./dashboard.css?v=20260509-compare-bars">
   </head>
   <body>
     <main class="dashboard-shell">
@@ -38,15 +38,15 @@
       </header>
 
       <section class="dashboard-grid">
-        <article class="panel panel-radar">
+        <article class="panel panel-compare">
           <div class="panel-heading">
             <div>
               <p class="section-label"><span>옵션 비교</span><small>Option comparison</small></p>
-              <h2><span>옵션 비교 레이더</span><small>Option Comparison Radar</small></h2>
+              <h2><span>옵션 비교 요약</span><small>Option Comparison Summary</small></h2>
             </div>
             <div class="legend" id="optionLegend"></div>
           </div>
-          <div class="radar-wrap" id="radarChart"></div>
+          <div class="comparison-wrap" id="comparisonChart"></div>
           <div class="option-summary" id="optionSummary"></div>
         </article>
 
@@ -102,6 +102,6 @@
       <section class="kpi-grid" id="kpiGrid" aria-label="Response overview"></section>
     </main>
 
-    <script src="./dashboard.js?v=20260503-plan-b2"></script>
+    <script src="./dashboard.js?v=20260509-compare-bars"></script>
   </body>
 </html>
