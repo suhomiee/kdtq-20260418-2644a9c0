@@ -155,13 +155,14 @@ const OPTION_QUESTIONS = [
   { key: "protectionLike", ko: "보호감 만족도", en: "Protection liking", scale: SCALES.liking, tone: "liking", match: ["like the", "underfoot protection"] }
 ];
 
+const DASHBOARD_OPTION_QUESTIONS = OPTION_QUESTIONS.filter((question) => question.key !== "tractionFeel");
+
 const RADAR_QUESTIONS = [
   "heelLike",
   "forefootLike",
   "energyFeel",
   "stabilityFeel",
   "transitionFeel",
-  "tractionFeel",
   "protectionFeel"
 ];
 
@@ -171,7 +172,6 @@ const HEATMAP_QUESTIONS = [
   "energyFeel",
   "stabilityFeel",
   "transitionFeel",
-  "tractionFeel",
   "protectionFeel"
 ];
 
@@ -397,7 +397,7 @@ function summarizeOption(rows) {
   OPTION_QUESTIONS.forEach((question) => {
     byQuestion[question.key] = summarizeScale(rows, question);
   });
-  const qualityKeys = ["energyFeel", "stabilityFeel", "transitionFeel", "tractionFeel", "protectionFeel", "heelLike", "forefootLike", "energyLike", "stabilityLike", "protectionLike"];
+  const qualityKeys = ["energyFeel", "stabilityFeel", "transitionFeel", "protectionFeel", "heelLike", "forefootLike", "energyLike", "stabilityLike", "protectionLike"];
   const values = qualityKeys.map((key) => byQuestion[key]?.normalized).filter(Number.isFinite);
   const overall = values.length ? average(values) : 0;
   return { byQuestion, overall };
@@ -691,14 +691,14 @@ function renderQuestionInsights(optionStats, firstStats, preferences, reasons) {
       ko: "옵션 231 언더풋",
       en: "Option 231 underfoot",
       accent: COLORS.option231,
-      items: OPTION_QUESTIONS.map((question, index) => insightFromScale(`2-${index + 1}`, optionStats["Option 231"].byQuestion[question.key]))
+      items: DASHBOARD_OPTION_QUESTIONS.map((question, index) => insightFromScale(`2-${index + 1}`, optionStats["Option 231"].byQuestion[question.key]))
     },
     {
       number: "3",
       ko: "옵션 429 언더풋",
       en: "Option 429 underfoot",
       accent: COLORS.option429,
-      items: OPTION_QUESTIONS.map((question, index) => insightFromScale(`3-${index + 1}`, optionStats["Option 429"].byQuestion[question.key]))
+      items: DASHBOARD_OPTION_QUESTIONS.map((question, index) => insightFromScale(`3-${index + 1}`, optionStats["Option 429"].byQuestion[question.key]))
     },
     {
       number: "4",
